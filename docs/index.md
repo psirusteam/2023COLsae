@@ -38,8 +38,8 @@ output:
 
 # No dejar a nadie atrás - ODS y la Agenda 2030 
 
-[Ver presentación](https://github.com/psirusteam/2023GTMsae/blob/main/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
+[Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
 
 # Limitaciones de las encuestas de hogares
 
-[Ver presentación](https://github.com/psirusteam/2023GTMsae/blob/main/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
+[Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
