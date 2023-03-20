@@ -53,6 +53,16 @@ $$
 
 ## Datos de la encuesta
 
+El siguiente bloque de código utiliza varias librerías en R (`tidyverse` y `magrittr`), así como también utiliza una función definida en otro archivo (source("Recursos/Día2/Sesion1/0Recursos/0Source_FH.R")).
+
+Luego, el código carga la encuesta que esta almacenada en un archivo de datos en formato RDS y utiliza la función `%>%` para encadenar una serie de transformaciones en los datos:
+
+  -   `transmute()` se utiliza para seleccionar y renombrar columnas. En este caso, se seleccionan las columnas `dam_ee`, `dam2`, `_fep` y `segmento`, y se renombran a `dam`, `dam2`, `wkx`, y `upm`, respectivamente.
+  
+  -   Se crea una nueva variable llamada `estrato` que combina la variable `dam` con la variable `area_ee` después de convertir `area_ee` en una variable de factor utilizando `haven::as_factor()`. La función `paste0()` se utiliza para concatenar las dos variables.
+  
+  -   Se crea una nueva variable llamada `pobreza` que se establece en 1 si la variable `ingcorte`(ingreso percapital) es menor que la variable `lp`, y en 0 en caso contrario. La función `ifelse()` se utiliza para asignar valores a la variable "pobreza" en función de si el ingreso de un individuo es menor o mayor que el umbral de pobreza.
+
 
 ```r
 library(tidyverse)
@@ -75,7 +85,7 @@ encuesta <- readRDS("Recursos/Día2/Sesion1/Data/encuestaCOL18N1.rds") %>%
 
 -   *lp* linea de pobreza definida por CEPAL. 
 
--   Factor de expansión por persona (*fep*)
+-   Factor de expansión por persona (*wkx*)
 
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -220,7 +230,13 @@ summary(diseno)
 ## [1] "dam"     "dam2"    "wkx"     "upm"     "estrato" "pobreza"
 ```
 
-Para la estimación directa de la proporción se emplea la función `direct.supr`, disponible en el archivo `0Source_FH.R`, dando como resultado.
+Para la estimación directa de la proporción se emplea la función `direct.supr`, disponible en el archivo `0Source_FH.R`. Está función realiza las estimaciones y criterios de calidad en una encuesta de muestreo complejo con diseño estratificado y por conglomerados. Toma cinco argumentos: `design.base`, `variable`, `group`, `upm` y `estrato`.
+
+La función comienza cargando varios paquetes, como `rlang`, `tidyverse`, `dplyr`, `survey` y `srvyr.` Luego, los argumentos `group`, `variable`, `upm` y `estrato` se convierten en argumentos utilizando la función enquo.
+
+La función utiliza la encuesta de muestreo complejo `design.base` para calcular las estimaciones de los parámetros y los criterios de calidad. Utiliza la función `survey_mean()` de la librería `survey` para calcular la media y los intervalos de confianza de la variable de interés. La función también calcula otros indicadores de calidad, como el coeficiente de variación, el tamaño de muestra efectivo y el efecto del diseño. Luego, utiliza la función `as.data.frame()` para convertir los resultados en un objeto de marco de datos.
+
+Además, la función calcula otros criterios de calidad para determinar si las estimaciones son confiables. En particular, evalúa si se cumple un umbral mínimo para el número de grados de libertad, si la muestra es suficientemente grande y si el efecto del diseño es razonable. La función también tiene la opción de incluir o excluir ciertos grupos de muestreo basados en sus características.
 
 
 ```r
@@ -363,7 +379,7 @@ tba(head(base_sae))
 </tbody>
 </table>
 
-Seleccionando las variables de interés para la FGV. 
+para los dominios que no son excluidos se realiza la transformación $\log(\hat{\sigma}^2_d)$, además se realiza la selección de las columnas identificador del municipio (`dam2`), la estimación directa  (`pobreza`), El número de personas en el dominio (`nd`) y la varianza estimada del para la estimación directa `vardir`,siendo esta la que transforma mediante la función `log()`. 
 
 
 ```r
@@ -373,6 +389,17 @@ baseFGV <-  base_sae %>%
 ```
 
 ## Análisis gráfico
+
+El primer gráfico, `p1`, muestra una gráfica de dispersión de la variable `ln_sigma2` en función de la variable `pobreza`, con una línea suave que representa una estimación de la tendencia. El eje x está etiquetado como _pobreza_.
+
+El segundo gráfico, `p2`, muestra una gráfica de dispersión de la variable `ln_sigma2` en función de la variable `nd`, con una línea suave que representa una estimación de la tendencia. El eje x está etiquetado como _Tamaño de muestra_.
+
+El tercer gráfico, `p3`, muestra una gráfica de dispersión de la variable `ln_sigma2` en función del producto de `pobreza` y `nd`, con una línea suave que representa una estimación de la tendencia. El eje x está etiquetado como _Número de pobres_.
+
+El cuarto gráfico, `p4`, muestra una gráfica de dispersión de la variable `ln_sigma2` en función de la raíz cuadrada de la variable `pobreza`, con una línea suave que representa una estimación de la tendencia. El eje x está etiquetado como _Raiz cuadrada de pobreza_.
+
+
+En general, los gráficos estan diseñados para explorar la relación entre `ln_sigma2` y diferentes variables independientes, como `pobreza`, `nd`, y la raíz cuadrada de la pobreza. La elección de utilizar la función "loess" para suavizar las líneas en lugar de una línea recta puede ayudar a visualizar mejor las tendencias generales en los datos.
 
 
 ```r
@@ -415,6 +442,8 @@ library(patchwork)
 <img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-7-1.svg" width="672" />
 
 ## Modelo para la varianza
+
+El código ajusta un modelo de regresión lineal múltiple (utilizando la función `lm()`), donde `ln_sigma2` es la variable respuesta y las variables predictoras son `pobreza`, `nd`, y varias transformaciones de éstas. El objetivo de este modelo es estimar la función generalizada de varianza (FGV) para los dominios observados.
 
 
 ```r
@@ -882,19 +911,15 @@ tbl_regression(FGV1) %>%
 
 Ponderador FGV
 
+Después de tener la estimación del modelo se debe obtener el  valor de la constante $\Delta$ para lo cual se usa el siguiente código. 
+
 
 ```r
 delta.hat = sum(baseFGV$vardir) / 
   sum(exp(fitted.values(FGV1)))
-delta.hat
 ```
 
-```
-## [1] 1.303171
-```
-
-Varianza suavizada para los dominios observados
-
+De donde se obtiene que $\Delta = 1.303171$. Final es posible obtener la varianza suavizada  ejecutando el siguiente comando.  
 
 
 ```r
@@ -1011,7 +1036,7 @@ plot(FGV1)
 
 <img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
 
- Comparación entre varianza estimada con pronosticada por la FGV
+ Comparación entre la varianza estimada versus la pronosticada por la FGV
 
 
 ```r
@@ -1032,7 +1057,19 @@ Predicción de la varianza suavizada
 base_sae <- base_sae %>%  left_join(hat.sigma, by = "dam2")
 ```
 
-Organizando la información para exportar, realizamos validaciones adicionales sobre el deff
+El siguiente código utiliza la función `mutate()` del paquete `dplyr` para crear nuevas variables de la base de datos `base_sae` y luego guarda el resultado en un archivo RDS llamado `base_FH_2018.rds.`
+
+En concreto, el código realiza las siguientes operaciones:
+
+  -   La variable `deff_dam2` se ajusta a 1 cuando es NaN.
+  
+  -   La variable `deff_FGV` se calcula a partir de otras dos variables `hat_var` y `vardir.` Si `vardir` es 0, entonces `deff_FGV` se ajusta a 1. En caso contrario, se divide `hat_var` por v`ardir / deff_dam2` para obtener `deff_FGV.`
+
+  -   La variable `deff_FGV` se regulariza utilizando el criterio MDS: si `deff_FGV` es menor que 1, se ajusta a 1.
+  
+  -   Finalmente, se calcula la variable `n_eff_FGV` dividiendo `nd` (el tamaño de la muestra) por `deff_FGV.`
+
+
 
 
 ```r
