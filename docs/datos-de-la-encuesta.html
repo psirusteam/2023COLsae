@@ -782,7 +782,7 @@ deff_dam2
 </tr>
 </tbody>
 </table>
-<p>para los dominios que no son excluidos se realiza la transformación <span class="math inline">\(\log(\hat{\sigma}^2_d)\)</span>, además se realiza la selección de las columnas identificador del municipio (<code>dam2</code>), la estimación directa (<code>pobreza</code>), El número de personas en el dominio (<code>nd</code>) y la varianza estimada del para la estimación directa <code>vardir</code>,siendo esta la que transforma mediante la función <code>log()</code>.</p>
+<p>seguidamente se realiza la transformación <span class="math inline">\(\log(\hat{\sigma}^2_d)\)</span>, además se realiza la selección de las columnas identificador del municipio (<code>dam2</code>), la estimación directa (<code>pobreza</code>), El número de personas en el dominio (<code>nd</code>) y la varianza estimada del para la estimación directa <code>vardir</code>,siendo esta la que transforma mediante la función <code>log()</code>.</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="datos-de-la-encuesta.html#cb70-1" aria-hidden="true" tabindex="-1"></a>baseFGV <span class="ot">&lt;-</span>  base_sae <span class="sc">%&gt;%</span> </span>
 <span id="cb70-2"><a href="datos-de-la-encuesta.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam2, pobreza, nd, vardir) <span class="sc">%&gt;%</span></span>
 <span id="cb70-3"><a href="datos-de-la-encuesta.html#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ln_sigma2 =</span> <span class="fu">log</span>(vardir))</span></code></pre></div>

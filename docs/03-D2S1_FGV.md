@@ -379,7 +379,7 @@ tba(head(base_sae))
 </tbody>
 </table>
 
-para los dominios que no son excluidos se realiza la transformación $\log(\hat{\sigma}^2_d)$, además se realiza la selección de las columnas identificador del municipio (`dam2`), la estimación directa  (`pobreza`), El número de personas en el dominio (`nd`) y la varianza estimada del para la estimación directa `vardir`,siendo esta la que transforma mediante la función `log()`. 
+seguidamente se realiza la transformación $\log(\hat{\sigma}^2_d)$, además se realiza la selección de las columnas identificador del municipio (`dam2`), la estimación directa  (`pobreza`), El número de personas en el dominio (`nd`) y la varianza estimada del para la estimación directa `vardir`,siendo esta la que transforma mediante la función `log()`. 
 
 
 ```r
@@ -908,8 +908,6 @@ tbl_regression(FGV1) %>%
 </table>
 </div>
 ```
-
-Ponderador FGV
 
 Después de tener la estimación del modelo se debe obtener el  valor de la constante $\Delta$ para lo cual se usa el siguiente código. 
 
