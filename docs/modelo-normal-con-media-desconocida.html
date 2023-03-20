@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.6 Modelo Normal con media desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <meta name="description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.6 Modelo Normal con media desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="github-repo" content="psirusteam/HHS-Handbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.6 Modelo Normal con media desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  
+  <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
+  
+
+<meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
+
+
+<meta name="date" content="2023-03-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo-binomial.html"/>
+<link rel="next" href="modelos-multiparamétricos.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Taller de instalación de capacidades en SAE</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Agenda</a></li>
+<li class="chapter" data-level="1" data-path="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><a href="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><i class="fa fa-check"></i><b>1</b> Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030</a></li>
+<li class="chapter" data-level="2" data-path="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><a href="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><i class="fa fa-check"></i><b>2</b> Día 1 - Sesión 2- Limitaciones de las encuestas de hogares</a></li>
+<li class="chapter" data-level="3" data-path="día-1---sesión-3--censo-e-información-satelital.html"><a href="día-1---sesión-3--censo-e-información-satelital.html"><i class="fa fa-check"></i><b>3</b> Día 1 - Sesión 3- Censo e información satelital</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html"><i class="fa fa-check"></i><b>3.1</b> Uso de imágenes satelitales y SAE</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html#fuentes-de-datos-de-imágenes-satelitales"><i class="fa fa-check"></i><b>3.1.1</b> Fuentes de datos de imágenes satelitales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="google-earth-eninge.html"><a href="google-earth-eninge.html"><i class="fa fa-check"></i><b>3.2</b> Google Earth Eninge</a></li>
+<li class="chapter" data-level="3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html"><i class="fa fa-check"></i><b>3.3</b> Instalación de rgee</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#descargar-información-satelital"><i class="fa fa-check"></i><b>3.3.1</b> Descargar información satelital</a></li>
+<li class="chapter" data-level="3.3.2" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#luces-nocturnas"><i class="fa fa-check"></i><b>3.3.2</b> Luces nocturnas</a></li>
+<li class="chapter" data-level="3.3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-cultivos"><i class="fa fa-check"></i><b>3.3.3</b> Cubrimiento cultivos</a></li>
+<li class="chapter" data-level="3.3.4" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-urbanos"><i class="fa fa-check"></i><b>3.3.4</b> Cubrimiento urbanos</a></li>
+<li class="chapter" data-level="3.3.5" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#modificación-humana"><i class="fa fa-check"></i><b>3.3.5</b> Modificación humana</a></li>
+<li class="chapter" data-level="3.3.6" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital"><i class="fa fa-check"></i><b>3.3.6</b> Tiempo promedio al hospital</a></li>
+<li class="chapter" data-level="3.3.7" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital-en-vehiculo-no-motorizado"><i class="fa fa-check"></i><b>3.3.7</b> Tiempo promedio al hospital en vehiculo no motorizado</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html"><i class="fa fa-check"></i><b>3.4</b> Censos de población y vivienda</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html#mapas-de-las-variables-con-información-censal."><i class="fa fa-check"></i><b>3.4.1</b> Mapas de las variables con información censal.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><i class="fa fa-check"></i><b>4</b> Día 1 - Sesión 4- Fundamentos de la inferencia Bayesiana en R y STAN</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regla-de-bayes.html"><a href="regla-de-bayes.html"><i class="fa fa-check"></i><b>4.1</b> Regla de Bayes</a></li>
+<li class="chapter" data-level="4.2" data-path="inferencia-bayesiana..html"><a href="inferencia-bayesiana..html"><i class="fa fa-check"></i><b>4.2</b> Inferencia Bayesiana.</a></li>
+<li class="chapter" data-level="4.3" data-path="modelos-uniparamétricos.html"><a href="modelos-uniparamétricos.html"><i class="fa fa-check"></i><b>4.3</b> Modelos uniparamétricos</a></li>
+<li class="chapter" data-level="4.4" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html"><i class="fa fa-check"></i><b>4.4</b> Modelo Bernoulli</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-r"><i class="fa fa-check"></i><b>4.4.1</b> Práctica en <strong>R</strong></a></li>
+<li class="chapter" data-level="4.4.2" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-stan"><i class="fa fa-check"></i><b>4.4.2</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="modelo-binomial.html"><a href="modelo-binomial.html"><i class="fa fa-check"></i><b>4.5</b> Modelo Binomial</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="modelo-binomial.html"><a href="modelo-binomial.html#práctica-en-stan-1"><i class="fa fa-check"></i><b>4.5.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html"><i class="fa fa-check"></i><b>4.6</b> Modelo Normal con media desconocida</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html#práctica-en-stan-2"><i class="fa fa-check"></i><b>4.6.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="modelos-multiparamétricos.html"><a href="modelos-multiparamétricos.html"><i class="fa fa-check"></i><b>4.7</b> Modelos multiparamétricos</a></li>
+<li class="chapter" data-level="4.8" data-path="modelo-normal-con-media-y-varianza-desconocida.html"><a href="modelo-normal-con-media-y-varianza-desconocida.html"><i class="fa fa-check"></i><b>4.8</b> Modelo Normal con media y varianza desconocida</a></li>
+<li class="chapter" data-level="4.9" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html"><i class="fa fa-check"></i><b>4.9</b> Parámetros independientes</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html#práctica-en-stan-3"><i class="fa fa-check"></i><b>4.9.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html"><i class="fa fa-check"></i><b>4.10</b> Modelo Multinomial</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html#práctica-en-stan-4"><i class="fa fa-check"></i><b>4.10.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a Taller de instalación de capacidades en SAE </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelo-normal-con-media-desconocida" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Modelo Normal con media desconocida<a href="modelo-normal-con-media-desconocida.html#modelo-normal-con-media-desconocida" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suponga que <span class="math inline">\(Y_1,\cdots,Y_n\)</span> son variables independientes e idénticamente distribuidos con distribución <span class="math inline">\(Normal(\theta,\sigma^2)\)</span> con <span class="math inline">\(\theta\)</span> desconocido pero <span class="math inline">\(\sigma^2\)</span> conocido. De esta forma, la función de verosimilitud de los datos está dada por</p>
+<p><span class="math display">\[
+\begin{align*}
+p(\mathbf{Y} \mid \theta)
+&amp;=\prod_{i=1}^n\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{1}{2\sigma^2}(y_i-\theta)^2\right\}I_\mathbb{R}(y) \\
+&amp;=(2\pi\sigma^2)^{-n/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-\theta)^2\right\}
+\end{align*}
+\]</span></p>
+<p>Como el parámetro <span class="math inline">\(\theta\)</span> puede tomar cualquier valor en los reales, es posible asignarle una distribución previa <span class="math inline">\(\theta \sim Normal(\mu,\tau^2)\)</span>. Bajo este marco de referencia se tienen los siguientes resultados</p>
+<p>La distribución posterior del parámetro de interés <span class="math inline">\(\theta\)</span> sigue una distribución</p>
+<p><span class="math display">\[
+\begin{equation*}
+\theta|\mathbf{Y} \sim Normal(\mu_n,\tau^2_n)
+\end{equation*}
+\]</span></p>
+<p>En donde</p>
+<p><span class="math display">\[
+\begin{equation}
+\mu_n=\frac{\frac{n}{\sigma^2}\bar{Y}+\frac{1}{\tau^2}\mu}{\frac{n}{\sigma^2}+\frac{1}{\tau^2}}
+\ \ \ \ \ \ \ \text{y} \ \ \ \ \ \ \
+\tau_n^2=\left(\frac{n}{\sigma^2}+\frac{1}{\tau^2}\right)^{-1}
+\end{equation}
+\]</span></p>
+<div id="práctica-en-stan-2" class="section level3 hasAnchor" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> Práctica en <strong>STAN</strong><a href="modelo-normal-con-media-desconocida.html#práctica-en-stan-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sea <span class="math inline">\(Y\)</span> el logaritmo del ingreso</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="modelo-normal-con-media-desconocida.html#cb36-1" aria-hidden="true" tabindex="-1"></a>dataNormal <span class="ot">&lt;-</span> encuesta <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="modelo-normal-con-media-desconocida.html#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
+<span id="cb36-3"><a href="modelo-normal-con-media-desconocida.html#cb36-3" aria-hidden="true" tabindex="-1"></a>     dam_ee ,</span>
+<span id="cb36-4"><a href="modelo-normal-con-media-desconocida.html#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">logIngreso =</span> <span class="fu">log</span>(ingcorte <span class="sc">+</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-5"><a href="modelo-normal-con-media-desconocida.html#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dam_ee <span class="sc">==</span> <span class="st">&quot;08&quot;</span>)</span>
+<span id="cb36-6"><a href="modelo-normal-con-media-desconocida.html#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">#3</span></span>
+<span id="cb36-7"><a href="modelo-normal-con-media-desconocida.html#cb36-7" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">mean</span>(dataNormal<span class="sc">$</span>logIngreso)</span>
+<span id="cb36-8"><a href="modelo-normal-con-media-desconocida.html#cb36-8" aria-hidden="true" tabindex="-1"></a>Sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(dataNormal<span class="sc">$</span>logIngreso)</span>
+<span id="cb36-9"><a href="modelo-normal-con-media-desconocida.html#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="modelo-normal-con-media-desconocida.html#cb36-10" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dataNormal,<span class="fu">aes</span>(<span class="at">x =</span> logIngreso))<span class="sc">+</span> </span>
+<span id="cb36-11"><a href="modelo-normal-con-media-desconocida.html#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">size =</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="modelo-normal-con-media-desconocida.html#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span>dnorm, </span>
+<span id="cb36-13"><a href="modelo-normal-con-media-desconocida.html#cb36-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> media, <span class="at">sd =</span> Sd),</span>
+<span id="cb36-14"><a href="modelo-normal-con-media-desconocida.html#cb36-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb36-15"><a href="modelo-normal-con-media-desconocida.html#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> </span>
+<span id="cb36-16"><a href="modelo-normal-con-media-desconocida.html#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> (<span class="st">&quot;Log(Ingreso)&quot;</span>))</span>
+<span id="cb36-17"><a href="modelo-normal-con-media-desconocida.html#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="modelo-normal-con-media-desconocida.html#cb36-18" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dataNormal, <span class="fu">aes</span>(<span class="at">sample =</span> logIngreso)) <span class="sc">+</span></span>
+<span id="cb36-19"><a href="modelo-normal-con-media-desconocida.html#cb36-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">stat_qq</span>() <span class="sc">+</span> <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb36-20"><a href="modelo-normal-con-media-desconocida.html#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) </span>
+<span id="cb36-21"><a href="modelo-normal-con-media-desconocida.html#cb36-21" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">|</span>g2</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-23"></span>
+<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-23-1.svg" alt="Resultado en la muestra (línea azul) y distribución teórica (línea negra)" width="672" />
+<p class="caption">
+Figura 4.3: Resultado en la muestra (línea azul) y distribución teórica (línea negra)
+</p>
+</div>
+<p>Creando código de <code>STAN</code></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="modelo-normal-con-media-desconocida.html#cb37-1" aria-hidden="true" tabindex="-1"></a>data {</span>
+<span id="cb37-2"><a href="modelo-normal-con-media-desconocida.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> n;     <span class="sc">/</span><span class="er">/</span> Número de observaciones</span>
+<span id="cb37-3"><a href="modelo-normal-con-media-desconocida.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  real y[n];          <span class="sc">/</span><span class="er">/</span> LogIngreso </span>
+<span id="cb37-4"><a href="modelo-normal-con-media-desconocida.html#cb37-4" aria-hidden="true" tabindex="-1"></a>  real <span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> Sigma;  <span class="sc">/</span><span class="er">/</span> Desviación estándar   </span>
+<span id="cb37-5"><a href="modelo-normal-con-media-desconocida.html#cb37-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-6"><a href="modelo-normal-con-media-desconocida.html#cb37-6" aria-hidden="true" tabindex="-1"></a>parameters {</span>
+<span id="cb37-7"><a href="modelo-normal-con-media-desconocida.html#cb37-7" aria-hidden="true" tabindex="-1"></a>  real theta;</span>
+<span id="cb37-8"><a href="modelo-normal-con-media-desconocida.html#cb37-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-9"><a href="modelo-normal-con-media-desconocida.html#cb37-9" aria-hidden="true" tabindex="-1"></a>model {</span>
+<span id="cb37-10"><a href="modelo-normal-con-media-desconocida.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">normal</span>(theta, Sigma);</span>
+<span id="cb37-11"><a href="modelo-normal-con-media-desconocida.html#cb37-11" aria-hidden="true" tabindex="-1"></a>  theta <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1000</span>); <span class="sc">/</span><span class="er">/</span> Distribución previa</span>
+<span id="cb37-12"><a href="modelo-normal-con-media-desconocida.html#cb37-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-13"><a href="modelo-normal-con-media-desconocida.html#cb37-13" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
+<span id="cb37-14"><a href="modelo-normal-con-media-desconocida.html#cb37-14" aria-hidden="true" tabindex="-1"></a>    real ypred[n];                    <span class="sc">/</span><span class="er">/</span> Vector de longitud n</span>
+<span id="cb37-15"><a href="modelo-normal-con-media-desconocida.html#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(kk <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb37-16"><a href="modelo-normal-con-media-desconocida.html#cb37-16" aria-hidden="true" tabindex="-1"></a>    ypred[kk] <span class="ot">=</span> <span class="fu">normal_rng</span>(theta,Sigma);</span>
+<span id="cb37-17"><a href="modelo-normal-con-media-desconocida.html#cb37-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-18"><a href="modelo-normal-con-media-desconocida.html#cb37-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Preparando el código de <code>STAN</code></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="modelo-normal-con-media-desconocida.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file.edit(&quot;Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan&quot;)</span></span>
+<span id="cb38-2"><a href="modelo-normal-con-media-desconocida.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NormalMedia &lt;- cmdstan_model(stan_file = &quot;Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan&quot;) </span></span>
+<span id="cb38-3"><a href="modelo-normal-con-media-desconocida.html#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="modelo-normal-con-media-desconocida.html#cb38-4" aria-hidden="true" tabindex="-1"></a>NormalMedia <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan&quot;</span> </span></code></pre></div>
+<p>Organizando datos para <code>STAN</code></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="modelo-normal-con-media-desconocida.html#cb39-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">nrow</span>(dataNormal),</span>
+<span id="cb39-2"><a href="modelo-normal-con-media-desconocida.html#cb39-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Sigma =</span> <span class="fu">sd</span>(dataNormal<span class="sc">$</span>logIngreso),</span>
+<span id="cb39-3"><a href="modelo-normal-con-media-desconocida.html#cb39-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> dataNormal<span class="sc">$</span>logIngreso)</span></code></pre></div>
+<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>cmdstanr</em></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="modelo-normal-con-media-desconocida.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_NormalMedia &lt;- NormalMedia$sample(data = sample_data, </span></span>
+<span id="cb40-2"><a href="modelo-normal-con-media-desconocida.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                  chains = 4,</span></span>
+<span id="cb40-3"><a href="modelo-normal-con-media-desconocida.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                  parallel_chains = 4,</span></span>
+<span id="cb40-4"><a href="modelo-normal-con-media-desconocida.html#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                  seed = 1234,</span></span>
+<span id="cb40-5"><a href="modelo-normal-con-media-desconocida.html#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                  refresh = 1000</span></span>
+<span id="cb40-6"><a href="modelo-normal-con-media-desconocida.html#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                  )</span></span>
+<span id="cb40-7"><a href="modelo-normal-con-media-desconocida.html#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb40-8"><a href="modelo-normal-con-media-desconocida.html#cb40-8" aria-hidden="true" tabindex="-1"></a>model_NormalMedia <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb40-9"><a href="modelo-normal-con-media-desconocida.html#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> NormalMedia,  </span>
+<span id="cb40-10"><a href="modelo-normal-con-media-desconocida.html#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
+<span id="cb40-11"><a href="modelo-normal-con-media-desconocida.html#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb40-12"><a href="modelo-normal-con-media-desconocida.html#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
+<span id="cb40-13"><a href="modelo-normal-con-media-desconocida.html#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
+<span id="cb40-14"><a href="modelo-normal-con-media-desconocida.html#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
+<span id="cb40-15"><a href="modelo-normal-con-media-desconocida.html#cb40-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>La estimación del parámetro <span class="math inline">\(\theta\)</span> es:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="modelo-normal-con-media-desconocida.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_NormalMedia$summary(variables = &quot;theta&quot;)%&gt;%</span></span>
+<span id="cb41-2"><a href="modelo-normal-con-media-desconocida.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(variable:q95) %&gt;% tba()</span></span>
+<span id="cb41-3"><a href="modelo-normal-con-media-desconocida.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+se_mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+2.5%
+</th>
+<th style="text-align:right;">
+25%
+</th>
+<th style="text-align:right;">
+50%
+</th>
+<th style="text-align:right;">
+75%
+</th>
+<th style="text-align:right;">
+97.5%
+</th>
+<th style="text-align:right;">
+n_eff
+</th>
+<th style="text-align:right;">
+Rhat
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+theta
+</td>
+<td style="text-align:right;">
+13.1148
+</td>
+<td style="text-align:right;">
+1e-04
+</td>
+<td style="text-align:right;">
+0.0039
+</td>
+<td style="text-align:right;">
+13.1071
+</td>
+<td style="text-align:right;">
+13.1122
+</td>
+<td style="text-align:right;">
+13.1147
+</td>
+<td style="text-align:right;">
+13.1175
+</td>
+<td style="text-align:right;">
+13.1224
+</td>
+<td style="text-align:right;">
+694.8215
+</td>
+<td style="text-align:right;">
+1.0002
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="modelo-normal-con-media-desconocida.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_NormalMedia$draws(&quot;theta&quot;)) +</span></span>
+<span id="cb42-2"><a href="modelo-normal-con-media-desconocida.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_NormalMedia$draws(&quot;theta&quot;)))/ </span></span>
+<span id="cb42-3"><a href="modelo-normal-con-media-desconocida.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_NormalMedia$draws(&quot;theta&quot;)) </span></span>
+<span id="cb42-4"><a href="modelo-normal-con-media-desconocida.html#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="modelo-normal-con-media-desconocida.html#cb42-5" aria-hidden="true" tabindex="-1"></a>posterior_theta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb42-6"><a href="modelo-normal-con-media-desconocida.html#cb42-6" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta) <span class="sc">+</span></span>
+<span id="cb42-7"><a href="modelo-normal-con-media-desconocida.html#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta) ) <span class="sc">/</span> </span>
+<span id="cb42-8"><a href="modelo-normal-con-media-desconocida.html#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta)</span></code></pre></div>
+<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-29-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="modelo-normal-con-media-desconocida.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_B &lt;- model_NormalMedia$draws(variables = &quot;ypred&quot;, format = &quot;matrix&quot;)</span></span>
+<span id="cb43-2"><a href="modelo-normal-con-media-desconocida.html#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="modelo-normal-con-media-desconocida.html#cb43-3" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-4"><a href="modelo-normal-con-media-desconocida.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
+<span id="cb43-5"><a href="modelo-normal-con-media-desconocida.html#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="modelo-normal-con-media-desconocida.html#cb43-6" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
+<span id="cb43-7"><a href="modelo-normal-con-media-desconocida.html#cb43-7" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
+<span id="cb43-8"><a href="modelo-normal-con-media-desconocida.html#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(dataNormal<span class="sc">$</span>logIngreso), y_pred2)<span class="sc">/</span></span>
+<span id="cb43-9"><a href="modelo-normal-con-media-desconocida.html#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">exp</span>(<span class="fu">as.numeric</span>(dataNormal<span class="sc">$</span>logIngreso))<span class="sc">-</span><span class="dv">1</span>, <span class="fu">exp</span>(y_pred2)<span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">5000000</span>)</span></code></pre></div>
+<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-30-1.svg" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo-binomial.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelos-multiparamétricos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.pdf", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.epub", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.mobi"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"tconfig": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
