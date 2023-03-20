@@ -36,10 +36,10 @@ output:
 
 <img src="www/Imagenes/Agenda_COL.png" width="474" />
 
-# No dejar a nadie atrás - ODS y la Agenda 2030 
+# Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030 
 
 [Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
 
-# Limitaciones de las encuestas de hogares
+# Día 1 - Sesión 2-  Limitaciones de las encuestas de hogares
 
 [Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
