@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 9 Modelo para la varianza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <meta name="description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 9 Modelo para la varianza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="github-repo" content="psirusteam/HHS-Handbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 9 Modelo para la varianza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  
+  <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
+  
+
+<meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
+
+
+<meta name="date" content="2023-03-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-gráfico.html"/>
+<link rel="next" href="análisis-gráfico-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Taller de instalación de capacidades en SAE</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Agenda</a></li>
+<li class="chapter" data-level="1" data-path="censo-e-información-satelital.html"><a href="censo-e-información-satelital.html"><i class="fa fa-check"></i><b>1</b> Censo e información satelital</a></li>
+<li class="chapter" data-level="2" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html"><i class="fa fa-check"></i><b>2</b> Uso de imágenes satelitales y SAE</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html#fuentes-de-datos-de-imágenes-satelitales"><i class="fa fa-check"></i><b>2.0.1</b> Fuentes de datos de imágenes satelitales</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="google-earth-eninge.html"><a href="google-earth-eninge.html"><i class="fa fa-check"></i><b>3</b> Google Earth Eninge</a></li>
+<li class="chapter" data-level="4" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html"><i class="fa fa-check"></i><b>4</b> Instalación de rgee</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="descargar-información-satelital.html"><a href="descargar-información-satelital.html"><i class="fa fa-check"></i><b>4.1</b> Descargar información satelital</a></li>
+<li class="chapter" data-level="4.2" data-path="repetir-la-rutina-para.html"><a href="repetir-la-rutina-para.html"><i class="fa fa-check"></i><b>4.2</b> Repetir la rutina para:</a></li>
+<li class="chapter" data-level="4.3" data-path="luces-nocturnas.html"><a href="luces-nocturnas.html"><i class="fa fa-check"></i><b>4.3</b> Luces nocturnas</a></li>
+<li class="chapter" data-level="4.4" data-path="cubrimiento-cultivos.html"><a href="cubrimiento-cultivos.html"><i class="fa fa-check"></i><b>4.4</b> Cubrimiento cultivos</a></li>
+<li class="chapter" data-level="4.5" data-path="cubrimiento-urbanos.html"><a href="cubrimiento-urbanos.html"><i class="fa fa-check"></i><b>4.5</b> Cubrimiento urbanos</a></li>
+<li class="chapter" data-level="4.6" data-path="modificación-humana.html"><a href="modificación-humana.html"><i class="fa fa-check"></i><b>4.6</b> Modificación humana</a></li>
+<li class="chapter" data-level="4.7" data-path="tiempo-promedio-al-hospital.html"><a href="tiempo-promedio-al-hospital.html"><i class="fa fa-check"></i><b>4.7</b> Tiempo promedio al hospital</a></li>
+<li class="chapter" data-level="4.8" data-path="tiempo-promedio-al-hospital-en-vehiculo-no-motorizado.html"><a href="tiempo-promedio-al-hospital-en-vehiculo-no-motorizado.html"><i class="fa fa-check"></i><b>4.8</b> Tiempo promedio al hospital en vehiculo no motorizado</a></li>
+<li class="chapter" data-level="4.9" data-path="resultados-de-la-información-censal..html"><a href="resultados-de-la-información-censal..html"><i class="fa fa-check"></i><b>4.9</b> Resultados de la información censal.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><a href="fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><i class="fa fa-check"></i><b>5</b> Fundamentos de la inferencia Bayesiana en R y STAN</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="regla-de-bayes.html"><a href="regla-de-bayes.html"><i class="fa fa-check"></i><b>5.1</b> Regla de Bayes</a></li>
+<li class="chapter" data-level="5.2" data-path="inferencia-bayesiana..html"><a href="inferencia-bayesiana..html"><i class="fa fa-check"></i><b>5.2</b> Inferencia Bayesiana.</a></li>
+<li class="chapter" data-level="5.3" data-path="modelos-uniparamétricos.html"><a href="modelos-uniparamétricos.html"><i class="fa fa-check"></i><b>5.3</b> Modelos uniparamétricos</a></li>
+<li class="chapter" data-level="5.4" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html"><i class="fa fa-check"></i><b>5.4</b> Modelo Bernoulli</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-r"><i class="fa fa-check"></i><b>5.4.1</b> Práctica en <strong>R</strong></a></li>
+<li class="chapter" data-level="5.4.2" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-stan"><i class="fa fa-check"></i><b>5.4.2</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="modelo-binomial.html"><a href="modelo-binomial.html"><i class="fa fa-check"></i><b>5.5</b> Modelo Binomial</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="modelo-binomial.html"><a href="modelo-binomial.html#práctica-en-stan-1"><i class="fa fa-check"></i><b>5.5.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html"><i class="fa fa-check"></i><b>5.6</b> Modelo Normal con media desconocida</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html#práctica-en-stan-2"><i class="fa fa-check"></i><b>5.6.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="modelos-multiparamétricos.html"><a href="modelos-multiparamétricos.html"><i class="fa fa-check"></i><b>6</b> Modelos multiparamétricos</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="modelo-normal-con-media-y-varianza-desconocida.html"><a href="modelo-normal-con-media-y-varianza-desconocida.html"><i class="fa fa-check"></i><b>6.1</b> Modelo Normal con media y varianza desconocida</a></li>
+<li class="chapter" data-level="6.2" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html"><i class="fa fa-check"></i><b>6.2</b> Parámetros independientes</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html#práctica-en-stan-3"><i class="fa fa-check"></i><b>6.2.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html"><i class="fa fa-check"></i><b>6.3</b> Modelo Multinomial</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html#práctica-en-stan-4"><i class="fa fa-check"></i><b>6.3.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="función-generalizada-de-varianza-fgv.html"><a href="función-generalizada-de-varianza-fgv.html"><i class="fa fa-check"></i><b>7</b> Función Generalizada de Varianza (FGV)</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="datos-de-la-encuesta.html"><a href="datos-de-la-encuesta.html"><i class="fa fa-check"></i><b>7.1</b> Datos de la encuesta</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="análisis-gráfico.html"><a href="análisis-gráfico.html"><i class="fa fa-check"></i><b>8</b> Análisis gráfico</a></li>
+<li class="chapter" data-level="9" data-path="modelo-para-la-varianza.html"><a href="modelo-para-la-varianza.html"><i class="fa fa-check"></i><b>9</b> Modelo para la varianza</a></li>
+<li class="chapter" data-level="10" data-path="análisis-gráfico-1.html"><a href="análisis-gráfico-1.html"><i class="fa fa-check"></i><b>10</b> Análisis gráfico</a></li>
+<li class="divider"></li>
+<li><a Taller de instalación de capacidades en SAE </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelo-para-la-varianza" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Capítulo 9</span> Modelo para la varianza<a href="modelo-para-la-varianza.html#modelo-para-la-varianza" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="modelo-para-la-varianza.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb67-2"><a href="modelo-para-la-varianza.html#cb67-2" aria-hidden="true" tabindex="-1"></a>FGV1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ln_sigma2 <span class="sc">~</span> pobreza <span class="sc">+</span> <span class="fu">I</span>(nd<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">sqrt</span>(pobreza)),</span>
+<span id="cb67-3"><a href="modelo-para-la-varianza.html#cb67-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> baseFGV)</span>
+<span id="cb67-4"><a href="modelo-para-la-varianza.html#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="modelo-para-la-varianza.html#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(FGV1) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-6"><a href="modelo-para-la-varianza.html#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_glance_table</span>(<span class="at">include =</span> <span class="fu">c</span>(r.squared, adj.r.squared))</span></code></pre></div>
+<div id="srxmuctavx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#srxmuctavx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#srxmuctavx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#srxmuctavx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#srxmuctavx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#srxmuctavx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#srxmuctavx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#srxmuctavx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#srxmuctavx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#srxmuctavx .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#srxmuctavx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#srxmuctavx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#srxmuctavx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#srxmuctavx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#srxmuctavx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srxmuctavx .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#srxmuctavx .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#srxmuctavx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srxmuctavx .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#srxmuctavx .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srxmuctavx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#srxmuctavx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srxmuctavx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#srxmuctavx .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#srxmuctavx .gt_left {
+  text-align: left;
+}
+
+#srxmuctavx .gt_center {
+  text-align: center;
+}
+
+#srxmuctavx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#srxmuctavx .gt_font_normal {
+  font-weight: normal;
+}
+
+#srxmuctavx .gt_font_bold {
+  font-weight: bold;
+}
+
+#srxmuctavx .gt_font_italic {
+  font-style: italic;
+}
+
+#srxmuctavx .gt_super {
+  font-size: 65%;
+}
+
+#srxmuctavx .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#srxmuctavx .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#srxmuctavx .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#srxmuctavx .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#srxmuctavx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#srxmuctavx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#srxmuctavx .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta&lt;/strong&gt;"><strong>Beta</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;95% CI&lt;/strong&gt;&lt;sup class=&quot;gt_footnote_marks&quot;&gt;1&lt;/sup&gt;"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">pobreza</td>
+<td headers="estimate" class="gt_row gt_center">-12</td>
+<td headers="ci" class="gt_row gt_center">-14, -9.5</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">I(nd^2)</td>
+<td headers="estimate" class="gt_row gt_center">0.00</td>
+<td headers="ci" class="gt_row gt_center">0.00, 0.00</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">I(sqrt(pobreza))</td>
+<td headers="estimate" class="gt_row gt_center">16</td>
+<td headers="ci" class="gt_row gt_center">14, 19</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.608</td>
+<td headers="ci" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="p.value" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate" class="gt_row gt_center">0.604</td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> CI = Confidence Interval</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Ponderador FGV</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="modelo-para-la-varianza.html#cb68-1" aria-hidden="true" tabindex="-1"></a>delta.hat <span class="ot">=</span> <span class="fu">sum</span>(baseFGV<span class="sc">$</span>vardir) <span class="sc">/</span> </span>
+<span id="cb68-2"><a href="modelo-para-la-varianza.html#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">exp</span>(<span class="fu">fitted.values</span>(FGV1)))</span>
+<span id="cb68-3"><a href="modelo-para-la-varianza.html#cb68-3" aria-hidden="true" tabindex="-1"></a>delta.hat</span></code></pre></div>
+<pre><code>## [1] 1.303171</code></pre>
+<p>Varianza suavizada para los dominios observados</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="modelo-para-la-varianza.html#cb70-1" aria-hidden="true" tabindex="-1"></a>hat.sigma <span class="ot">&lt;-</span> </span>
+<span id="cb70-2"><a href="modelo-para-la-varianza.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">dam2 =</span> baseFGV<span class="sc">$</span>dam2,</span>
+<span id="cb70-3"><a href="modelo-para-la-varianza.html#cb70-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">hat_var =</span> delta.hat <span class="sc">*</span> <span class="fu">exp</span>(<span class="fu">fitted.values</span>(FGV1)))</span>
+<span id="cb70-4"><a href="modelo-para-la-varianza.html#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="modelo-para-la-varianza.html#cb70-5" aria-hidden="true" tabindex="-1"></a>baseFGV <span class="ot">&lt;-</span> <span class="fu">left_join</span>(baseFGV, hat.sigma)</span>
+<span id="cb70-6"><a href="modelo-para-la-varianza.html#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(<span class="fu">head</span>(baseFGV, <span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+pobreza
+</th>
+<th style="text-align:right;">
+nd
+</th>
+<th style="text-align:right;">
+vardir
+</th>
+<th style="text-align:right;">
+ln_sigma2
+</th>
+<th style="text-align:right;">
+hat_var
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.1597
+</td>
+<td style="text-align:right;">
+27432
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+-10.0123
+</td>
+<td style="text-align:right;">
+0.0001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.4049
+</td>
+<td style="text-align:right;">
+257
+</td>
+<td style="text-align:right;">
+0.0032
+</td>
+<td style="text-align:right;">
+-5.7366
+</td>
+<td style="text-align:right;">
+0.0060
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.3817
+</td>
+<td style="text-align:right;">
+199
+</td>
+<td style="text-align:right;">
+0.0042
+</td>
+<td style="text-align:right;">
+-5.4635
+</td>
+<td style="text-align:right;">
+0.0058
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.4731
+</td>
+<td style="text-align:right;">
+223
+</td>
+<td style="text-align:right;">
+0.0018
+</td>
+<td style="text-align:right;">
+-6.3351
+</td>
+<td style="text-align:right;">
+0.0062
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+0.2876
+</td>
+<td style="text-align:right;">
+480
+</td>
+<td style="text-align:right;">
+0.0064
+</td>
+<td style="text-align:right;">
+-5.0451
+</td>
+<td style="text-align:right;">
+0.0047
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+0.4001
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+0.0063
+</td>
+<td style="text-align:right;">
+-5.0660
+</td>
+<td style="text-align:right;">
+0.0060
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+0.1314
+</td>
+<td style="text-align:right;">
+4457
+</td>
+<td style="text-align:right;">
+0.0002
+</td>
+<td style="text-align:right;">
+-8.5360
+</td>
+<td style="text-align:right;">
+0.0016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05093
+</td>
+<td style="text-align:right;">
+0.3273
+</td>
+<td style="text-align:right;">
+168
+</td>
+<td style="text-align:right;">
+0.0063
+</td>
+<td style="text-align:right;">
+-5.0724
+</td>
+<td style="text-align:right;">
+0.0052
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05120
+</td>
+<td style="text-align:right;">
+0.7049
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+0.0061
+</td>
+<td style="text-align:right;">
+-5.0921
+</td>
+<td style="text-align:right;">
+0.0048
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05129
+</td>
+<td style="text-align:right;">
+0.1140
+</td>
+<td style="text-align:right;">
+554
+</td>
+<td style="text-align:right;">
+0.0014
+</td>
+<td style="text-align:right;">
+-6.5515
+</td>
+<td style="text-align:right;">
+0.0014
+</td>
+</tr>
+</tbody>
+</table>
+<p>Validación del modelo para la FGV</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="modelo-para-la-varianza.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb71-2"><a href="modelo-para-la-varianza.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(FGV1)</span></code></pre></div>
+<p><img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-11-1.svg" width="672" /></p>
+<p>Comparación entre varianza estimada con pronosticada por la FGV</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="modelo-para-la-varianza.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(baseFGV , </span>
+<span id="cb72-2"><a href="modelo-para-la-varianza.html#cb72-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> vardir, <span class="at">x =</span> hat_var)) <span class="sc">+</span> </span>
+<span id="cb72-3"><a href="modelo-para-la-varianza.html#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb72-4"><a href="modelo-para-la-varianza.html#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
+<p><img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
+<p>Predicción de la varianza suavizada</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="modelo-para-la-varianza.html#cb73-1" aria-hidden="true" tabindex="-1"></a>base_sae <span class="ot">&lt;-</span> base_sae <span class="sc">%&gt;%</span>  <span class="fu">left_join</span>(hat.sigma, <span class="at">by =</span> <span class="st">&quot;dam2&quot;</span>)</span></code></pre></div>
+<p>Organizando la información para exportar, realizamos validaciones adicionales sobre el deff</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="modelo-para-la-varianza.html#cb74-1" aria-hidden="true" tabindex="-1"></a>base_FH <span class="ot">&lt;-</span> base_sae <span class="sc">%&gt;%</span></span>
+<span id="cb74-2"><a href="modelo-para-la-varianza.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb74-3"><a href="modelo-para-la-varianza.html#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">deff_dam2 =</span> <span class="fu">ifelse</span>(<span class="fu">is.nan</span>(deff_dam2), <span class="dv">1</span>,</span>
+<span id="cb74-4"><a href="modelo-para-la-varianza.html#cb74-4" aria-hidden="true" tabindex="-1"></a>                         deff_dam2),</span>
+<span id="cb74-5"><a href="modelo-para-la-varianza.html#cb74-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">deff_FGV =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb74-6"><a href="modelo-para-la-varianza.html#cb74-6" aria-hidden="true" tabindex="-1"></a>      vardir <span class="sc">==</span> <span class="dv">0</span> ,</span>
+<span id="cb74-7"><a href="modelo-para-la-varianza.html#cb74-7" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span>,</span>
+<span id="cb74-8"><a href="modelo-para-la-varianza.html#cb74-8" aria-hidden="true" tabindex="-1"></a>      hat_var <span class="sc">/</span> (vardir <span class="sc">/</span> deff_dam2)</span>
+<span id="cb74-9"><a href="modelo-para-la-varianza.html#cb74-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb74-10"><a href="modelo-para-la-varianza.html#cb74-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Criterio MDS para regularizar el DeffFGV</span></span>
+<span id="cb74-11"><a href="modelo-para-la-varianza.html#cb74-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">deff_FGV =</span> <span class="fu">ifelse</span>(deff_FGV <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="dv">1</span>, deff_FGV),</span>
+<span id="cb74-12"><a href="modelo-para-la-varianza.html#cb74-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_eff_FGV =</span> nd <span class="sc">/</span> deff_FGV</span>
+<span id="cb74-13"><a href="modelo-para-la-varianza.html#cb74-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb74-14"><a href="modelo-para-la-varianza.html#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="modelo-para-la-varianza.html#cb74-15" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> base_FH, <span class="st">&quot;Recursos/Día2/Sesion1/Data/base_FH_2018.rds&quot;</span>)</span></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-gráfico.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-gráfico-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/psirusteam/2021ASDA/03-D2S1_FGV.qmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.pdf", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.epub", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.mobi"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"tconfig": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 3 Google Earth Eninge | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>Capítulo 7 Función Generalizada de Varianza (FGV) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 3 Google Earth Eninge | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="Capítulo 7 Función Generalizada de Varianza (FGV) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 3 Google Earth Eninge | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="Capítulo 7 Función Generalizada de Varianza (FGV) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="uso-de-imágenes-satelitales-y-sae.html"/>
-<link rel="next" href="instalación-de-rgee.html"/>
+<link rel="prev" href="modelo-multinomial.html"/>
+<link rel="next" href="datos-de-la-encuesta.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -215,23 +215,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="google-earth-eninge" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Capítulo 3</span> Google Earth Eninge<a href="google-earth-eninge.html#google-earth-eninge" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Crear una cuenta en <a href="https://earthengine.google.com/">link</a>, una vez que se ingrese a la cuenta puede buscarse los conjuntos de datos de interés:</p>
-<p><img src="Recursos/D%C3%ADa1/Sesion3/0Recursos/lights.png" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+<div id="función-generalizada-de-varianza-fgv" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Capítulo 7</span> Función Generalizada de Varianza (FGV)<a href="función-generalizada-de-varianza-fgv.html#función-generalizada-de-varianza-fgv" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Uno de los insumos más importantes en el modelo de áreas es la
+varianza del estimador directo, a nivel de dominio, la cual no puede calcularse de ningún modo. En correspondencia, este valor debe estimarse desde los datos recolectados en cada dominio. Sin embargo,
+en dominios en las que se cuenta con un tamaño de muestra muy pequeño, estas estimaciones no tendrán un buen comportamiento. Por ende, es muy útil utilizar un modelo de <strong>suavizamiento</strong> de las varianzas para
+eliminar el ruido y la volatilidad de estas estimaciones y extraer la verdadera señal del proceso</p>
+<p>Hidiroglou (2019) afirma que <span class="math inline">\(E_{mp}\left(\hat{\theta}^{dir}_d\right)=\boldsymbol{x}_{d}\boldsymbol{\beta}\)</span> y <span class="math inline">\(V_{mp}\left(\hat{\theta}^{dir}_d\right)=\sigma_{u}^2+\tilde{\psi}^2_{d}\)</span>, en donde el subíndice <span class="math inline">\(mp\)</span> hace referencia a la inferencia doble que se debe tener en cuenta en este tipo de ajustes y define la medida de probabilidad conjunta entre el modelo y el diseño de muestreo.</p>
 <ul>
-<li><p>Una vez se busque el conjunto de datos se puede abrir un editor de código brindado por google en Javascript.</p></li>
-<li><p>Copiar y pegar la sintaxis que brinda el buscador de conjunto de datos para visualizar la imagen raster y disponer de sentencias que GTMmitan la obtención del conjunto de datos de interés posteriormente en R</p></li>
+<li><p><span class="math inline">\(m\)</span> hace referencia a la medida de probabilidad inducida por el modelamiento y la inclusión de las covariables auxiliares (<span class="math inline">\(\boldsymbol{x}_{d}\)</span>).</p></li>
+<li><p><span class="math inline">\(p\)</span> hacer referencia a la medida de probabilidad inducida por el diseño de muestreo complejo que
+induce las estimaciones directas.</p></li>
 </ul>
-<p><img src="Recursos/D%C3%ADa1/Sesion3/0Recursos/query.png" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+<p>La solución que acá se plantea se conoce con el nombre de Función Generalizada de Varianza, la cual consiste en ajustar un modelo log-lineal a la varianza directa estimada. Partiendo del hecho de que
+se tiene acceso a un estimador insesgado de <span class="math inline">\(\psi^2\)</span>, denotado por <span class="math inline">\(\hat{\psi}^2\)</span> se tiene que:
+<span class="math display">\[
+E_{mp}\left(\hat{\psi}_{d}^{2}\right)=E_{m}\left(E_{p}\left(\psi_{d}^{2}\right)\right)=E_{m}\left(\psi_{d}^{2}\right)=\tilde{\psi}_{d}^{2}
+\]</span></p>
+<p>La anterior igualdad puede interpretarse como que un estimador insesgado y simple de <span class="math inline">\(\tilde{\psi}_{d}^{2}\)</span> puede ser <span class="math inline">\(\hat{\psi}_{d}^{2}\)</span>. Sin embargo, este estimador de muestreo es inestable cuando el tamaño de muestra es pequeño, que es justo el paradigma dominante en la estimación de áreas pequeñas. Rivest and Belmonte (2000) consideran modelos de suavizamiento para la estimación de las varianzas directas definidos de la siguiente manera:</p>
+<p><span class="math display">\[
+\log\left(\hat{\psi}_{d}^{2}\right)=\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}+\boldsymbol{\varepsilon}_{d}
+\]</span></p>
+<p>En donde <span class="math inline">\(\boldsymbol{z}_{d}\)</span> es un vector de covariables explicativas que son funciones de <span class="math inline">\(\boldsymbol{x}_{d}\)</span>, <span class="math inline">\(\boldsymbol{\alpha}\)</span> es un vector de parámetros que deben ser estimados, <span class="math inline">\(\boldsymbol{\varepsilon}_{d}\)</span> son errores aleatorios con media cero y varianza constante, que se asumen idénticamente distribuidos condicionalmente sobre <span class="math inline">\(\boldsymbol{z}_{d}\)</span>. Del anterior modelo, la
+estimación suavizada de la varianza de muestreo está dada por:
+<span class="math display">\[
+\tilde{\psi}_{d}^{2}=E_{mp}\left(\psi_{d}^{2}\right)=\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)\times\Delta
+\]</span></p>
+<p>En donde, <span class="math inline">\(E_{mp}\left(\varepsilon_{d}\right)=\Delta\)</span>. No hay necesidad de especificar una distribución paramétrica para los
+errores de este modelo. Al utilizar el método de los momentos, se tiene el siguiente estimador insesgado para <span class="math inline">\(\Delta\)</span>:
+<span class="math display">\[
+\hat{\Delta}=\frac{\sum_{d=1}^{D}\hat{\psi}_{d}^{2}}{\sum_{d=1}^{D}\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)}
+\]</span></p>
+<p>De la misma forma, al utilizar los procedimientos estándar en una regresión lineal, la estimación del coeficiente de parámetros de regresión está dada por la siguiente expresión:</p>
+<p><span class="math display">\[
+\hat{\boldsymbol{\alpha}}=\left(\sum_{d=1}^{D}\boldsymbol{z}_{d}\boldsymbol{z}_{d}^{t}\right)^{-1}\sum_{d=1}^{D}\boldsymbol{z}_{d}\log\left(\hat{\psi}_{d}^{2}\right)
+\]</span></p>
+<p>Por último, el estimador suavizado de la varianza muestral está definido por:</p>
+<p><span class="math display">\[
+\hat{\tilde{\psi}}_{d}^{2}=\exp\left(\boldsymbol{z}_{d}^{t}\hat{\boldsymbol{\alpha}}\right)\hat{\Delta}
+\]</span></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="uso-de-imágenes-satelitales-y-sae.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="instalación-de-rgee.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelo-multinomial.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datos-de-la-encuesta.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -262,7 +292,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/01-D1S3_Imagenes_Satelitales.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/03-D2S1_FGV.qmd",
 "text": "Edit"
 },
 "history": {
