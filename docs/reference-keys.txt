@@ -1,0 +1,14 @@
+censo-e-información-satelital
+uso-de-imágenes-satelitales-y-sae
+fuentes-de-datos-de-imágenes-satelitales
+google-earth-eninge
+instalación-de-rgee
+descargar-información-satelital
+repetir-la-rutina-para
+luces-nocturnas
+cubrimiento-cultivos
+cubrimiento-urbanos
+modificación-humana
+tiempo-promedio-al-hospital
+tiempo-promedio-al-hospital-en-vehiculo-no-motorizado
+resultados-de-la-información-censal.
