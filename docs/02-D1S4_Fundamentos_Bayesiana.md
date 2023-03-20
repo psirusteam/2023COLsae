@@ -1698,6 +1698,8 @@ posterior_delta <- as.array(model_Multinom, pars = "delta")
 
 <img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-50-1.svg" width="672" />
 
+La imagen es muy pesada no se carga al repositorio. 
+
 
 ```r
 n <- nrow(dataMult)

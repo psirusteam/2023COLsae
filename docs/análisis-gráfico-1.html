@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>5.4 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="5.4 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="5.4 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="modelos-multiparamétricos.html"/>
-<link rel="next" href="parámetros-independientes.html"/>
+<link rel="prev" href="modelo-para-la-varianza.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -197,6 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="datos-de-la-encuesta.html"><a href="datos-de-la-encuesta.html"><i class="fa fa-check"></i><b>5.1</b> Datos de la encuesta</a></li>
 <li class="chapter" data-level="5.2" data-path="análisis-gráfico.html"><a href="análisis-gráfico.html"><i class="fa fa-check"></i><b>5.2</b> Análisis gráfico</a></li>
 <li class="chapter" data-level="5.3" data-path="modelo-para-la-varianza.html"><a href="modelo-para-la-varianza.html"><i class="fa fa-check"></i><b>5.3</b> Modelo para la varianza</a></li>
+<li class="chapter" data-level="5.4" data-path="análisis-gráfico-1.html"><a href="análisis-gráfico-1.html"><i class="fa fa-check"></i><b>5.4</b> Análisis gráfico</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -218,22 +219,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelo-normal-con-media-y-varianza-desconocida" class="section level2 hasAnchor" number="4.8">
-<h2><span class="header-section-number">4.8</span> Modelo Normal con media y varianza desconocida<a href="modelo-normal-con-media-y-varianza-desconocida.html#modelo-normal-con-media-y-varianza-desconocida" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Supongamos que se dispone de realizaciones de un conjunto de variables independientes e idénticamente distribuidas <span class="math inline">\(Y_1,\cdots,Y_n\sim N(\theta,\sigma^2)\)</span>. Cuando se desconoce tanto la media como la varianza de la distribución es necesario plantear diversos enfoques y situarse en el más conveniente, según el contexto del problema. En términos de la asignación de las distribuciones previas para <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\sigma^2\)</span> es posible:</p>
-<ul>
-<li>Suponer que la distribución previa <span class="math inline">\(p(\theta)\)</span> es independiente de la distribución previa <span class="math inline">\(p(\sigma^2)\)</span> y que ambas distribuciones son informativas.</li>
-<li>Suponer que la distribución previa <span class="math inline">\(p(\theta)\)</span> es independiente de la distribución previa <span class="math inline">\(p(\sigma^2)\)</span> y que ambas distribuciones son no informativas.</li>
-<li>Suponer que la distribución previa para <span class="math inline">\(\theta\)</span> depende de <span class="math inline">\(\sigma^2\)</span> y escribirla como <span class="math inline">\(p(\theta \mid \sigma^2)\)</span>, mientras que la distribución previa de <span class="math inline">\(\sigma^2\)</span> no depende de <span class="math inline">\(\theta\)</span> y se puede escribir como <span class="math inline">\(p(\sigma^2)\)</span>.</li>
-</ul>
+<div id="análisis-gráfico-1" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Análisis gráfico<a href="análisis-gráfico-1.html#análisis-gráfico-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="análisis-gráfico-1.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(base_FH <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(nd), <span class="fu">aes</span>(<span class="at">x =</span> hat_var, <span class="at">y =</span> vardir)) <span class="sc">+</span> </span>
+<span id="cb80-2"><a href="análisis-gráfico-1.html#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb80-3"><a href="análisis-gráfico-1.html#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">col =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb80-4"><a href="análisis-gráfico-1.html#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;FGV&quot;</span>, <span class="at">y =</span> <span class="st">&quot;VarDirEst&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-5"><a href="análisis-gráfico-1.html#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Varianza del Estimador Directo&quot;</span>)</span></code></pre></div>
+<p><img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-15-1.svg" width="672" /></p>
+
 </div>
+<!-- </div> -->
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="modelos-multiparamétricos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="parámetros-independientes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelo-para-la-varianza.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -264,7 +274,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/03-D2S1_FGV.qmd",
 "text": "Edit"
 },
 "history": {

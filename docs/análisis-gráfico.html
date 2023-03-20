@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>5.2 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="5.2 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.8 Modelo Normal con media y varianza desconocida | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="5.2 Análisis gráfico | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="modelos-multiparamétricos.html"/>
-<link rel="next" href="parámetros-independientes.html"/>
+<link rel="prev" href="datos-de-la-encuesta.html"/>
+<link rel="next" href="modelo-para-la-varianza.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,22 +218,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelo-normal-con-media-y-varianza-desconocida" class="section level2 hasAnchor" number="4.8">
-<h2><span class="header-section-number">4.8</span> Modelo Normal con media y varianza desconocida<a href="modelo-normal-con-media-y-varianza-desconocida.html#modelo-normal-con-media-y-varianza-desconocida" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Supongamos que se dispone de realizaciones de un conjunto de variables independientes e idénticamente distribuidas <span class="math inline">\(Y_1,\cdots,Y_n\sim N(\theta,\sigma^2)\)</span>. Cuando se desconoce tanto la media como la varianza de la distribución es necesario plantear diversos enfoques y situarse en el más conveniente, según el contexto del problema. En términos de la asignación de las distribuciones previas para <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\sigma^2\)</span> es posible:</p>
-<ul>
-<li>Suponer que la distribución previa <span class="math inline">\(p(\theta)\)</span> es independiente de la distribución previa <span class="math inline">\(p(\sigma^2)\)</span> y que ambas distribuciones son informativas.</li>
-<li>Suponer que la distribución previa <span class="math inline">\(p(\theta)\)</span> es independiente de la distribución previa <span class="math inline">\(p(\sigma^2)\)</span> y que ambas distribuciones son no informativas.</li>
-<li>Suponer que la distribución previa para <span class="math inline">\(\theta\)</span> depende de <span class="math inline">\(\sigma^2\)</span> y escribirla como <span class="math inline">\(p(\theta \mid \sigma^2)\)</span>, mientras que la distribución previa de <span class="math inline">\(\sigma^2\)</span> no depende de <span class="math inline">\(\theta\)</span> y se puede escribir como <span class="math inline">\(p(\sigma^2)\)</span>.</li>
-</ul>
+<div id="análisis-gráfico" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Análisis gráfico<a href="análisis-gráfico.html#análisis-gráfico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="análisis-gráfico.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb71-2"><a href="análisis-gráfico.html#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-3"><a href="análisis-gráfico.html#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pobreza vs Ln_sigma2 #</span></span>
+<span id="cb71-4"><a href="análisis-gráfico.html#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="análisis-gráfico.html#cb71-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(baseFGV, <span class="fu">aes</span>(<span class="at">x =</span> pobreza, <span class="at">y =</span> ln_sigma2)) <span class="sc">+</span></span>
+<span id="cb71-6"><a href="análisis-gráfico.html#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb71-7"><a href="análisis-gráfico.html#cb71-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="sc">+</span></span>
+<span id="cb71-8"><a href="análisis-gráfico.html#cb71-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;pobreza&quot;</span>)</span>
+<span id="cb71-9"><a href="análisis-gráfico.html#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="análisis-gráfico.html#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Tamaño de muestra vs Ln_sigma2 #</span></span>
+<span id="cb71-11"><a href="análisis-gráfico.html#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-12"><a href="análisis-gráfico.html#cb71-12" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(baseFGV, <span class="fu">aes</span>(<span class="at">x =</span> nd, <span class="at">y =</span> ln_sigma2)) <span class="sc">+</span> </span>
+<span id="cb71-13"><a href="análisis-gráfico.html#cb71-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb71-14"><a href="análisis-gráfico.html#cb71-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb71-15"><a href="análisis-gráfico.html#cb71-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño de muestra&quot;</span>)</span>
+<span id="cb71-16"><a href="análisis-gráfico.html#cb71-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-17"><a href="análisis-gráfico.html#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de pobres vs Ln_sigma2 #</span></span>
+<span id="cb71-18"><a href="análisis-gráfico.html#cb71-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-19"><a href="análisis-gráfico.html#cb71-19" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(baseFGV, </span>
+<span id="cb71-20"><a href="análisis-gráfico.html#cb71-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> pobreza <span class="sc">*</span> nd, <span class="at">y =</span> ln_sigma2)) <span class="sc">+</span> </span>
+<span id="cb71-21"><a href="análisis-gráfico.html#cb71-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb71-22"><a href="análisis-gráfico.html#cb71-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb71-23"><a href="análisis-gráfico.html#cb71-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de pobres&quot;</span>)</span>
+<span id="cb71-24"><a href="análisis-gráfico.html#cb71-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-25"><a href="análisis-gráfico.html#cb71-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Raiz_pobreza vs Ln_sigma2 #</span></span>
+<span id="cb71-26"><a href="análisis-gráfico.html#cb71-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-27"><a href="análisis-gráfico.html#cb71-27" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(baseFGV, </span>
+<span id="cb71-28"><a href="análisis-gráfico.html#cb71-28" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">sqrt</span>(pobreza), <span class="at">y =</span> ln_sigma2)) <span class="sc">+</span> </span>
+<span id="cb71-29"><a href="análisis-gráfico.html#cb71-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb71-30"><a href="análisis-gráfico.html#cb71-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb71-31"><a href="análisis-gráfico.html#cb71-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Raiz cuadrada de pobreza&quot;</span>)</span>
+<span id="cb71-32"><a href="análisis-gráfico.html#cb71-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-33"><a href="análisis-gráfico.html#cb71-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb71-34"><a href="análisis-gráfico.html#cb71-34" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">|</span> p2) <span class="sc">/</span> (p3 <span class="sc">|</span> p4)</span></code></pre></div>
+<p><img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-7-1.svg" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="modelos-multiparamétricos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="parámetros-independientes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="datos-de-la-encuesta.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelo-para-la-varianza.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -264,7 +293,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/03-D2S1_FGV.qmd",
 "text": "Edit"
 },
 "history": {
