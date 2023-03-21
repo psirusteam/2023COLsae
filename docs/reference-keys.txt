@@ -58,3 +58,9 @@ preparando-los-insumos-para-stan-2
 resultados-del-modelo-para-los-dominios-observados.-2
 mapa-de-pobreza-2
 mapa-del-coeficiente-de-variación.-1
+modelo-de-fay-herriot-de-variable-respuesta-beta.
+procedimiento-de-estimación-3
+preparando-los-insumos-para-stan-3
+resultados-del-modelo-para-los-dominios-observados.-3
+mapa-de-pobreza-3
+mapa-del-coeficiente-de-variación.-2

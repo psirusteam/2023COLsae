@@ -226,6 +226,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.2</b> Modelo de Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-3"><i class="fa fa-check"></i><b>8.2.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-3"><i class="fa fa-check"></i><b>8.2.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -597,56 +602,56 @@ NA
 <span id="cb87-7"><a href="preparando-los-insumos-para-stan.html#cb87-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y  =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), <span class="co"># Estimación directa</span></span>
 <span id="cb87-8"><a href="preparando-los-insumos-para-stan.html#cb87-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_e =</span> <span class="fu">sqrt</span>(data_dir<span class="sc">$</span>hat_var)   <span class="co"># Error de estimación</span></span>
 <span id="cb87-9"><a href="preparando-los-insumos-para-stan.html#cb87-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>Rutina implementada en `STAN`</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="preparando-los-insumos-para-stan.html#cb89-1" aria-hidden="true" tabindex="-1"></a>data {</span>
-<span id="cb89-2"><a href="preparando-los-insumos-para-stan.html#cb89-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> N1;   <span class="sc">/</span><span class="er">/</span> number of data items</span>
-<span id="cb89-3"><a href="preparando-los-insumos-para-stan.html#cb89-3" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> N2;   <span class="sc">/</span><span class="er">/</span> number of data items <span class="cf">for</span> prediction</span>
-<span id="cb89-4"><a href="preparando-los-insumos-para-stan.html#cb89-4" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> p;   <span class="sc">/</span><span class="er">/</span> number of predictors</span>
-<span id="cb89-5"><a href="preparando-los-insumos-para-stan.html#cb89-5" aria-hidden="true" tabindex="-1"></a>  matrix[N1, p] X;   <span class="sc">/</span><span class="er">/</span> predictor matrix</span>
-<span id="cb89-6"><a href="preparando-los-insumos-para-stan.html#cb89-6" aria-hidden="true" tabindex="-1"></a>  matrix[N2, p] Xs;   <span class="sc">/</span><span class="er">/</span> predictor matrix</span>
-<span id="cb89-7"><a href="preparando-los-insumos-para-stan.html#cb89-7" aria-hidden="true" tabindex="-1"></a>  vector[N1] y;      <span class="sc">/</span><span class="er">/</span> predictor matrix </span>
-<span id="cb89-8"><a href="preparando-los-insumos-para-stan.html#cb89-8" aria-hidden="true" tabindex="-1"></a>  vector[N1] sigma_e; <span class="sc">/</span><span class="er">/</span> known variances</span>
-<span id="cb89-9"><a href="preparando-los-insumos-para-stan.html#cb89-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-10"><a href="preparando-los-insumos-para-stan.html#cb89-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-11"><a href="preparando-los-insumos-para-stan.html#cb89-11" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span><span class="er">/</span> The parameters accepted by the model. Our model</span>
-<span id="cb89-12"><a href="preparando-los-insumos-para-stan.html#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span><span class="er">/</span> accepts two parameters <span class="st">&#39;mu&#39;</span> and <span class="st">&#39;sigma&#39;</span>.</span>
-<span id="cb89-13"><a href="preparando-los-insumos-para-stan.html#cb89-13" aria-hidden="true" tabindex="-1"></a>parameters {</span>
-<span id="cb89-14"><a href="preparando-los-insumos-para-stan.html#cb89-14" aria-hidden="true" tabindex="-1"></a>  vector[p] beta;       <span class="sc">/</span><span class="er">/</span> coefficients <span class="cf">for</span> predictors</span>
-<span id="cb89-15"><a href="preparando-los-insumos-para-stan.html#cb89-15" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> sigma2_v;</span>
-<span id="cb89-16"><a href="preparando-los-insumos-para-stan.html#cb89-16" aria-hidden="true" tabindex="-1"></a>  vector[N1] v;</span>
-<span id="cb89-17"><a href="preparando-los-insumos-para-stan.html#cb89-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-18"><a href="preparando-los-insumos-para-stan.html#cb89-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-19"><a href="preparando-los-insumos-para-stan.html#cb89-19" aria-hidden="true" tabindex="-1"></a>transformed parameters{</span>
-<span id="cb89-20"><a href="preparando-los-insumos-para-stan.html#cb89-20" aria-hidden="true" tabindex="-1"></a>  vector[N1] theta;         </span>
-<span id="cb89-21"><a href="preparando-los-insumos-para-stan.html#cb89-21" aria-hidden="true" tabindex="-1"></a>  vector[N1] thetaSyn;</span>
-<span id="cb89-22"><a href="preparando-los-insumos-para-stan.html#cb89-22" aria-hidden="true" tabindex="-1"></a>  vector[N1] thetaFH;</span>
-<span id="cb89-23"><a href="preparando-los-insumos-para-stan.html#cb89-23" aria-hidden="true" tabindex="-1"></a>  vector[N1] gammaj;</span>
-<span id="cb89-24"><a href="preparando-los-insumos-para-stan.html#cb89-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-25"><a href="preparando-los-insumos-para-stan.html#cb89-25" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> sigma_v;</span>
-<span id="cb89-26"><a href="preparando-los-insumos-para-stan.html#cb89-26" aria-hidden="true" tabindex="-1"></a>  thetaSyn <span class="ot">=</span> X <span class="sc">*</span> beta;</span>
-<span id="cb89-27"><a href="preparando-los-insumos-para-stan.html#cb89-27" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">=</span> thetaSyn <span class="sc">+</span> v;</span>
-<span id="cb89-28"><a href="preparando-los-insumos-para-stan.html#cb89-28" aria-hidden="true" tabindex="-1"></a>  sigma_v <span class="ot">=</span> <span class="fu">sqrt</span>(sigma2_v);</span>
-<span id="cb89-29"><a href="preparando-los-insumos-para-stan.html#cb89-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-30"><a href="preparando-los-insumos-para-stan.html#cb89-30" aria-hidden="true" tabindex="-1"></a>  gammaj <span class="ot">=</span>  <span class="fu">to_vector</span>(sigma_v .<span class="sc">/</span> (sigma_v <span class="sc">+</span> sigma_e));</span>
-<span id="cb89-31"><a href="preparando-los-insumos-para-stan.html#cb89-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-32"><a href="preparando-los-insumos-para-stan.html#cb89-32" aria-hidden="true" tabindex="-1"></a>  thetaFH <span class="ot">=</span> (gammaj) .<span class="sc">*</span> y <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>gammaj).<span class="sc">*</span>thetaSyn; </span>
-<span id="cb89-33"><a href="preparando-los-insumos-para-stan.html#cb89-33" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-34"><a href="preparando-los-insumos-para-stan.html#cb89-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-35"><a href="preparando-los-insumos-para-stan.html#cb89-35" aria-hidden="true" tabindex="-1"></a>model {</span>
-<span id="cb89-36"><a href="preparando-los-insumos-para-stan.html#cb89-36" aria-hidden="true" tabindex="-1"></a>  <span class="sc">/</span><span class="er">/</span> likelihood</span>
-<span id="cb89-37"><a href="preparando-los-insumos-para-stan.html#cb89-37" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">normal</span>(theta, sigma_e); </span>
-<span id="cb89-38"><a href="preparando-los-insumos-para-stan.html#cb89-38" aria-hidden="true" tabindex="-1"></a>  <span class="sc">/</span><span class="er">/</span> priors</span>
-<span id="cb89-39"><a href="preparando-los-insumos-para-stan.html#cb89-39" aria-hidden="true" tabindex="-1"></a>  beta <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>);</span>
-<span id="cb89-40"><a href="preparando-los-insumos-para-stan.html#cb89-40" aria-hidden="true" tabindex="-1"></a>  v <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, sigma_v);</span>
-<span id="cb89-41"><a href="preparando-los-insumos-para-stan.html#cb89-41" aria-hidden="true" tabindex="-1"></a>  sigma2_v <span class="sc">~</span> <span class="fu">inv_gamma</span>(<span class="fl">0.0001</span>, <span class="fl">0.0001</span>);</span>
-<span id="cb89-42"><a href="preparando-los-insumos-para-stan.html#cb89-42" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-43"><a href="preparando-los-insumos-para-stan.html#cb89-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-44"><a href="preparando-los-insumos-para-stan.html#cb89-44" aria-hidden="true" tabindex="-1"></a>generated quantities{</span>
-<span id="cb89-45"><a href="preparando-los-insumos-para-stan.html#cb89-45" aria-hidden="true" tabindex="-1"></a>  vector[N2] y_pred;</span>
-<span id="cb89-46"><a href="preparando-los-insumos-para-stan.html#cb89-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N2) {</span>
-<span id="cb89-47"><a href="preparando-los-insumos-para-stan.html#cb89-47" aria-hidden="true" tabindex="-1"></a>    y_pred[j] <span class="ot">=</span> <span class="fu">normal_rng</span>(Xs[j] <span class="sc">*</span> beta, sigma_v);</span>
-<span id="cb89-48"><a href="preparando-los-insumos-para-stan.html#cb89-48" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb89-49"><a href="preparando-los-insumos-para-stan.html#cb89-49" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Rutina implementada en <code>STAN</code></p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="preparando-los-insumos-para-stan.html#cb88-1" aria-hidden="true" tabindex="-1"></a>data {</span>
+<span id="cb88-2"><a href="preparando-los-insumos-para-stan.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> N1;   <span class="sc">/</span><span class="er">/</span> number of data items</span>
+<span id="cb88-3"><a href="preparando-los-insumos-para-stan.html#cb88-3" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> N2;   <span class="sc">/</span><span class="er">/</span> number of data items <span class="cf">for</span> prediction</span>
+<span id="cb88-4"><a href="preparando-los-insumos-para-stan.html#cb88-4" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> p;   <span class="sc">/</span><span class="er">/</span> number of predictors</span>
+<span id="cb88-5"><a href="preparando-los-insumos-para-stan.html#cb88-5" aria-hidden="true" tabindex="-1"></a>  matrix[N1, p] X;   <span class="sc">/</span><span class="er">/</span> predictor matrix</span>
+<span id="cb88-6"><a href="preparando-los-insumos-para-stan.html#cb88-6" aria-hidden="true" tabindex="-1"></a>  matrix[N2, p] Xs;   <span class="sc">/</span><span class="er">/</span> predictor matrix</span>
+<span id="cb88-7"><a href="preparando-los-insumos-para-stan.html#cb88-7" aria-hidden="true" tabindex="-1"></a>  vector[N1] y;      <span class="sc">/</span><span class="er">/</span> predictor matrix </span>
+<span id="cb88-8"><a href="preparando-los-insumos-para-stan.html#cb88-8" aria-hidden="true" tabindex="-1"></a>  vector[N1] sigma_e; <span class="sc">/</span><span class="er">/</span> known variances</span>
+<span id="cb88-9"><a href="preparando-los-insumos-para-stan.html#cb88-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-10"><a href="preparando-los-insumos-para-stan.html#cb88-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-11"><a href="preparando-los-insumos-para-stan.html#cb88-11" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span><span class="er">/</span> The parameters accepted by the model. Our model</span>
+<span id="cb88-12"><a href="preparando-los-insumos-para-stan.html#cb88-12" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span><span class="er">/</span> accepts two parameters <span class="st">&#39;mu&#39;</span> and <span class="st">&#39;sigma&#39;</span>.</span>
+<span id="cb88-13"><a href="preparando-los-insumos-para-stan.html#cb88-13" aria-hidden="true" tabindex="-1"></a>parameters {</span>
+<span id="cb88-14"><a href="preparando-los-insumos-para-stan.html#cb88-14" aria-hidden="true" tabindex="-1"></a>  vector[p] beta;       <span class="sc">/</span><span class="er">/</span> coefficients <span class="cf">for</span> predictors</span>
+<span id="cb88-15"><a href="preparando-los-insumos-para-stan.html#cb88-15" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> sigma2_v;</span>
+<span id="cb88-16"><a href="preparando-los-insumos-para-stan.html#cb88-16" aria-hidden="true" tabindex="-1"></a>  vector[N1] v;</span>
+<span id="cb88-17"><a href="preparando-los-insumos-para-stan.html#cb88-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-18"><a href="preparando-los-insumos-para-stan.html#cb88-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-19"><a href="preparando-los-insumos-para-stan.html#cb88-19" aria-hidden="true" tabindex="-1"></a>transformed parameters{</span>
+<span id="cb88-20"><a href="preparando-los-insumos-para-stan.html#cb88-20" aria-hidden="true" tabindex="-1"></a>  vector[N1] theta;         </span>
+<span id="cb88-21"><a href="preparando-los-insumos-para-stan.html#cb88-21" aria-hidden="true" tabindex="-1"></a>  vector[N1] thetaSyn;</span>
+<span id="cb88-22"><a href="preparando-los-insumos-para-stan.html#cb88-22" aria-hidden="true" tabindex="-1"></a>  vector[N1] thetaFH;</span>
+<span id="cb88-23"><a href="preparando-los-insumos-para-stan.html#cb88-23" aria-hidden="true" tabindex="-1"></a>  vector[N1] gammaj;</span>
+<span id="cb88-24"><a href="preparando-los-insumos-para-stan.html#cb88-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb88-25"><a href="preparando-los-insumos-para-stan.html#cb88-25" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> sigma_v;</span>
+<span id="cb88-26"><a href="preparando-los-insumos-para-stan.html#cb88-26" aria-hidden="true" tabindex="-1"></a>  thetaSyn <span class="ot">=</span> X <span class="sc">*</span> beta;</span>
+<span id="cb88-27"><a href="preparando-los-insumos-para-stan.html#cb88-27" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">=</span> thetaSyn <span class="sc">+</span> v;</span>
+<span id="cb88-28"><a href="preparando-los-insumos-para-stan.html#cb88-28" aria-hidden="true" tabindex="-1"></a>  sigma_v <span class="ot">=</span> <span class="fu">sqrt</span>(sigma2_v);</span>
+<span id="cb88-29"><a href="preparando-los-insumos-para-stan.html#cb88-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb88-30"><a href="preparando-los-insumos-para-stan.html#cb88-30" aria-hidden="true" tabindex="-1"></a>  gammaj <span class="ot">=</span>  <span class="fu">to_vector</span>(sigma_v .<span class="sc">/</span> (sigma_v <span class="sc">+</span> sigma_e));</span>
+<span id="cb88-31"><a href="preparando-los-insumos-para-stan.html#cb88-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb88-32"><a href="preparando-los-insumos-para-stan.html#cb88-32" aria-hidden="true" tabindex="-1"></a>  thetaFH <span class="ot">=</span> (gammaj) .<span class="sc">*</span> y <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>gammaj).<span class="sc">*</span>thetaSyn; </span>
+<span id="cb88-33"><a href="preparando-los-insumos-para-stan.html#cb88-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-34"><a href="preparando-los-insumos-para-stan.html#cb88-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-35"><a href="preparando-los-insumos-para-stan.html#cb88-35" aria-hidden="true" tabindex="-1"></a>model {</span>
+<span id="cb88-36"><a href="preparando-los-insumos-para-stan.html#cb88-36" aria-hidden="true" tabindex="-1"></a>  <span class="sc">/</span><span class="er">/</span> likelihood</span>
+<span id="cb88-37"><a href="preparando-los-insumos-para-stan.html#cb88-37" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">normal</span>(theta, sigma_e); </span>
+<span id="cb88-38"><a href="preparando-los-insumos-para-stan.html#cb88-38" aria-hidden="true" tabindex="-1"></a>  <span class="sc">/</span><span class="er">/</span> priors</span>
+<span id="cb88-39"><a href="preparando-los-insumos-para-stan.html#cb88-39" aria-hidden="true" tabindex="-1"></a>  beta <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>);</span>
+<span id="cb88-40"><a href="preparando-los-insumos-para-stan.html#cb88-40" aria-hidden="true" tabindex="-1"></a>  v <span class="sc">~</span> <span class="fu">normal</span>(<span class="dv">0</span>, sigma_v);</span>
+<span id="cb88-41"><a href="preparando-los-insumos-para-stan.html#cb88-41" aria-hidden="true" tabindex="-1"></a>  sigma2_v <span class="sc">~</span> <span class="fu">inv_gamma</span>(<span class="fl">0.0001</span>, <span class="fl">0.0001</span>);</span>
+<span id="cb88-42"><a href="preparando-los-insumos-para-stan.html#cb88-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-43"><a href="preparando-los-insumos-para-stan.html#cb88-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-44"><a href="preparando-los-insumos-para-stan.html#cb88-44" aria-hidden="true" tabindex="-1"></a>generated quantities{</span>
+<span id="cb88-45"><a href="preparando-los-insumos-para-stan.html#cb88-45" aria-hidden="true" tabindex="-1"></a>  vector[N2] y_pred;</span>
+<span id="cb88-46"><a href="preparando-los-insumos-para-stan.html#cb88-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N2) {</span>
+<span id="cb88-47"><a href="preparando-los-insumos-para-stan.html#cb88-47" aria-hidden="true" tabindex="-1"></a>    y_pred[j] <span class="ot">=</span> <span class="fu">normal_rng</span>(Xs[j] <span class="sc">*</span> beta, sigma_v);</span>
+<span id="cb88-48"><a href="preparando-los-insumos-para-stan.html#cb88-48" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb88-49"><a href="preparando-los-insumos-para-stan.html#cb88-49" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Compilando el modelo en <code>STAN</code>.
 A continuación mostramos la forma de compilar el código de <code>STAN</code> desde R.</li>
@@ -655,99 +660,99 @@ A continuación mostramos la forma de compilar el código de <code>STAN</code> d
 <p>En primer lugar, se utiliza la función <code>stan()</code> para ajustar el modelo a los datos de <code>sample_data</code>. Los argumentos que se pasan a <code>stan()</code> incluyen el archivo que contiene el modelo (<code>fit_FH_normal</code>), los datos (<code>sample_data</code>), y los argumentos para controlar el proceso de ajuste del modelo, como el número de iteraciones para el período de calentamiento (<code>warmup</code>) y el período de muestreo (<code>iter</code>), y el número de núcleos de la CPU para utilizar en el proceso de ajuste (<code>cores</code>).</p>
 <p>Además, se utiliza la función <code>parallel::detectCores()</code> para detectar automáticamente el número de núcleos disponibles en la CPU, y se establece la opción <code>mc.cores</code> para aprovechar el número máximo de núcleos disponibles para el ajuste del modelo.</p>
 <p>El resultado del ajuste del modelo es almacenado en <code>model_FH_normal</code>, que contiene una muestra de la distribución posterior del modelo, la cual puede ser utilizada para realizar inferencias sobre los parámetros del modelo y las predicciones. En general, este código es útil para ajustar modelos bayesianos utilizando Stan y realizar inferencias posteriores.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="preparando-los-insumos-para-stan.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb90-2"><a href="preparando-los-insumos-para-stan.html#cb90-2" aria-hidden="true" tabindex="-1"></a>fit_FH_normal <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día2/Sesion2/Data/modelosStan/17FH_normal.stan&quot;</span></span>
-<span id="cb90-3"><a href="preparando-los-insumos-para-stan.html#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb90-4"><a href="preparando-los-insumos-para-stan.html#cb90-4" aria-hidden="true" tabindex="-1"></a>model_FH_normal <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb90-5"><a href="preparando-los-insumos-para-stan.html#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> fit_FH_normal,  </span>
-<span id="cb90-6"><a href="preparando-los-insumos-para-stan.html#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
-<span id="cb90-7"><a href="preparando-los-insumos-para-stan.html#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb90-8"><a href="preparando-los-insumos-para-stan.html#cb90-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
-<span id="cb90-9"><a href="preparando-los-insumos-para-stan.html#cb90-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
-<span id="cb90-10"><a href="preparando-los-insumos-para-stan.html#cb90-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
-<span id="cb90-11"><a href="preparando-los-insumos-para-stan.html#cb90-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb90-12"><a href="preparando-los-insumos-para-stan.html#cb90-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> model_FH_normal,</span>
-<span id="cb90-13"><a href="preparando-los-insumos-para-stan.html#cb90-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">file =</span> <span class="st">&quot;Recursos/Día2/Sesion2/Data/model_FH_normal.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="preparando-los-insumos-para-stan.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb89-2"><a href="preparando-los-insumos-para-stan.html#cb89-2" aria-hidden="true" tabindex="-1"></a>fit_FH_normal <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día2/Sesion2/Data/modelosStan/17FH_normal.stan&quot;</span></span>
+<span id="cb89-3"><a href="preparando-los-insumos-para-stan.html#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb89-4"><a href="preparando-los-insumos-para-stan.html#cb89-4" aria-hidden="true" tabindex="-1"></a>model_FH_normal <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb89-5"><a href="preparando-los-insumos-para-stan.html#cb89-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> fit_FH_normal,  </span>
+<span id="cb89-6"><a href="preparando-los-insumos-para-stan.html#cb89-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
+<span id="cb89-7"><a href="preparando-los-insumos-para-stan.html#cb89-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb89-8"><a href="preparando-los-insumos-para-stan.html#cb89-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
+<span id="cb89-9"><a href="preparando-los-insumos-para-stan.html#cb89-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
+<span id="cb89-10"><a href="preparando-los-insumos-para-stan.html#cb89-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
+<span id="cb89-11"><a href="preparando-los-insumos-para-stan.html#cb89-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb89-12"><a href="preparando-los-insumos-para-stan.html#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> model_FH_normal,</span>
+<span id="cb89-13"><a href="preparando-los-insumos-para-stan.html#cb89-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">file =</span> <span class="st">&quot;Recursos/Día2/Sesion2/Data/model_FH_normal.rds&quot;</span>)</span></code></pre></div>
 <p>Leer el modelo</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="preparando-los-insumos-para-stan.html#cb91-1" aria-hidden="true" tabindex="-1"></a>model_FH_normal<span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Data/model_FH_normal.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="preparando-los-insumos-para-stan.html#cb90-1" aria-hidden="true" tabindex="-1"></a>model_FH_normal<span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Data/model_FH_normal.rds&quot;</span>)</span></code></pre></div>
 <div id="resultados-del-modelo-para-los-dominios-observados." class="section level3 hasAnchor" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Resultados del modelo para los dominios observados.<a href="preparando-los-insumos-para-stan.html#resultados-del-modelo-para-los-dominios-observados." class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>En este código, se cargan las librerías <code>bayesplot</code>, <code>posterior</code> y <code>patchwork</code>, que se utilizan para realizar gráficos y visualizaciones de los resultados del modelo.</p>
 <p>A continuación, se utiliza la función <code>as.array()</code> y <code>as_draws_matrix()</code> para extraer las muestras de la distribución posterior del parámetro <code>theta</code> del modelo, y se seleccionan aleatoriamente 100 filas de estas muestras utilizando la función <code>sample()</code>, lo que resulta en la matriz <code>y_pred2.</code></p>
 <p>Finalmente, se utiliza la función <code>ppc_dens_overlay()</code> de <code>bayesplot</code> para graficar una comparación entre la distribución empírica de la variable observada pobreza en los datos (<code>data_dir$pobreza</code>) y las distribuciones predictivas posteriores simuladas para la misma variable (<code>y_pred2</code>). La función <code>ppc_dens_overlay()</code> produce un gráfico de densidad para ambas distribuciones, lo que permite visualizar cómo se comparan.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="preparando-los-insumos-para-stan.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb92-2"><a href="preparando-los-insumos-para-stan.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
-<span id="cb92-3"><a href="preparando-los-insumos-para-stan.html#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb92-4"><a href="preparando-los-insumos-para-stan.html#cb92-4" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_normal, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb92-5"><a href="preparando-los-insumos-para-stan.html#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb92-6"><a href="preparando-los-insumos-para-stan.html#cb92-6" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
-<span id="cb92-7"><a href="preparando-los-insumos-para-stan.html#cb92-7" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
-<span id="cb92-8"><a href="preparando-los-insumos-para-stan.html#cb92-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), y_pred2)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="preparando-los-insumos-para-stan.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb91-2"><a href="preparando-los-insumos-para-stan.html#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
+<span id="cb91-3"><a href="preparando-los-insumos-para-stan.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb91-4"><a href="preparando-los-insumos-para-stan.html#cb91-4" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_normal, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb91-5"><a href="preparando-los-insumos-para-stan.html#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
+<span id="cb91-6"><a href="preparando-los-insumos-para-stan.html#cb91-6" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
+<span id="cb91-7"><a href="preparando-los-insumos-para-stan.html#cb91-7" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
+<span id="cb91-8"><a href="preparando-los-insumos-para-stan.html#cb91-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), y_pred2)</span></code></pre></div>
 <p><img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
 <p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma^2_V\)</span>.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="preparando-los-insumos-para-stan.html#cb93-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2_v <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_normal, <span class="at">pars =</span> <span class="st">&quot;sigma2_v&quot;</span>)</span>
-<span id="cb93-2"><a href="preparando-los-insumos-para-stan.html#cb93-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2_v) <span class="sc">+</span></span>
-<span id="cb93-3"><a href="preparando-los-insumos-para-stan.html#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2_v) ) <span class="sc">/</span> </span>
-<span id="cb93-4"><a href="preparando-los-insumos-para-stan.html#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2_v)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="preparando-los-insumos-para-stan.html#cb92-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2_v <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_normal, <span class="at">pars =</span> <span class="st">&quot;sigma2_v&quot;</span>)</span>
+<span id="cb92-2"><a href="preparando-los-insumos-para-stan.html#cb92-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2_v) <span class="sc">+</span></span>
+<span id="cb92-3"><a href="preparando-los-insumos-para-stan.html#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2_v) ) <span class="sc">/</span> </span>
+<span id="cb92-4"><a href="preparando-los-insumos-para-stan.html#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2_v)</span></code></pre></div>
 <p><img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-13-1.svg" width="672" /></p>
 <p>Como método de validación se comparan las diferentes elementos de la estimación del modelo de FH obtenidos en <code>STAN</code></p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="preparando-los-insumos-para-stan.html#cb94-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb94-2"><a href="preparando-los-insumos-para-stan.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb94-3"><a href="preparando-los-insumos-para-stan.html#cb94-3" aria-hidden="true" tabindex="-1"></a>thetaSyn <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;thetaSyn&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb94-4"><a href="preparando-los-insumos-para-stan.html#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb94-5"><a href="preparando-los-insumos-para-stan.html#cb94-5" aria-hidden="true" tabindex="-1"></a>theta_FH <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;thetaFH&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb94-6"><a href="preparando-los-insumos-para-stan.html#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb94-7"><a href="preparando-los-insumos-para-stan.html#cb94-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-8"><a href="preparando-los-insumos-para-stan.html#cb94-8" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(</span>
-<span id="cb94-9"><a href="preparando-los-insumos-para-stan.html#cb94-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetadir =</span> pobreza,</span>
-<span id="cb94-10"><a href="preparando-los-insumos-para-stan.html#cb94-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">theta_pred =</span> theta<span class="sc">$</span>mean,</span>
-<span id="cb94-11"><a href="preparando-los-insumos-para-stan.html#cb94-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetaSyn =</span> thetaSyn<span class="sc">$</span>mean,</span>
-<span id="cb94-12"><a href="preparando-los-insumos-para-stan.html#cb94-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetaFH =</span> theta_FH<span class="sc">$</span>mean,</span>
-<span id="cb94-13"><a href="preparando-los-insumos-para-stan.html#cb94-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">theta_pred_EE =</span> theta<span class="sc">$</span>sd,</span>
-<span id="cb94-14"><a href="preparando-los-insumos-para-stan.html#cb94-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">Cv_theta_pred =</span> theta_pred_EE<span class="sc">/</span>theta_pred</span>
-<span id="cb94-15"><a href="preparando-los-insumos-para-stan.html#cb94-15" aria-hidden="true" tabindex="-1"></a>            ) </span>
-<span id="cb94-16"><a href="preparando-los-insumos-para-stan.html#cb94-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación predicción del modelo vs ecuación ponderada de FH </span></span>
-<span id="cb94-17"><a href="preparando-los-insumos-para-stan.html#cb94-17" aria-hidden="true" tabindex="-1"></a>p11 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> theta_pred, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
-<span id="cb94-18"><a href="preparando-los-insumos-para-stan.html#cb94-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb94-19"><a href="preparando-los-insumos-para-stan.html#cb94-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb94-20"><a href="preparando-los-insumos-para-stan.html#cb94-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
-<span id="cb94-21"><a href="preparando-los-insumos-para-stan.html#cb94-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-22"><a href="preparando-los-insumos-para-stan.html#cb94-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación con la ecuación ponderada de FH Vs estimación sintética</span></span>
-<span id="cb94-23"><a href="preparando-los-insumos-para-stan.html#cb94-23" aria-hidden="true" tabindex="-1"></a>p12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetaSyn, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
-<span id="cb94-24"><a href="preparando-los-insumos-para-stan.html#cb94-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb94-25"><a href="preparando-los-insumos-para-stan.html#cb94-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb94-26"><a href="preparando-los-insumos-para-stan.html#cb94-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
-<span id="cb94-27"><a href="preparando-los-insumos-para-stan.html#cb94-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-28"><a href="preparando-los-insumos-para-stan.html#cb94-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación con la ecuación ponderada de FH Vs estimación directa</span></span>
-<span id="cb94-29"><a href="preparando-los-insumos-para-stan.html#cb94-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-30"><a href="preparando-los-insumos-para-stan.html#cb94-30" aria-hidden="true" tabindex="-1"></a>p21 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetadir, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
-<span id="cb94-31"><a href="preparando-los-insumos-para-stan.html#cb94-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb94-32"><a href="preparando-los-insumos-para-stan.html#cb94-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb94-33"><a href="preparando-los-insumos-para-stan.html#cb94-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
-<span id="cb94-34"><a href="preparando-los-insumos-para-stan.html#cb94-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-35"><a href="preparando-los-insumos-para-stan.html#cb94-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación directa Vs estimación sintética</span></span>
-<span id="cb94-36"><a href="preparando-los-insumos-para-stan.html#cb94-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-37"><a href="preparando-los-insumos-para-stan.html#cb94-37" aria-hidden="true" tabindex="-1"></a>p22 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetadir, <span class="at">y =</span> thetaSyn)) <span class="sc">+</span></span>
-<span id="cb94-38"><a href="preparando-los-insumos-para-stan.html#cb94-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb94-39"><a href="preparando-los-insumos-para-stan.html#cb94-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb94-40"><a href="preparando-los-insumos-para-stan.html#cb94-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
-<span id="cb94-41"><a href="preparando-los-insumos-para-stan.html#cb94-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-42"><a href="preparando-los-insumos-para-stan.html#cb94-42" aria-hidden="true" tabindex="-1"></a>(p11<span class="sc">+</span>p12)<span class="sc">/</span>(p21<span class="sc">+</span>p22)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="preparando-los-insumos-para-stan.html#cb93-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
+<span id="cb93-2"><a href="preparando-los-insumos-para-stan.html#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb93-3"><a href="preparando-los-insumos-para-stan.html#cb93-3" aria-hidden="true" tabindex="-1"></a>thetaSyn <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;thetaSyn&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
+<span id="cb93-4"><a href="preparando-los-insumos-para-stan.html#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb93-5"><a href="preparando-los-insumos-para-stan.html#cb93-5" aria-hidden="true" tabindex="-1"></a>theta_FH <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;thetaFH&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
+<span id="cb93-6"><a href="preparando-los-insumos-para-stan.html#cb93-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb93-7"><a href="preparando-los-insumos-para-stan.html#cb93-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-8"><a href="preparando-los-insumos-para-stan.html#cb93-8" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb93-9"><a href="preparando-los-insumos-para-stan.html#cb93-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetadir =</span> pobreza,</span>
+<span id="cb93-10"><a href="preparando-los-insumos-para-stan.html#cb93-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">theta_pred =</span> theta<span class="sc">$</span>mean,</span>
+<span id="cb93-11"><a href="preparando-los-insumos-para-stan.html#cb93-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetaSyn =</span> thetaSyn<span class="sc">$</span>mean,</span>
+<span id="cb93-12"><a href="preparando-los-insumos-para-stan.html#cb93-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">thetaFH =</span> theta_FH<span class="sc">$</span>mean,</span>
+<span id="cb93-13"><a href="preparando-los-insumos-para-stan.html#cb93-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">theta_pred_EE =</span> theta<span class="sc">$</span>sd,</span>
+<span id="cb93-14"><a href="preparando-los-insumos-para-stan.html#cb93-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">Cv_theta_pred =</span> theta_pred_EE<span class="sc">/</span>theta_pred</span>
+<span id="cb93-15"><a href="preparando-los-insumos-para-stan.html#cb93-15" aria-hidden="true" tabindex="-1"></a>            ) </span>
+<span id="cb93-16"><a href="preparando-los-insumos-para-stan.html#cb93-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación predicción del modelo vs ecuación ponderada de FH </span></span>
+<span id="cb93-17"><a href="preparando-los-insumos-para-stan.html#cb93-17" aria-hidden="true" tabindex="-1"></a>p11 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> theta_pred, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
+<span id="cb93-18"><a href="preparando-los-insumos-para-stan.html#cb93-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb93-19"><a href="preparando-los-insumos-para-stan.html#cb93-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-20"><a href="preparando-los-insumos-para-stan.html#cb93-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
+<span id="cb93-21"><a href="preparando-los-insumos-para-stan.html#cb93-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-22"><a href="preparando-los-insumos-para-stan.html#cb93-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación con la ecuación ponderada de FH Vs estimación sintética</span></span>
+<span id="cb93-23"><a href="preparando-los-insumos-para-stan.html#cb93-23" aria-hidden="true" tabindex="-1"></a>p12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetaSyn, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
+<span id="cb93-24"><a href="preparando-los-insumos-para-stan.html#cb93-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb93-25"><a href="preparando-los-insumos-para-stan.html#cb93-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-26"><a href="preparando-los-insumos-para-stan.html#cb93-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
+<span id="cb93-27"><a href="preparando-los-insumos-para-stan.html#cb93-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-28"><a href="preparando-los-insumos-para-stan.html#cb93-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación con la ecuación ponderada de FH Vs estimación directa</span></span>
+<span id="cb93-29"><a href="preparando-los-insumos-para-stan.html#cb93-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-30"><a href="preparando-los-insumos-para-stan.html#cb93-30" aria-hidden="true" tabindex="-1"></a>p21 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetadir, <span class="at">y =</span> thetaFH)) <span class="sc">+</span></span>
+<span id="cb93-31"><a href="preparando-los-insumos-para-stan.html#cb93-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb93-32"><a href="preparando-los-insumos-para-stan.html#cb93-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-33"><a href="preparando-los-insumos-para-stan.html#cb93-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
+<span id="cb93-34"><a href="preparando-los-insumos-para-stan.html#cb93-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-35"><a href="preparando-los-insumos-para-stan.html#cb93-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación directa Vs estimación sintética</span></span>
+<span id="cb93-36"><a href="preparando-los-insumos-para-stan.html#cb93-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-37"><a href="preparando-los-insumos-para-stan.html#cb93-37" aria-hidden="true" tabindex="-1"></a>p22 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_dir, <span class="fu">aes</span>(<span class="at">x =</span> thetadir, <span class="at">y =</span> thetaSyn)) <span class="sc">+</span></span>
+<span id="cb93-38"><a href="preparando-los-insumos-para-stan.html#cb93-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb93-39"><a href="preparando-los-insumos-para-stan.html#cb93-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>,<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-40"><a href="preparando-los-insumos-para-stan.html#cb93-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">10</span>) </span>
+<span id="cb93-41"><a href="preparando-los-insumos-para-stan.html#cb93-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-42"><a href="preparando-los-insumos-para-stan.html#cb93-42" aria-hidden="true" tabindex="-1"></a>(p11<span class="sc">+</span>p12)<span class="sc">/</span>(p21<span class="sc">+</span>p22)</span></code></pre></div>
 <p><img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-14-1.svg" width="672" /></p>
 <p>Estimación del FH de la pobreza en los dominios NO observados.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="preparando-los-insumos-para-stan.html#cb95-1" aria-hidden="true" tabindex="-1"></a>theta_syn_pred <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;y_pred&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb95-2"><a href="preparando-los-insumos-para-stan.html#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb95-3"><a href="preparando-los-insumos-para-stan.html#cb95-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-4"><a href="preparando-los-insumos-para-stan.html#cb95-4" aria-hidden="true" tabindex="-1"></a>data_syn <span class="ot">&lt;-</span> data_syn <span class="sc">%&gt;%</span> </span>
-<span id="cb95-5"><a href="preparando-los-insumos-para-stan.html#cb95-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb95-6"><a href="preparando-los-insumos-para-stan.html#cb95-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta_pred =</span> theta_syn_pred<span class="sc">$</span>mean,</span>
-<span id="cb95-7"><a href="preparando-los-insumos-para-stan.html#cb95-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">thetaSyn =</span> theta_pred,</span>
-<span id="cb95-8"><a href="preparando-los-insumos-para-stan.html#cb95-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">thetaFH =</span> theta_pred,</span>
-<span id="cb95-9"><a href="preparando-los-insumos-para-stan.html#cb95-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta_pred_EE =</span> theta_syn_pred<span class="sc">$</span>sd,</span>
-<span id="cb95-10"><a href="preparando-los-insumos-para-stan.html#cb95-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cv_theta_pred =</span> theta_pred_EE<span class="sc">/</span>theta_pred)</span>
-<span id="cb95-11"><a href="preparando-los-insumos-para-stan.html#cb95-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-12"><a href="preparando-los-insumos-para-stan.html#cb95-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(data_syn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb95-13"><a href="preparando-los-insumos-para-stan.html#cb95-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(dam2<span class="sc">:</span>hat_var,theta_pred<span class="sc">:</span>Cv_theta_pred))</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="preparando-los-insumos-para-stan.html#cb94-1" aria-hidden="true" tabindex="-1"></a>theta_syn_pred <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_FH_normal,<span class="at">pars =</span>  <span class="st">&quot;y_pred&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
+<span id="cb94-2"><a href="preparando-los-insumos-para-stan.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb94-3"><a href="preparando-los-insumos-para-stan.html#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="preparando-los-insumos-para-stan.html#cb94-4" aria-hidden="true" tabindex="-1"></a>data_syn <span class="ot">&lt;-</span> data_syn <span class="sc">%&gt;%</span> </span>
+<span id="cb94-5"><a href="preparando-los-insumos-para-stan.html#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb94-6"><a href="preparando-los-insumos-para-stan.html#cb94-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta_pred =</span> theta_syn_pred<span class="sc">$</span>mean,</span>
+<span id="cb94-7"><a href="preparando-los-insumos-para-stan.html#cb94-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">thetaSyn =</span> theta_pred,</span>
+<span id="cb94-8"><a href="preparando-los-insumos-para-stan.html#cb94-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">thetaFH =</span> theta_pred,</span>
+<span id="cb94-9"><a href="preparando-los-insumos-para-stan.html#cb94-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta_pred_EE =</span> theta_syn_pred<span class="sc">$</span>sd,</span>
+<span id="cb94-10"><a href="preparando-los-insumos-para-stan.html#cb94-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cv_theta_pred =</span> theta_pred_EE<span class="sc">/</span>theta_pred)</span>
+<span id="cb94-11"><a href="preparando-los-insumos-para-stan.html#cb94-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-12"><a href="preparando-los-insumos-para-stan.html#cb94-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(data_syn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb94-13"><a href="preparando-los-insumos-para-stan.html#cb94-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(dam2<span class="sc">:</span>hat_var,theta_pred<span class="sc">:</span>Cv_theta_pred))</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1107,8 +1112,8 @@ NA
 </tbody>
 </table>
 <p>consolidando las bases de estimaciones para dominios observados y NO observados.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="preparando-los-insumos-para-stan.html#cb96-1" aria-hidden="true" tabindex="-1"></a>estimacionesPre <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_dir, data_syn) <span class="sc">%&gt;%</span> </span>
-<span id="cb96-2"><a href="preparando-los-insumos-para-stan.html#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam, dam2, theta_pred)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="preparando-los-insumos-para-stan.html#cb95-1" aria-hidden="true" tabindex="-1"></a>estimacionesPre <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_dir, data_syn) <span class="sc">%&gt;%</span> </span>
+<span id="cb95-2"><a href="preparando-los-insumos-para-stan.html#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam, dam2, theta_pred)</span></code></pre></div>
 </div>
 </div>
             </section>

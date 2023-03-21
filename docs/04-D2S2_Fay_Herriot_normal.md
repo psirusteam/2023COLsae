@@ -446,7 +446,7 @@ sample_data <- list(
 )
 ```
 
-    Rutina implementada en `STAN`
+Rutina implementada en `STAN`
 
 
 ```r

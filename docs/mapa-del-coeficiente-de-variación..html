@@ -226,6 +226,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.2</b> Modelo de Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-3"><i class="fa fa-check"></i><b>8.2.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-3"><i class="fa fa-check"></i><b>8.2.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -250,15 +255,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="mapa-del-coeficiente-de-variación." class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Mapa del coeficiente de variación.<a href="mapa-del-coeficiente-de-variación..html#mapa-del-coeficiente-de-variación." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Ahora, se crea un segundo mapa temático (<code>tmap</code>) llamado <code>Mapa_cv</code>. Utiliza la misma estructura del primer mapa (mapa) creado anteriormente y agrega una capa utilizando la función <code>tm_polygons()</code>. El mapa representa la variable <code>Cv_pred</code>, utilizando una paleta de colores llamada “YlOrRd” y establece el título del mapa con el parámetro <code>title</code>. La función <code>tm_layout()</code> establece algunos parámetros de diseño del mapa, como la relación de aspecto (asp). Finalmente, el mapa Mapa_cv se muestra en la consola de R.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="mapa-del-coeficiente-de-variación..html#cb122-1" aria-hidden="true" tabindex="-1"></a>Mapa_cv <span class="ot">&lt;-</span></span>
-<span id="cb122-2"><a href="mapa-del-coeficiente-de-variación..html#cb122-2" aria-hidden="true" tabindex="-1"></a>  mapa <span class="sc">+</span> <span class="fu">tm_polygons</span>(</span>
-<span id="cb122-3"><a href="mapa-del-coeficiente-de-variación..html#cb122-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;Cv_pred&quot;</span>),</span>
-<span id="cb122-4"><a href="mapa-del-coeficiente-de-variación..html#cb122-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">&quot;Mapa de pobreza(cv)&quot;</span>,</span>
-<span id="cb122-5"><a href="mapa-del-coeficiente-de-variación..html#cb122-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">&quot;YlOrRd&quot;</span>,</span>
-<span id="cb122-6"><a href="mapa-del-coeficiente-de-variación..html#cb122-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">colorNA =</span> <span class="st">&quot;white&quot;</span></span>
-<span id="cb122-7"><a href="mapa-del-coeficiente-de-variación..html#cb122-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">2.5</span>)</span>
-<span id="cb122-8"><a href="mapa-del-coeficiente-de-variación..html#cb122-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb122-9"><a href="mapa-del-coeficiente-de-variación..html#cb122-9" aria-hidden="true" tabindex="-1"></a>Mapa_cv</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="mapa-del-coeficiente-de-variación..html#cb121-1" aria-hidden="true" tabindex="-1"></a>Mapa_cv <span class="ot">&lt;-</span></span>
+<span id="cb121-2"><a href="mapa-del-coeficiente-de-variación..html#cb121-2" aria-hidden="true" tabindex="-1"></a>  mapa <span class="sc">+</span> <span class="fu">tm_polygons</span>(</span>
+<span id="cb121-3"><a href="mapa-del-coeficiente-de-variación..html#cb121-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;Cv_pred&quot;</span>),</span>
+<span id="cb121-4"><a href="mapa-del-coeficiente-de-variación..html#cb121-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">&quot;Mapa de pobreza(cv)&quot;</span>,</span>
+<span id="cb121-5"><a href="mapa-del-coeficiente-de-variación..html#cb121-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">&quot;YlOrRd&quot;</span>,</span>
+<span id="cb121-6"><a href="mapa-del-coeficiente-de-variación..html#cb121-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">colorNA =</span> <span class="st">&quot;white&quot;</span></span>
+<span id="cb121-7"><a href="mapa-del-coeficiente-de-variación..html#cb121-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">2.5</span>)</span>
+<span id="cb121-8"><a href="mapa-del-coeficiente-de-variación..html#cb121-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-9"><a href="mapa-del-coeficiente-de-variación..html#cb121-9" aria-hidden="true" tabindex="-1"></a>Mapa_cv</span></code></pre></div>
 <p><img src="Recursos/D%C3%ADa2/Sesion3/0Recursos/Mapa_arcoseno_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
 
 </div>

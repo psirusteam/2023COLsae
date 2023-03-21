@@ -226,6 +226,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
 </ul></li>
+<li class="chapter" data-level="8.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.2</b> Modelo de Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-3"><i class="fa fa-check"></i><b>8.2.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-3"><i class="fa fa-check"></i><b>8.2.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -250,20 +255,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="validación-de-los-resultados." class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Validación de los resultados.<a href="validación-de-los-resultados..html#validación-de-los-resultados." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Este código junta las estimaciones del modelo con pesos de benchmarking con los valores observados y sintéticos, y luego resume las estimaciones combinadas para compararlas con la estimación directa obtenida anteriormente.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="validación-de-los-resultados..html#cb105-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> estimacionesBench <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(</span>
-<span id="cb105-2"><a href="validación-de-los-resultados..html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
-<span id="cb105-3"><a href="validación-de-los-resultados..html#cb105-3" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH),</span>
-<span id="cb105-4"><a href="validación-de-los-resultados..html#cb105-4" aria-hidden="true" tabindex="-1"></a>data_syn <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH))) <span class="sc">%&gt;%</span> </span>
-<span id="cb105-5"><a href="validación-de-los-resultados..html#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">thetaSyn =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> thetaSyn),</span>
-<span id="cb105-6"><a href="validación-de-los-resultados..html#cb105-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">thetaFH =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred),</span>
-<span id="cb105-7"><a href="validación-de-los-resultados..html#cb105-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">theta_RBench =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred_RBench)</span>
-<span id="cb105-8"><a href="validación-de-los-resultados..html#cb105-8" aria-hidden="true" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> </span>
-<span id="cb105-9"><a href="validación-de-los-resultados..html#cb105-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">theta_dir =</span> directoDam<span class="sc">$</span>theta_dir,</span>
-<span id="cb105-10"><a href="validación-de-los-resultados..html#cb105-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_low =</span>directoDam<span class="sc">$</span>theta_dir_low, </span>
-<span id="cb105-11"><a href="validación-de-los-resultados..html#cb105-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_upp =</span> directoDam<span class="sc">$</span>theta_dir_upp)</span>
-<span id="cb105-12"><a href="validación-de-los-resultados..html#cb105-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-13"><a href="validación-de-los-resultados..html#cb105-13" aria-hidden="true" tabindex="-1"></a>temp <span class="sc">%&lt;&gt;%</span> <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;Metodo&quot;</span>,<span class="at">value =</span> <span class="st">&quot;Estimacion&quot;</span>, <span class="sc">-</span>theta_dir_low,<span class="sc">-</span>theta_dir_upp)</span>
-<span id="cb105-14"><a href="validación-de-los-resultados..html#cb105-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(temp)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="validación-de-los-resultados..html#cb104-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> estimacionesBench <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(</span>
+<span id="cb104-2"><a href="validación-de-los-resultados..html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb104-3"><a href="validación-de-los-resultados..html#cb104-3" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH),</span>
+<span id="cb104-4"><a href="validación-de-los-resultados..html#cb104-4" aria-hidden="true" tabindex="-1"></a>data_syn <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH))) <span class="sc">%&gt;%</span> </span>
+<span id="cb104-5"><a href="validación-de-los-resultados..html#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">thetaSyn =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> thetaSyn),</span>
+<span id="cb104-6"><a href="validación-de-los-resultados..html#cb104-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">thetaFH =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred),</span>
+<span id="cb104-7"><a href="validación-de-los-resultados..html#cb104-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">theta_RBench =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred_RBench)</span>
+<span id="cb104-8"><a href="validación-de-los-resultados..html#cb104-8" aria-hidden="true" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> </span>
+<span id="cb104-9"><a href="validación-de-los-resultados..html#cb104-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">theta_dir =</span> directoDam<span class="sc">$</span>theta_dir,</span>
+<span id="cb104-10"><a href="validación-de-los-resultados..html#cb104-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_low =</span>directoDam<span class="sc">$</span>theta_dir_low, </span>
+<span id="cb104-11"><a href="validación-de-los-resultados..html#cb104-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_upp =</span> directoDam<span class="sc">$</span>theta_dir_upp)</span>
+<span id="cb104-12"><a href="validación-de-los-resultados..html#cb104-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-13"><a href="validación-de-los-resultados..html#cb104-13" aria-hidden="true" tabindex="-1"></a>temp <span class="sc">%&lt;&gt;%</span> <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;Metodo&quot;</span>,<span class="at">value =</span> <span class="st">&quot;Estimacion&quot;</span>, <span class="sc">-</span>theta_dir_low,<span class="sc">-</span>theta_dir_upp)</span>
+<span id="cb104-14"><a href="validación-de-los-resultados..html#cb104-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(temp)</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
