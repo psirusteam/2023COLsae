@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.5 Modelo Binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>9.3 Proceso de estimación y predicción | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.5 Modelo Binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="9.3 Proceso de estimación y predicción | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.5 Modelo Binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="9.3 Proceso de estimación y predicción | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="modelo-bernoulli.html"/>
-<link rel="next" href="modelo-normal-con-media-desconocida.html"/>
+<link rel="prev" href="proceso-de-estimación-en-r.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -270,51 +270,1236 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelo-binomial" class="section level2 hasAnchor" number="4.5">
-<h2><span class="header-section-number">4.5</span> Modelo Binomial<a href="modelo-binomial.html#modelo-binomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Cuando se dispone de una muestra aleatoria de variables con distribución Bernoulli <span class="math inline">\(Y_1,\ldots,Y_n\)</span>, la inferencia Bayesiana se puede llevar a cabo usando la distribución Binomial, puesto que es bien sabido que la suma de variables aleatorias Bernoulli</p>
-<p><span class="math display">\[
-\begin{equation*}
-S=\sum_{i=1}^nY_i
-\end{equation*}
-\]</span></p>
-<p>sigue una distribución Binomial. Es decir:</p>
-<p><span class="math display">\[
-\begin{equation}
-p(S \mid \theta)=\binom{n}{s}\theta^s(1-\theta)^{n-s}I_{\{0,1,\ldots,n\}}(s),
-\end{equation}
-\]</span></p>
-<p>Nótese que la distribución Binomial es un caso general para la distribución Bernoulli, cuando <span class="math inline">\(n=1\)</span>. Por lo tanto es natural suponer que distribución previa del parámetro <span class="math inline">\(\theta\)</span> estará dada por</p>
-<p><span class="math display">\[
-\begin{equation}
-p(\theta \mid \alpha,\beta)=
-\frac{1}{Beta(\alpha,\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1}I_{[0,1]}(\theta).
-\end{equation}
-\]</span></p>
-<p>La distribución posterior del parámetro <span class="math inline">\(\theta\)</span> sigue una distribución</p>
-<p><span class="math display">\[
-\begin{equation*}
-\theta \mid S \sim Beta(s+\alpha,\beta-s+n)
-\end{equation*}
-\]</span></p>
-<p>Ahora, cuando se tiene una sucesión de variables aleatorias <span class="math inline">\(S_1,\ldots,S_i, \ldots,S_k\)</span> independientes y con distribución <span class="math inline">\(Binomial(n_i,\theta_i)\)</span> para <span class="math inline">\(i=1,\ldots,k\)</span>, entonces la distribución posterior del parámetro de interés <span class="math inline">\(\theta_i\)</span> es</p>
-<p><span class="math display">\[
-\begin{equation*}
-\theta_i \mid s_i \sim Beta\left(s_i+\alpha,\ \beta+ n_i- s_i\right)
-\end{equation*}
-\]</span></p>
-<div id="práctica-en-stan-1" class="section level3 hasAnchor" number="4.5.1">
-<h3><span class="header-section-number">4.5.1</span> Práctica en <strong>STAN</strong><a href="modelo-binomial.html#práctica-en-stan-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Sea <span class="math inline">\(S_k\)</span> el conteo de personas en condición de pobreza en el <span class="math inline">\(k-ésimo\)</span> departamento en la muestra.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="modelo-binomial.html#cb27-1" aria-hidden="true" tabindex="-1"></a>dataS <span class="ot">&lt;-</span> encuesta <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="modelo-binomial.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb27-3"><a href="modelo-binomial.html#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dam =</span> dam_ee,</span>
-<span id="cb27-4"><a href="modelo-binomial.html#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">ifelse</span>(ingcorte <span class="sc">&lt;</span> lp, <span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb27-5"><a href="modelo-binomial.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(dam) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-6"><a href="modelo-binomial.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">nd =</span> <span class="fu">n</span>(),   <span class="co">#Número de ensayos </span></span>
-<span id="cb27-7"><a href="modelo-binomial.html#cb27-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">Sd =</span> <span class="fu">sum</span>(y) <span class="co">#Número de éxito </span></span>
-<span id="cb27-8"><a href="modelo-binomial.html#cb27-8" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb27-9"><a href="modelo-binomial.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(dataS)</span></code></pre></div>
+<div id="proceso-de-estimación-y-predicción" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Proceso de estimación y predicción<a href="proceso-de-estimación-y-predicción.html#proceso-de-estimación-y-predicción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Obtener el modelo es solo un paso más, ahora se debe realizar la predicción en el censo, el cual a sido previamente estandarizado y homologado con la encuesta.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="proceso-de-estimación-y-predicción.html#cb169-1" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día3/Sesion1/Data/censo_dam2.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb169-2"><a href="proceso-de-estimación-y-predicción.html#cb169-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">left_join</span>(statelevel_predictors_df) </span>
+<span id="cb169-3"><a href="proceso-de-estimación-y-predicción.html#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>( poststrat_df <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam
+</th>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:left;">
+area
+</th>
+<th style="text-align:left;">
+sexo
+</th>
+<th style="text-align:left;">
+edad
+</th>
+<th style="text-align:left;">
+etnia
+</th>
+<th style="text-align:left;">
+anoest
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+area1
+</th>
+<th style="text-align:right;">
+sexo2
+</th>
+<th style="text-align:right;">
+edad2
+</th>
+<th style="text-align:right;">
+edad3
+</th>
+<th style="text-align:right;">
+edad4
+</th>
+<th style="text-align:right;">
+edad5
+</th>
+<th style="text-align:right;">
+etnia2
+</th>
+<th style="text-align:right;">
+anoest2
+</th>
+<th style="text-align:right;">
+anoest3
+</th>
+<th style="text-align:right;">
+anoest4
+</th>
+<th style="text-align:right;">
+etnia1
+</th>
+<th style="text-align:right;">
+tiene_acueducto
+</th>
+<th style="text-align:right;">
+piso_tierra
+</th>
+<th style="text-align:right;">
+alfabeta
+</th>
+<th style="text-align:right;">
+hacinamiento
+</th>
+<th style="text-align:right;">
+tasa_desocupacion
+</th>
+<th style="text-align:right;">
+luces_nocturnas
+</th>
+<th style="text-align:right;">
+cubrimiento_cultivo
+</th>
+<th style="text-align:right;">
+cubrimiento_urbano
+</th>
+<th style="text-align:right;">
+modificacion_humana
+</th>
+<th style="text-align:right;">
+accesibilidad_hospitales
+</th>
+<th style="text-align:right;">
+accesibilidad_hosp_caminado
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+602093
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+538416
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+435396
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+406654
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+368795
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+360435
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+359097
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+353834
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+345223
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+11001
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+341452
+</td>
+<td style="text-align:right;">
+0.9979
+</td>
+<td style="text-align:right;">
+0.5219
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:right;">
+0.2316
+</td>
+<td style="text-align:right;">
+0.2251
+</td>
+<td style="text-align:right;">
+0.0886
+</td>
+<td style="text-align:right;">
+0.0093
+</td>
+<td style="text-align:right;">
+0.2098
+</td>
+<td style="text-align:right;">
+0.381
+</td>
+<td style="text-align:right;">
+0.2938
+</td>
+<td style="text-align:right;">
+0.0027
+</td>
+<td style="text-align:right;">
+0.0219
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+0.0848
+</td>
+<td style="text-align:right;">
+0.0176
+</td>
+<td style="text-align:right;">
+2.0576
+</td>
+<td style="text-align:right;">
+0.1112
+</td>
+<td style="text-align:right;">
+4.7003
+</td>
+<td style="text-align:right;">
+1.9002
+</td>
+<td style="text-align:right;">
+-0.2644
+</td>
+<td style="text-align:right;">
+-0.2257
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note que la información del censo esta agregada.</p>
+<div id="distribución-posterior." class="section level3 hasAnchor" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Distribución posterior.<a href="proceso-de-estimación-y-predicción.html#distribución-posterior." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para obtener una distribución posterior de cada observación se hace uso de la función <em>posterior_epred</em> de la siguiente forma.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="proceso-de-estimación-y-predicción.html#cb170-1" aria-hidden="true" tabindex="-1"></a>epred_mat <span class="ot">&lt;-</span> <span class="fu">posterior_epred</span>(fit, <span class="at">newdata =</span> poststrat_df,  <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span></code></pre></div>
+<p>Como el interés es realizar comparaciones entre los países de la región se presenta la estimación del ingreso medio en términos de lineas de pobreza. Para esto procedemos así:</p>
+<ul>
+<li>Obteniendo las lineas de pobreza por cada post-estrato</li>
+</ul>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="proceso-de-estimación-y-predicción.html#cb171-1" aria-hidden="true" tabindex="-1"></a>(lp <span class="ot">&lt;-</span> encuesta_mrp <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(area,lp,li)) <span class="sc">%&gt;%</span> </span>
+<span id="cb171-2"><a href="proceso-de-estimación-y-predicción.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+area
+</th>
+<th style="text-align:right;">
+lp
+</th>
+<th style="text-align:right;">
+li
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+296845
+</td>
+<td style="text-align:right;">
+147169
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+200760
+</td>
+<td style="text-align:right;">
+127346
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Ingreso en términos de lineas de pobreza.</li>
+</ul>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="proceso-de-estimación-y-predicción.html#cb172-1" aria-hidden="true" tabindex="-1"></a>lp <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(poststrat_df,lp,<span class="at">by =</span> <span class="st">&quot;area&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(lp)</span>
+<span id="cb172-2"><a href="proceso-de-estimación-y-predicción.html#cb172-2" aria-hidden="true" tabindex="-1"></a>epred_mat <span class="ot">&lt;-</span> (<span class="fu">exp</span>(epred_mat)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">/</span>lp<span class="sc">$</span>lp</span></code></pre></div>
+</div>
+<div id="estimación-del-ingreso-medio-nacional" class="section level3 hasAnchor" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> Estimación del ingreso medio nacional<a href="proceso-de-estimación-y-predicción.html#estimación-del-ingreso-medio-nacional" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="proceso-de-estimación-y-predicción.html#cb173-1" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> poststrat_df<span class="sc">$</span>n</span>
+<span id="cb173-2"><a href="proceso-de-estimación-y-predicción.html#cb173-2" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> epred_mat <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb173-3"><a href="proceso-de-estimación-y-predicción.html#cb173-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-4"><a href="proceso-de-estimación-y-predicción.html#cb173-4" aria-hidden="true" tabindex="-1"></a>(temp_ing <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb173-5"><a href="proceso-de-estimación-y-predicción.html#cb173-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb173-6"><a href="proceso-de-estimación-y-predicción.html#cb173-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb173-7"><a href="proceso-de-estimación-y-predicción.html#cb173-7" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1.9314
+</td>
+<td style="text-align:right;">
+0.0843
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio nacional es 1.93 lineas de pobreza</p>
+</div>
+<div id="estimación-para-el-dam-11." class="section level3 hasAnchor" number="9.3.3">
+<h3><span class="header-section-number">9.3.3</span> Estimación para el dam == “11”.<a href="proceso-de-estimación-y-predicción.html#estimación-para-el-dam-11." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Es importante siempre conservar el orden de la base, dado que relación entre la predicción y el censo en uno a uno.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="proceso-de-estimación-y-predicción.html#cb174-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> poststrat_df <span class="sc">%&gt;%</span>  <span class="fu">mutate</span>(<span class="at">Posi =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb174-2"><a href="proceso-de-estimación-y-predicción.html#cb174-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">filter</span>(temp, dam <span class="sc">==</span> <span class="st">&quot;11&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(n, Posi)</span>
+<span id="cb174-3"><a href="proceso-de-estimación-y-predicción.html#cb174-3" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> temp<span class="sc">$</span>n</span>
+<span id="cb174-4"><a href="proceso-de-estimación-y-predicción.html#cb174-4" aria-hidden="true" tabindex="-1"></a>temp_epred_mat <span class="ot">&lt;-</span> epred_mat[, temp<span class="sc">$</span>Posi]</span>
+<span id="cb174-5"><a href="proceso-de-estimación-y-predicción.html#cb174-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb174-6"><a href="proceso-de-estimación-y-predicción.html#cb174-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimando el CME</span></span>
+<span id="cb174-7"><a href="proceso-de-estimación-y-predicción.html#cb174-7" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> temp_epred_mat <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb174-8"><a href="proceso-de-estimación-y-predicción.html#cb174-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb174-9"><a href="proceso-de-estimación-y-predicción.html#cb174-9" aria-hidden="true" tabindex="-1"></a>(temp_dam11 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb174-10"><a href="proceso-de-estimación-y-predicción.html#cb174-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb174-11"><a href="proceso-de-estimación-y-predicción.html#cb174-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb174-12"><a href="proceso-de-estimación-y-predicción.html#cb174-12" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2.8997
+</td>
+<td style="text-align:right;">
+0.1111
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio en el dam 11 es 2.9 lineas de pobreza</p>
+</div>
+<div id="estimación-para-la-dam2-05001" class="section level3 hasAnchor" number="9.3.4">
+<h3><span class="header-section-number">9.3.4</span> Estimación para la dam2 == “05001”<a href="proceso-de-estimación-y-predicción.html#estimación-para-la-dam2-05001" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="proceso-de-estimación-y-predicción.html#cb175-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> poststrat_df <span class="sc">%&gt;%</span>  <span class="fu">mutate</span>(<span class="at">Posi =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb175-2"><a href="proceso-de-estimación-y-predicción.html#cb175-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span></span>
+<span id="cb175-3"><a href="proceso-de-estimación-y-predicción.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(temp, dam2 <span class="sc">==</span> <span class="st">&quot;05001&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(n, Posi)</span>
+<span id="cb175-4"><a href="proceso-de-estimación-y-predicción.html#cb175-4" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> temp<span class="sc">$</span>n</span>
+<span id="cb175-5"><a href="proceso-de-estimación-y-predicción.html#cb175-5" aria-hidden="true" tabindex="-1"></a>temp_epred_mat <span class="ot">&lt;-</span> epred_mat[, temp<span class="sc">$</span>Posi]</span>
+<span id="cb175-6"><a href="proceso-de-estimación-y-predicción.html#cb175-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimando el CME</span></span>
+<span id="cb175-7"><a href="proceso-de-estimación-y-predicción.html#cb175-7" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> temp_epred_mat <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb175-8"><a href="proceso-de-estimación-y-predicción.html#cb175-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-9"><a href="proceso-de-estimación-y-predicción.html#cb175-9" aria-hidden="true" tabindex="-1"></a>(temp_dam2_05001 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb175-10"><a href="proceso-de-estimación-y-predicción.html#cb175-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb175-11"><a href="proceso-de-estimación-y-predicción.html#cb175-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb175-12"><a href="proceso-de-estimación-y-predicción.html#cb175-12" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2.6036
+</td>
+<td style="text-align:right;">
+0.1615
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio en la dam2 05001 es 2.6 lineas de pobreza</p>
+<p>Después de comprender la forma en que se realiza la estimación de los dominios no observados procedemos el uso de la función <em>Aux_Agregado</em> que es desarrollada para este fin.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="proceso-de-estimación-y-predicción.html#cb176-1" aria-hidden="true" tabindex="-1"></a>(mrp_estimate_Ingresolp <span class="ot">&lt;-</span></span>
+<span id="cb176-2"><a href="proceso-de-estimación-y-predicción.html#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb176-3"><a href="proceso-de-estimación-y-predicción.html#cb176-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat,</span>
+<span id="cb176-4"><a href="proceso-de-estimación-y-predicción.html#cb176-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="cn">NULL</span>)</span>
+<span id="cb176-5"><a href="proceso-de-estimación-y-predicción.html#cb176-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Nacional
+</th>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Nacional
+</td>
+<td style="text-align:right;">
+1.9314
+</td>
+<td style="text-align:right;">
+0.0843
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio nacional es 2 lineas de pobreza</p>
+<p>De forma similar es posible obtener los resultados para las divisiones administrativas.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="proceso-de-estimación-y-predicción.html#cb177-1" aria-hidden="true" tabindex="-1"></a>mrp_estimate_dam <span class="ot">&lt;-</span></span>
+<span id="cb177-2"><a href="proceso-de-estimación-y-predicción.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb177-3"><a href="proceso-de-estimación-y-predicción.html#cb177-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat,</span>
+<span id="cb177-4"><a href="proceso-de-estimación-y-predicción.html#cb177-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="st">&quot;dam&quot;</span>)</span>
+<span id="cb177-5"><a href="proceso-de-estimación-y-predicción.html#cb177-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(mrp_estimate_dam <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) )</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -322,10 +1507,10 @@ p(\theta \mid \alpha,\beta)=
 dam
 </th>
 <th style="text-align:right;">
-nd
+mrp_estimate
 </th>
 <th style="text-align:right;">
-Sd
+mrp_estimate_se
 </th>
 </tr>
 </thead>
@@ -335,10 +1520,10 @@ Sd
 05
 </td>
 <td style="text-align:right;">
-45467
+2.2323
 </td>
 <td style="text-align:right;">
-7301
+0.1096
 </td>
 </tr>
 <tr>
@@ -346,10 +1531,10 @@ Sd
 08
 </td>
 <td style="text-align:right;">
-44321
+1.9997
 </td>
 <td style="text-align:right;">
-10297
+0.0794
 </td>
 </tr>
 <tr>
@@ -357,10 +1542,10 @@ Sd
 11
 </td>
 <td style="text-align:right;">
-32213
+2.8997
 </td>
 <td style="text-align:right;">
-4128
+0.1111
 </td>
 </tr>
 <tr>
@@ -368,10 +1553,10 @@ Sd
 13
 </td>
 <td style="text-align:right;">
-35610
+1.5097
 </td>
 <td style="text-align:right;">
-10560
+0.0927
 </td>
 </tr>
 <tr>
@@ -379,10 +1564,10 @@ Sd
 15
 </td>
 <td style="text-align:right;">
-26485
+1.7070
 </td>
 <td style="text-align:right;">
-5717
+0.1705
 </td>
 </tr>
 <tr>
@@ -390,10 +1575,10 @@ Sd
 17
 </td>
 <td style="text-align:right;">
-30764
+2.0380
 </td>
 <td style="text-align:right;">
-4524
+0.0760
 </td>
 </tr>
 <tr>
@@ -401,10 +1586,10 @@ Sd
 18
 </td>
 <td style="text-align:right;">
-28842
+1.2386
 </td>
 <td style="text-align:right;">
-11134
+0.0440
 </td>
 </tr>
 <tr>
@@ -412,10 +1597,10 @@ Sd
 19
 </td>
 <td style="text-align:right;">
-34357
+1.1672
 </td>
 <td style="text-align:right;">
-12348
+0.1064
 </td>
 </tr>
 <tr>
@@ -423,10 +1608,10 @@ Sd
 20
 </td>
 <td style="text-align:right;">
-32454
+1.2072
 </td>
 <td style="text-align:right;">
-12203
+0.1157
 </td>
 </tr>
 <tr>
@@ -434,1119 +1619,167 @@ Sd
 23
 </td>
 <td style="text-align:right;">
-31986
+1.2985
 </td>
 <td style="text-align:right;">
-10528
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-25
-</td>
-<td style="text-align:right;">
-9068
-</td>
-<td style="text-align:right;">
-1516
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-27
-</td>
-<td style="text-align:right;">
-26828
-</td>
-<td style="text-align:right;">
-12934
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-41
-</td>
-<td style="text-align:right;">
-30728
-</td>
-<td style="text-align:right;">
-8188
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-44
-</td>
-<td style="text-align:right;">
-35618
-</td>
-<td style="text-align:right;">
-16412
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-47
-</td>
-<td style="text-align:right;">
-37634
-</td>
-<td style="text-align:right;">
-13500
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-50
-</td>
-<td style="text-align:right;">
-29317
-</td>
-<td style="text-align:right;">
-6653
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-52
-</td>
-<td style="text-align:right;">
-28927
-</td>
-<td style="text-align:right;">
-8949
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-54
-</td>
-<td style="text-align:right;">
-31384
-</td>
-<td style="text-align:right;">
-12663
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-63
-</td>
-<td style="text-align:right;">
-28276
-</td>
-<td style="text-align:right;">
-6195
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-66
-</td>
-<td style="text-align:right;">
-29199
-</td>
-<td style="text-align:right;">
-4664
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-68
-</td>
-<td style="text-align:right;">
-31778
-</td>
-<td style="text-align:right;">
-5127
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-70
-</td>
-<td style="text-align:right;">
-35525
-</td>
-<td style="text-align:right;">
-11881
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-73
-</td>
-<td style="text-align:right;">
-28416
-</td>
-<td style="text-align:right;">
-6295
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-76
-</td>
-<td style="text-align:right;">
-37556
-</td>
-<td style="text-align:right;">
-7073
+0.0702
 </td>
 </tr>
 </tbody>
 </table>
-<p>Creando código de <code>STAN</code></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="modelo-binomial.html#cb28-1" aria-hidden="true" tabindex="-1"></a>data {</span>
-<span id="cb28-2"><a href="modelo-binomial.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> K;                 <span class="sc">/</span><span class="er">/</span> Número de provincia  </span>
-<span id="cb28-3"><a href="modelo-binomial.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> n[K];              <span class="sc">/</span><span class="er">/</span> Número de ensayos </span>
-<span id="cb28-4"><a href="modelo-binomial.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> s[K];              <span class="sc">/</span><span class="er">/</span> Número de éxitos</span>
-<span id="cb28-5"><a href="modelo-binomial.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  real a;</span>
-<span id="cb28-6"><a href="modelo-binomial.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  real b;</span>
-<span id="cb28-7"><a href="modelo-binomial.html#cb28-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-8"><a href="modelo-binomial.html#cb28-8" aria-hidden="true" tabindex="-1"></a>parameters {</span>
-<span id="cb28-9"><a href="modelo-binomial.html#cb28-9" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span>, upper<span class="ot">=</span><span class="dv">1</span><span class="sc">&gt;</span> theta[K]; <span class="sc">/</span><span class="er">/</span> theta_d<span class="sc">|</span>s_d</span>
-<span id="cb28-10"><a href="modelo-binomial.html#cb28-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-11"><a href="modelo-binomial.html#cb28-11" aria-hidden="true" tabindex="-1"></a>model {</span>
-<span id="cb28-12"><a href="modelo-binomial.html#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(kk <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K) {</span>
-<span id="cb28-13"><a href="modelo-binomial.html#cb28-13" aria-hidden="true" tabindex="-1"></a>  s[kk] <span class="sc">~</span> <span class="fu">binomial</span>(n[kk], theta[kk]);</span>
-<span id="cb28-14"><a href="modelo-binomial.html#cb28-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb28-15"><a href="modelo-binomial.html#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">to_vector</span>(theta) <span class="sc">~</span> <span class="fu">beta</span>(a, b);</span>
-<span id="cb28-16"><a href="modelo-binomial.html#cb28-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-17"><a href="modelo-binomial.html#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-18"><a href="modelo-binomial.html#cb28-18" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
-<span id="cb28-19"><a href="modelo-binomial.html#cb28-19" aria-hidden="true" tabindex="-1"></a>    real spred[K];                    <span class="sc">/</span><span class="er">/</span> vector de longitud K</span>
-<span id="cb28-20"><a href="modelo-binomial.html#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(kk <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
-<span id="cb28-21"><a href="modelo-binomial.html#cb28-21" aria-hidden="true" tabindex="-1"></a>    spred[kk] <span class="ot">=</span> <span class="fu">binomial_rng</span>(n[kk],theta[kk]);</span>
-<span id="cb28-22"><a href="modelo-binomial.html#cb28-22" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-23"><a href="modelo-binomial.html#cb28-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Preparando el código de <code>STAN</code></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="modelo-binomial.html#cb29-1" aria-hidden="true" tabindex="-1"></a>Binomial2 <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/3Binomial.stan&quot;</span></span></code></pre></div>
-<p>Organizando datos para <code>STAN</code></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="modelo-binomial.html#cb30-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">K =</span> <span class="fu">nrow</span>(dataS),</span>
-<span id="cb30-2"><a href="modelo-binomial.html#cb30-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">s =</span> dataS<span class="sc">$</span>Sd,</span>
-<span id="cb30-3"><a href="modelo-binomial.html#cb30-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> dataS<span class="sc">$</span>nd,</span>
-<span id="cb30-4"><a href="modelo-binomial.html#cb30-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">a =</span> <span class="dv">1</span>,</span>
-<span id="cb30-5"><a href="modelo-binomial.html#cb30-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">b =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>rstan</em></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="modelo-binomial.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb31-2"><a href="modelo-binomial.html#cb31-2" aria-hidden="true" tabindex="-1"></a>model_Binomial2 <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb31-3"><a href="modelo-binomial.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Binomial2,  <span class="co"># Stan program</span></span>
-<span id="cb31-4"><a href="modelo-binomial.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
-<span id="cb31-5"><a href="modelo-binomial.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-6"><a href="modelo-binomial.html#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,          <span class="co"># number of warmup iterations per chain</span></span>
-<span id="cb31-7"><a href="modelo-binomial.html#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb31-8"><a href="modelo-binomial.html#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb31-9"><a href="modelo-binomial.html#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>La estimación del parámetro <span class="math inline">\(\theta\)</span> es:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modelo-binomial.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Binomial2, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="proceso-de-estimación-y-predicción.html#cb178-1" aria-hidden="true" tabindex="-1"></a>mrp_estimate_dam2 <span class="ot">&lt;-</span></span>
+<span id="cb178-2"><a href="proceso-de-estimación-y-predicción.html#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb178-3"><a href="proceso-de-estimación-y-predicción.html#cb178-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat,</span>
+<span id="cb178-4"><a href="proceso-de-estimación-y-predicción.html#cb178-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="st">&quot;dam2&quot;</span>)</span>
+<span id="cb178-5"><a href="proceso-de-estimación-y-predicción.html#cb178-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb178-6"><a href="proceso-de-estimación-y-predicción.html#cb178-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(mrp_estimate_dam2 <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) )</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
+dam2
 </th>
 <th style="text-align:right;">
-mean
+mrp_estimate
 </th>
 <th style="text-align:right;">
-se_mean
-</th>
-<th style="text-align:right;">
-sd
-</th>
-<th style="text-align:right;">
-2.5%
-</th>
-<th style="text-align:right;">
-25%
-</th>
-<th style="text-align:right;">
-50%
-</th>
-<th style="text-align:right;">
-75%
-</th>
-<th style="text-align:right;">
-97.5%
-</th>
-<th style="text-align:right;">
-n_eff
-</th>
-<th style="text-align:right;">
-Rhat
+mrp_estimate_se
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-theta[1]
+05001
 </td>
 <td style="text-align:right;">
-0.1606
+2.6036
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0018
-</td>
-<td style="text-align:right;">
-0.1572
-</td>
-<td style="text-align:right;">
-0.1593
-</td>
-<td style="text-align:right;">
-0.1606
-</td>
-<td style="text-align:right;">
-0.1618
-</td>
-<td style="text-align:right;">
-0.1641
-</td>
-<td style="text-align:right;">
-4995.662
-</td>
-<td style="text-align:right;">
-0.9987
+0.1615
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[2]
+05002
 </td>
 <td style="text-align:right;">
-0.2323
+1.0284
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0020
-</td>
-<td style="text-align:right;">
-0.2285
-</td>
-<td style="text-align:right;">
-0.2309
-</td>
-<td style="text-align:right;">
-0.2323
-</td>
-<td style="text-align:right;">
-0.2338
-</td>
-<td style="text-align:right;">
-0.2362
-</td>
-<td style="text-align:right;">
-5068.657
-</td>
-<td style="text-align:right;">
-0.9991
+0.0432
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[3]
+05004
 </td>
 <td style="text-align:right;">
-0.1281
+1.0659
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0019
-</td>
-<td style="text-align:right;">
-0.1246
-</td>
-<td style="text-align:right;">
-0.1269
-</td>
-<td style="text-align:right;">
-0.1281
-</td>
-<td style="text-align:right;">
-0.1294
-</td>
-<td style="text-align:right;">
-0.1318
-</td>
-<td style="text-align:right;">
-4302.302
-</td>
-<td style="text-align:right;">
-0.9989
+0.3687
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[4]
+05021
 </td>
 <td style="text-align:right;">
-0.2965
+1.0891
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0023
-</td>
-<td style="text-align:right;">
-0.2920
-</td>
-<td style="text-align:right;">
-0.2949
-</td>
-<td style="text-align:right;">
-0.2965
-</td>
-<td style="text-align:right;">
-0.2981
-</td>
-<td style="text-align:right;">
-0.3009
-</td>
-<td style="text-align:right;">
-5872.753
-</td>
-<td style="text-align:right;">
-0.9982
+0.3753
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[5]
+05030
 </td>
 <td style="text-align:right;">
-0.2159
+1.5752
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0026
-</td>
-<td style="text-align:right;">
-0.2109
-</td>
-<td style="text-align:right;">
-0.2141
-</td>
-<td style="text-align:right;">
-0.2158
-</td>
-<td style="text-align:right;">
-0.2176
-</td>
-<td style="text-align:right;">
-0.2210
-</td>
-<td style="text-align:right;">
-4494.272
-</td>
-<td style="text-align:right;">
-0.9993
+0.5411
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[6]
+05031
 </td>
 <td style="text-align:right;">
-0.1471
+1.0179
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0019
-</td>
-<td style="text-align:right;">
-0.1433
-</td>
-<td style="text-align:right;">
-0.1458
-</td>
-<td style="text-align:right;">
-0.1471
-</td>
-<td style="text-align:right;">
-0.1484
-</td>
-<td style="text-align:right;">
-0.1509
-</td>
-<td style="text-align:right;">
-6398.598
-</td>
-<td style="text-align:right;">
-0.9992
+0.0588
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[7]
+05034
 </td>
 <td style="text-align:right;">
-0.3861
+1.2613
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0028
-</td>
-<td style="text-align:right;">
-0.3807
-</td>
-<td style="text-align:right;">
-0.3842
-</td>
-<td style="text-align:right;">
-0.3861
-</td>
-<td style="text-align:right;">
-0.3880
-</td>
-<td style="text-align:right;">
-0.3914
-</td>
-<td style="text-align:right;">
-5415.280
-</td>
-<td style="text-align:right;">
-0.9986
+0.0627
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[8]
+05036
 </td>
 <td style="text-align:right;">
-0.3594
+1.4834
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0025
-</td>
-<td style="text-align:right;">
-0.3547
-</td>
-<td style="text-align:right;">
-0.3577
-</td>
-<td style="text-align:right;">
-0.3594
-</td>
-<td style="text-align:right;">
-0.3612
-</td>
-<td style="text-align:right;">
-0.3642
-</td>
-<td style="text-align:right;">
-4735.259
-</td>
-<td style="text-align:right;">
-0.9985
+0.5120
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[9]
+05038
 </td>
 <td style="text-align:right;">
-0.3760
+1.0906
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0027
-</td>
-<td style="text-align:right;">
-0.3708
-</td>
-<td style="text-align:right;">
-0.3741
-</td>
-<td style="text-align:right;">
-0.3760
-</td>
-<td style="text-align:right;">
-0.3779
-</td>
-<td style="text-align:right;">
-0.3814
-</td>
-<td style="text-align:right;">
-4213.212
-</td>
-<td style="text-align:right;">
-0.9986
+0.3739
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-theta[10]
+05040
 </td>
 <td style="text-align:right;">
-0.3292
+1.0218
 </td>
 <td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0025
-</td>
-<td style="text-align:right;">
-0.3243
-</td>
-<td style="text-align:right;">
-0.3275
-</td>
-<td style="text-align:right;">
-0.3292
-</td>
-<td style="text-align:right;">
-0.3308
-</td>
-<td style="text-align:right;">
-0.3341
-</td>
-<td style="text-align:right;">
-5643.390
-</td>
-<td style="text-align:right;">
-0.9989
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[11]
-</td>
-<td style="text-align:right;">
-0.1673
-</td>
-<td style="text-align:right;">
-1e-04
-</td>
-<td style="text-align:right;">
-0.0039
-</td>
-<td style="text-align:right;">
-0.1600
-</td>
-<td style="text-align:right;">
-0.1647
-</td>
-<td style="text-align:right;">
-0.1673
-</td>
-<td style="text-align:right;">
-0.1699
-</td>
-<td style="text-align:right;">
-0.1751
-</td>
-<td style="text-align:right;">
-4524.756
-</td>
-<td style="text-align:right;">
-0.9998
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[12]
-</td>
-<td style="text-align:right;">
-0.4821
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0030
-</td>
-<td style="text-align:right;">
-0.4760
-</td>
-<td style="text-align:right;">
-0.4802
-</td>
-<td style="text-align:right;">
-0.4820
-</td>
-<td style="text-align:right;">
-0.4841
-</td>
-<td style="text-align:right;">
-0.4883
-</td>
-<td style="text-align:right;">
-6602.060
-</td>
-<td style="text-align:right;">
-0.9987
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[13]
-</td>
-<td style="text-align:right;">
-0.2665
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0025
-</td>
-<td style="text-align:right;">
-0.2615
-</td>
-<td style="text-align:right;">
-0.2647
-</td>
-<td style="text-align:right;">
-0.2665
-</td>
-<td style="text-align:right;">
-0.2683
-</td>
-<td style="text-align:right;">
-0.2715
-</td>
-<td style="text-align:right;">
-6158.453
-</td>
-<td style="text-align:right;">
-0.9989
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[14]
-</td>
-<td style="text-align:right;">
-0.4608
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0027
-</td>
-<td style="text-align:right;">
-0.4555
-</td>
-<td style="text-align:right;">
-0.4590
-</td>
-<td style="text-align:right;">
-0.4608
-</td>
-<td style="text-align:right;">
-0.4626
-</td>
-<td style="text-align:right;">
-0.4661
-</td>
-<td style="text-align:right;">
-5894.068
-</td>
-<td style="text-align:right;">
-0.9983
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[15]
-</td>
-<td style="text-align:right;">
-0.3587
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0025
-</td>
-<td style="text-align:right;">
-0.3539
-</td>
-<td style="text-align:right;">
-0.3570
-</td>
-<td style="text-align:right;">
-0.3587
-</td>
-<td style="text-align:right;">
-0.3605
-</td>
-<td style="text-align:right;">
-0.3637
-</td>
-<td style="text-align:right;">
-5052.024
-</td>
-<td style="text-align:right;">
-0.9988
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[16]
-</td>
-<td style="text-align:right;">
-0.2270
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0025
-</td>
-<td style="text-align:right;">
-0.2221
-</td>
-<td style="text-align:right;">
-0.2253
-</td>
-<td style="text-align:right;">
-0.2271
-</td>
-<td style="text-align:right;">
-0.2287
-</td>
-<td style="text-align:right;">
-0.2317
-</td>
-<td style="text-align:right;">
-4553.205
-</td>
-<td style="text-align:right;">
-0.9985
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[17]
-</td>
-<td style="text-align:right;">
-0.3094
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0028
-</td>
-<td style="text-align:right;">
-0.3040
-</td>
-<td style="text-align:right;">
-0.3075
-</td>
-<td style="text-align:right;">
-0.3093
-</td>
-<td style="text-align:right;">
-0.3113
-</td>
-<td style="text-align:right;">
-0.3148
-</td>
-<td style="text-align:right;">
-5761.156
-</td>
-<td style="text-align:right;">
-0.9983
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[18]
-</td>
-<td style="text-align:right;">
-0.4035
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0028
-</td>
-<td style="text-align:right;">
-0.3978
-</td>
-<td style="text-align:right;">
-0.4015
-</td>
-<td style="text-align:right;">
-0.4035
-</td>
-<td style="text-align:right;">
-0.4055
-</td>
-<td style="text-align:right;">
-0.4091
-</td>
-<td style="text-align:right;">
-4766.386
-</td>
-<td style="text-align:right;">
-0.9999
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[19]
-</td>
-<td style="text-align:right;">
-0.2191
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0024
-</td>
-<td style="text-align:right;">
-0.2144
-</td>
-<td style="text-align:right;">
-0.2174
-</td>
-<td style="text-align:right;">
-0.2190
-</td>
-<td style="text-align:right;">
-0.2207
-</td>
-<td style="text-align:right;">
-0.2240
-</td>
-<td style="text-align:right;">
-5580.557
-</td>
-<td style="text-align:right;">
-0.9987
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[20]
-</td>
-<td style="text-align:right;">
-0.1597
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0022
-</td>
-<td style="text-align:right;">
-0.1553
-</td>
-<td style="text-align:right;">
-0.1583
-</td>
-<td style="text-align:right;">
-0.1598
-</td>
-<td style="text-align:right;">
-0.1612
-</td>
-<td style="text-align:right;">
-0.1640
-</td>
-<td style="text-align:right;">
-4125.715
-</td>
-<td style="text-align:right;">
-0.9988
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[21]
-</td>
-<td style="text-align:right;">
-0.1614
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0020
-</td>
-<td style="text-align:right;">
-0.1574
-</td>
-<td style="text-align:right;">
-0.1601
-</td>
-<td style="text-align:right;">
-0.1614
-</td>
-<td style="text-align:right;">
-0.1627
-</td>
-<td style="text-align:right;">
-0.1653
-</td>
-<td style="text-align:right;">
-5438.808
-</td>
-<td style="text-align:right;">
-0.9990
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[22]
-</td>
-<td style="text-align:right;">
-0.3345
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0024
-</td>
-<td style="text-align:right;">
-0.3297
-</td>
-<td style="text-align:right;">
-0.3329
-</td>
-<td style="text-align:right;">
-0.3344
-</td>
-<td style="text-align:right;">
-0.3361
-</td>
-<td style="text-align:right;">
-0.3395
-</td>
-<td style="text-align:right;">
-4989.644
-</td>
-<td style="text-align:right;">
-0.9994
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[23]
-</td>
-<td style="text-align:right;">
-0.2216
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0024
-</td>
-<td style="text-align:right;">
-0.2168
-</td>
-<td style="text-align:right;">
-0.2200
-</td>
-<td style="text-align:right;">
-0.2216
-</td>
-<td style="text-align:right;">
-0.2232
-</td>
-<td style="text-align:right;">
-0.2263
-</td>
-<td style="text-align:right;">
-4874.975
-</td>
-<td style="text-align:right;">
-0.9993
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[24]
-</td>
-<td style="text-align:right;">
-0.1883
-</td>
-<td style="text-align:right;">
-0e+00
-</td>
-<td style="text-align:right;">
-0.0020
-</td>
-<td style="text-align:right;">
-0.1844
-</td>
-<td style="text-align:right;">
-0.1870
-</td>
-<td style="text-align:right;">
-0.1883
-</td>
-<td style="text-align:right;">
-0.1896
-</td>
-<td style="text-align:right;">
-0.1922
-</td>
-<td style="text-align:right;">
-4294.990
-</td>
-<td style="text-align:right;">
-0.9984
+0.3511
 </td>
 </tr>
 </tbody>
 </table>
-<p>Para validar las cadenas</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="modelo-binomial.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(<span class="fu">as.array</span>(model_Binomial2, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-20-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="modelo-binomial.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(<span class="fu">as.array</span>(model_Binomial2, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-21-1.svg" width="200%" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="modelo-binomial.html#cb35-1" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Binomial2, <span class="at">pars =</span> <span class="st">&quot;spred&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-2"><a href="modelo-binomial.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb35-3"><a href="modelo-binomial.html#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="modelo-binomial.html#cb35-4" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">200</span>)</span>
-<span id="cb35-5"><a href="modelo-binomial.html#cb35-5" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
-<span id="cb35-6"><a href="modelo-binomial.html#cb35-6" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dataS, <span class="fu">aes</span>(<span class="at">x =</span> Sd))<span class="sc">+</span></span>
-<span id="cb35-7"><a href="modelo-binomial.html#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..)) <span class="sc">+</span></span>
-<span id="cb35-8"><a href="modelo-binomial.html#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb35-9"><a href="modelo-binomial.html#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb35-10"><a href="modelo-binomial.html#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="dv">20</span>) </span>
-<span id="cb35-11"><a href="modelo-binomial.html#cb35-11" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> dataS<span class="sc">$</span>Sd, y_pred2) </span>
-<span id="cb35-12"><a href="modelo-binomial.html#cb35-12" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">/</span>g2</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-22-1.svg" width="672" /></p>
+<p>El mapa resultante es el siguiente</p>
+<p><img src="Recursos/D%C3%ADa3/Sesion1/0Recursos/Map_COL.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+
 </div>
 </div>
+<!-- </div> -->
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="modelo-bernoulli.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="modelo-normal-con-media-desconocida.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="proceso-de-estimación-en-r.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -1577,7 +1810,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/08-D3S1_Modelo_unidad_ingresos.qmd",
 "text": "Edit"
 },
 "history": {

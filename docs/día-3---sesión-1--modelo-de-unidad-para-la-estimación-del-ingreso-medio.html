@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.10 Modelo Multinomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>Capítulo 9 Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.10 Modelo Multinomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="Capítulo 9 Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.10 Modelo Multinomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="Capítulo 9 Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="parámetros-independientes.html"/>
-<link rel="next" href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"/>
+<link rel="prev" href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"/>
+<link rel="next" href="modelo-bayesiano..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -270,346 +270,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelo-multinomial" class="section level2 hasAnchor" number="4.10">
-<h2><span class="header-section-number">4.10</span> Modelo Multinomial<a href="modelo-multinomial.html#modelo-multinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En esta sección discutimos el modelamiento bayesiano de datos provenientes de una distribución multinomial que corresponde a una extensión multivariada de la distribución binomial. Suponga que <span class="math inline">\(\textbf{Y}=(Y_1,\ldots,Y_p)&#39;\)</span> es un vector aleatorio con distribución multinomial, así, su distribución está parametrizada por el vector <span class="math inline">\(\boldsymbol{\theta}=(\theta_1,\ldots,\theta_p)&#39;\)</span> y está dada por la siguiente expresión</p>
-<p><span class="math display">\[
-\begin{equation}
-p(\mathbf{Y} \mid \boldsymbol{\theta})=\binom{n}{y_1,\ldots,y_p}\prod_{i=1}^p\theta_i^{y_i} \ \ \ \ \ \theta_i&gt;0 \texttt{ , }  \sum_{i=1}^py_i=n \texttt{ y } \sum_{i=1}^p\theta_i=1
-\end{equation}
-\]</span> Donde</p>
-<p><span class="math display">\[
-\begin{equation*}
-\binom{n}{y_1,\ldots,y_p}=\frac{n!}{y_1!\cdots y_p!}.
-\end{equation*}
-\]</span></p>
-<p>Como cada parámetro <span class="math inline">\(\theta_i\)</span> está restringido al espacio <span class="math inline">\(\Theta=[0,1]\)</span>, entonces es posible asignar a la distribución de Dirichlet como la distribución previa del vector de parámetros. Por lo tanto la distribución previa del vector de parámetros <span class="math inline">\(\boldsymbol{\theta}\)</span>, parametrizada por el vector de hiperparámetros <span class="math inline">\(\boldsymbol{\alpha}=(\alpha_1,\ldots,\alpha_p)&#39;\)</span>, está dada por</p>
-<p><span class="math display">\[
-\begin{equation}
-p(\boldsymbol{\theta} \mid \boldsymbol{\alpha})=\frac{\Gamma(\alpha_1+\cdots+\alpha_p)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_p)}
-  \prod_{i=1}^p\theta_i^{\alpha_i-1} \ \ \ \ \ \alpha_i&gt;0 \texttt{ y } \sum_{i=1}^p\theta_i=1
-\end{equation}
-\]</span></p>
-<p>La distribución posterior del parámetro <span class="math inline">\(\boldsymbol{\theta}\)</span> sigue una distribución <span class="math inline">\(Dirichlet(y_1+\alpha_1,\ldots,y_p+\alpha_p)\)</span></p>
-<div id="práctica-en-stan-4" class="section level3 hasAnchor" number="4.10.1">
-<h3><span class="header-section-number">4.10.1</span> Práctica en <strong>STAN</strong><a href="modelo-multinomial.html#práctica-en-stan-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Sea <span class="math inline">\(Y\)</span> condición de actividad laboral</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="modelo-multinomial.html#cb54-1" aria-hidden="true" tabindex="-1"></a>dataMult <span class="ot">&lt;-</span> encuesta <span class="sc">%&gt;%</span> <span class="fu">filter</span>(condact3 <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-2"><a href="modelo-multinomial.html#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb54-3"><a href="modelo-multinomial.html#cb54-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">empleo =</span> <span class="fu">as_factor</span>(condact3)) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-4"><a href="modelo-multinomial.html#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(empleo) <span class="sc">%&gt;%</span>  <span class="fu">tally</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb54-5"><a href="modelo-multinomial.html#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">theta =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
-<span id="cb54-6"><a href="modelo-multinomial.html#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(dataMult)</span></code></pre></div>
-<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-empleo
-</th>
-<th style="text-align:right;">
-n
-</th>
-<th style="text-align:right;">
-theta
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:right;">
-348015
-</td>
-<td style="text-align:right;">
-0.5537
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:right;">
-42045
-</td>
-<td style="text-align:right;">
-0.0669
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:right;">
-238426
-</td>
-<td style="text-align:right;">
-0.3794
-</td>
-</tr>
-</tbody>
-</table>
-<p>donde <em>1</em> corresponde a <strong>Ocupado</strong>, <em>2</em> son los <strong>Desocupado</strong> y <em>3</em> son <strong>Inactivo</strong></p>
-<p>Creando código de <code>STAN</code></p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="modelo-multinomial.html#cb55-1" aria-hidden="true" tabindex="-1"></a>data {</span>
-<span id="cb55-2"><a href="modelo-multinomial.html#cb55-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> k;  <span class="sc">/</span><span class="er">/</span> Número de cátegoria </span>
-<span id="cb55-3"><a href="modelo-multinomial.html#cb55-3" aria-hidden="true" tabindex="-1"></a>  int y[k];        <span class="sc">/</span><span class="er">/</span> Número de exitos </span>
-<span id="cb55-4"><a href="modelo-multinomial.html#cb55-4" aria-hidden="true" tabindex="-1"></a>  vector[k] alpha; <span class="sc">/</span><span class="er">/</span> Parámetro de las distribción previa </span>
-<span id="cb55-5"><a href="modelo-multinomial.html#cb55-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-6"><a href="modelo-multinomial.html#cb55-6" aria-hidden="true" tabindex="-1"></a>parameters {</span>
-<span id="cb55-7"><a href="modelo-multinomial.html#cb55-7" aria-hidden="true" tabindex="-1"></a>  simplex[k] theta;</span>
-<span id="cb55-8"><a href="modelo-multinomial.html#cb55-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-9"><a href="modelo-multinomial.html#cb55-9" aria-hidden="true" tabindex="-1"></a>transformed parameters {</span>
-<span id="cb55-10"><a href="modelo-multinomial.html#cb55-10" aria-hidden="true" tabindex="-1"></a>  real delta;                              <span class="sc">/</span><span class="er">/</span> Tasa de desocupación</span>
-<span id="cb55-11"><a href="modelo-multinomial.html#cb55-11" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">=</span> theta[<span class="dv">2</span>]<span class="sc">/</span> (theta[<span class="dv">2</span>] <span class="sc">+</span> theta[<span class="dv">1</span>]); <span class="sc">/</span><span class="er">/</span> (Desocupado)<span class="sc">/</span>(Desocupado <span class="sc">+</span> Ocupado)</span>
-<span id="cb55-12"><a href="modelo-multinomial.html#cb55-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-13"><a href="modelo-multinomial.html#cb55-13" aria-hidden="true" tabindex="-1"></a>model {</span>
-<span id="cb55-14"><a href="modelo-multinomial.html#cb55-14" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">multinomial</span>(theta);</span>
-<span id="cb55-15"><a href="modelo-multinomial.html#cb55-15" aria-hidden="true" tabindex="-1"></a>  theta <span class="sc">~</span> <span class="fu">dirichlet</span>(alpha);</span>
-<span id="cb55-16"><a href="modelo-multinomial.html#cb55-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb55-17"><a href="modelo-multinomial.html#cb55-17" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
-<span id="cb55-18"><a href="modelo-multinomial.html#cb55-18" aria-hidden="true" tabindex="-1"></a>  int ypred[k];</span>
-<span id="cb55-19"><a href="modelo-multinomial.html#cb55-19" aria-hidden="true" tabindex="-1"></a>  ypred <span class="ot">=</span> <span class="fu">multinomial_rng</span>(theta, <span class="fu">sum</span>(y));</span>
-<span id="cb55-20"><a href="modelo-multinomial.html#cb55-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Preparando el código de <code>STAN</code></p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="modelo-multinomial.html#cb56-1" aria-hidden="true" tabindex="-1"></a>Multinom  <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan&quot;</span> </span></code></pre></div>
-<p>Organizando datos para <code>STAN</code></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="modelo-multinomial.html#cb57-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">k =</span> <span class="fu">nrow</span>(dataMult),</span>
-<span id="cb57-2"><a href="modelo-multinomial.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> dataMult<span class="sc">$</span>n,</span>
-<span id="cb57-3"><a href="modelo-multinomial.html#cb57-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alpha =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>))</span></code></pre></div>
-<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>rstan</em></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="modelo-multinomial.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb58-2"><a href="modelo-multinomial.html#cb58-2" aria-hidden="true" tabindex="-1"></a>model_Multinom <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb58-3"><a href="modelo-multinomial.html#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Multinom,  </span>
-<span id="cb58-4"><a href="modelo-multinomial.html#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
-<span id="cb58-5"><a href="modelo-multinomial.html#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb58-6"><a href="modelo-multinomial.html#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
-<span id="cb58-7"><a href="modelo-multinomial.html#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
-<span id="cb58-8"><a href="modelo-multinomial.html#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
-<span id="cb58-9"><a href="modelo-multinomial.html#cb58-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>La estimación del parámetro <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\delta\)</span> es:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modelo-multinomial.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Multinom, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;delta&quot;</span>, <span class="st">&quot;theta&quot;</span>))<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
-<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-se_mean
-</th>
-<th style="text-align:right;">
-sd
-</th>
-<th style="text-align:right;">
-2.5%
-</th>
-<th style="text-align:right;">
-25%
-</th>
-<th style="text-align:right;">
-50%
-</th>
-<th style="text-align:right;">
-75%
-</th>
-<th style="text-align:right;">
-97.5%
-</th>
-<th style="text-align:right;">
-n_eff
-</th>
-<th style="text-align:right;">
-Rhat
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-delta
-</td>
-<td style="text-align:right;">
-0.1078
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-5e-04
-</td>
-<td style="text-align:right;">
-0.1068
-</td>
-<td style="text-align:right;">
-0.1075
-</td>
-<td style="text-align:right;">
-0.1078
-</td>
-<td style="text-align:right;">
-0.1082
-</td>
-<td style="text-align:right;">
-0.1088
-</td>
-<td style="text-align:right;">
-1097.4077
-</td>
-<td style="text-align:right;">
-1.0019
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[1]
-</td>
-<td style="text-align:right;">
-0.5537
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-6e-04
-</td>
-<td style="text-align:right;">
-0.5525
-</td>
-<td style="text-align:right;">
-0.5533
-</td>
-<td style="text-align:right;">
-0.5537
-</td>
-<td style="text-align:right;">
-0.5542
-</td>
-<td style="text-align:right;">
-0.5549
-</td>
-<td style="text-align:right;">
-1978.4575
-</td>
-<td style="text-align:right;">
-1.0006
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[2]
-</td>
-<td style="text-align:right;">
-0.0669
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3e-04
-</td>
-<td style="text-align:right;">
-0.0663
-</td>
-<td style="text-align:right;">
-0.0667
-</td>
-<td style="text-align:right;">
-0.0669
-</td>
-<td style="text-align:right;">
-0.0671
-</td>
-<td style="text-align:right;">
-0.0675
-</td>
-<td style="text-align:right;">
-993.4809
-</td>
-<td style="text-align:right;">
-1.0020
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-theta[3]
-</td>
-<td style="text-align:right;">
-0.3794
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-6e-04
-</td>
-<td style="text-align:right;">
-0.3782
-</td>
-<td style="text-align:right;">
-0.3789
-</td>
-<td style="text-align:right;">
-0.3794
-</td>
-<td style="text-align:right;">
-0.3798
-</td>
-<td style="text-align:right;">
-0.3806
-</td>
-<td style="text-align:right;">
-1556.6998
-</td>
-<td style="text-align:right;">
-1.0007
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="modelo-multinomial.html#cb60-1" aria-hidden="true" tabindex="-1"></a>posterior_theta1 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[1]&quot;</span>)</span>
-<span id="cb60-2"><a href="modelo-multinomial.html#cb60-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta1) <span class="sc">+</span></span>
-<span id="cb60-3"><a href="modelo-multinomial.html#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta1) ) <span class="sc">/</span> </span>
-<span id="cb60-4"><a href="modelo-multinomial.html#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta1)</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-47-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="modelo-multinomial.html#cb61-1" aria-hidden="true" tabindex="-1"></a>posterior_theta2 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[2]&quot;</span>)</span>
-<span id="cb61-2"><a href="modelo-multinomial.html#cb61-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta2) <span class="sc">+</span></span>
-<span id="cb61-3"><a href="modelo-multinomial.html#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta2) ) <span class="sc">/</span> </span>
-<span id="cb61-4"><a href="modelo-multinomial.html#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta2)</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-48-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="modelo-multinomial.html#cb62-1" aria-hidden="true" tabindex="-1"></a>posterior_theta3 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[3]&quot;</span>)</span>
-<span id="cb62-2"><a href="modelo-multinomial.html#cb62-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta3) <span class="sc">+</span></span>
-<span id="cb62-3"><a href="modelo-multinomial.html#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta3) ) <span class="sc">/</span> </span>
-<span id="cb62-4"><a href="modelo-multinomial.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta3)</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-49-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="modelo-multinomial.html#cb63-1" aria-hidden="true" tabindex="-1"></a>posterior_delta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;delta&quot;</span>)</span>
-<span id="cb63-2"><a href="modelo-multinomial.html#cb63-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_delta) <span class="sc">+</span></span>
-<span id="cb63-3"><a href="modelo-multinomial.html#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_delta) ) <span class="sc">/</span> </span>
-<span id="cb63-4"><a href="modelo-multinomial.html#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_delta)</span></code></pre></div>
-<p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-50-1.svg" width="672" /></p>
-<p>La imagen es muy pesada no se carga al repositorio.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="modelo-multinomial.html#cb64-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dataMult)</span>
-<span id="cb64-2"><a href="modelo-multinomial.html#cb64-2" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb64-3"><a href="modelo-multinomial.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb64-4"><a href="modelo-multinomial.html#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-5"><a href="modelo-multinomial.html#cb64-5" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">50</span>)</span>
-<span id="cb64-6"><a href="modelo-multinomial.html#cb64-6" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[, <span class="dv">1</span><span class="sc">:</span>n]</span>
-<span id="cb64-7"><a href="modelo-multinomial.html#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(dataMult<span class="sc">$</span>n), y_pred2)</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa1/Sesion4/0Recursos/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
-
+<div id="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Capítulo 9</span> Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio<a href="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio.html#día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Uno de los primeros problemas a los que debemos enfrentarnos es la estimación del ingreso medio, la cual en una variable no simétrica que toma valores en los positivos. Sin embargo, empleando los métodos Bayesiano es posible obtener estimaciones de esta sin realizar una transformación</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
+<img src="08-D3S1_Modelo_unidad_ingresos_files/figure-html/unnamed-chunk-1-1.svg" alt="Distribución del ingreso medio por dam2" width="672" />
+<p class="caption">
+Figura 9.1: Distribución del ingreso medio por dam2
+</p>
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="parámetros-independientes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelo-bayesiano..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -640,7 +317,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/08-D3S1_Modelo_unidad_ingresos.qmd",
 "text": "Edit"
 },
 "history": {

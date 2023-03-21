@@ -1,6 +1,8 @@
 fig:BernoEj1
 fig:unnamed-chunk-11
 fig:unnamed-chunk-23
+fig:unnamed-chunk-1
+fig:unnamed-chunk-5
 día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030
 día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares
 día-1---sesión-3--censo-e-información-satelital
@@ -64,3 +66,15 @@ preparando-los-insumos-para-stan-3
 resultados-del-modelo-para-los-dominios-observados.-3
 mapa-de-pobreza-3
 mapa-del-coeficiente-de-variación.-2
+día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio
+modelo-bayesiano.
+proceso-de-estimación-en-r
+encuesta-de-hogares
+niveles-de-agregación-para-colapsar-la-encuesta
+creando-base-con-la-encuesta-agregada
+definiendo-el-modelo-multinivel.
+proceso-de-estimación-y-predicción
+distribución-posterior.
+estimación-del-ingreso-medio-nacional
+estimación-para-el-dam-11.
+estimación-para-la-dam2-05001
