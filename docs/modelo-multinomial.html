@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
 <li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
@@ -217,6 +217,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -341,32 +350,23 @@ theta
 <span id="cb55-19"><a href="modelo-multinomial.html#cb55-19" aria-hidden="true" tabindex="-1"></a>  ypred <span class="ot">=</span> <span class="fu">multinomial_rng</span>(theta, <span class="fu">sum</span>(y));</span>
 <span id="cb55-20"><a href="modelo-multinomial.html#cb55-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Preparando el código de <code>STAN</code></p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="modelo-multinomial.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file.edit(&quot;Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan&quot;)</span></span>
-<span id="cb56-2"><a href="modelo-multinomial.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Multinom  &lt;- cmdstan_model(stan_file = &quot;Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan&quot;) </span></span>
-<span id="cb56-3"><a href="modelo-multinomial.html#cb56-3" aria-hidden="true" tabindex="-1"></a>Multinom  <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan&quot;</span> </span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="modelo-multinomial.html#cb56-1" aria-hidden="true" tabindex="-1"></a>Multinom  <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan&quot;</span> </span></code></pre></div>
 <p>Organizando datos para <code>STAN</code></p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="modelo-multinomial.html#cb57-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">k =</span> <span class="fu">nrow</span>(dataMult),</span>
 <span id="cb57-2"><a href="modelo-multinomial.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> dataMult<span class="sc">$</span>n,</span>
 <span id="cb57-3"><a href="modelo-multinomial.html#cb57-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">alpha =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>))</span></code></pre></div>
-<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>cmdstanr</em></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="modelo-multinomial.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_Multinom &lt;- Multinom$sample(data = sample_data, </span></span>
-<span id="cb58-2"><a href="modelo-multinomial.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                  chains = 4,</span></span>
-<span id="cb58-3"><a href="modelo-multinomial.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                  parallel_chains = 4,</span></span>
-<span id="cb58-4"><a href="modelo-multinomial.html#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                  seed = 1234,</span></span>
-<span id="cb58-5"><a href="modelo-multinomial.html#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                  refresh = 1000)</span></span>
-<span id="cb58-6"><a href="modelo-multinomial.html#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb58-7"><a href="modelo-multinomial.html#cb58-7" aria-hidden="true" tabindex="-1"></a>model_Multinom <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb58-8"><a href="modelo-multinomial.html#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Multinom,  </span>
-<span id="cb58-9"><a href="modelo-multinomial.html#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
-<span id="cb58-10"><a href="modelo-multinomial.html#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb58-11"><a href="modelo-multinomial.html#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
-<span id="cb58-12"><a href="modelo-multinomial.html#cb58-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
-<span id="cb58-13"><a href="modelo-multinomial.html#cb58-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
-<span id="cb58-14"><a href="modelo-multinomial.html#cb58-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>rstan</em></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="modelo-multinomial.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb58-2"><a href="modelo-multinomial.html#cb58-2" aria-hidden="true" tabindex="-1"></a>model_Multinom <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb58-3"><a href="modelo-multinomial.html#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Multinom,  </span>
+<span id="cb58-4"><a href="modelo-multinomial.html#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
+<span id="cb58-5"><a href="modelo-multinomial.html#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb58-6"><a href="modelo-multinomial.html#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
+<span id="cb58-7"><a href="modelo-multinomial.html#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
+<span id="cb58-8"><a href="modelo-multinomial.html#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
+<span id="cb58-9"><a href="modelo-multinomial.html#cb58-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>La estimación del parámetro <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\delta\)</span> es:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modelo-multinomial.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_Multinom$summary(variables = c(&quot;delta&quot;, &quot;theta&quot;))%&gt;%</span></span>
-<span id="cb59-2"><a href="modelo-multinomial.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(variable:q95) %&gt;% tba()</span></span>
-<span id="cb59-3"><a href="modelo-multinomial.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Multinom, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;delta&quot;</span>, <span class="st">&quot;theta&quot;</span>))<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modelo-multinomial.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Multinom, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;delta&quot;</span>, <span class="st">&quot;theta&quot;</span>))<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -547,47 +547,35 @@ theta[3]
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="modelo-multinomial.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_Multinom$draws(&quot;theta[1]&quot;)) +</span></span>
-<span id="cb60-2"><a href="modelo-multinomial.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_Multinom$draws(&quot;theta[1]&quot;)))/ </span></span>
-<span id="cb60-3"><a href="modelo-multinomial.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_Multinom$draws(&quot;theta[1]&quot;)) </span></span>
-<span id="cb60-4"><a href="modelo-multinomial.html#cb60-4" aria-hidden="true" tabindex="-1"></a>posterior_theta1 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[1]&quot;</span>)</span>
-<span id="cb60-5"><a href="modelo-multinomial.html#cb60-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta1) <span class="sc">+</span></span>
-<span id="cb60-6"><a href="modelo-multinomial.html#cb60-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta1) ) <span class="sc">/</span> </span>
-<span id="cb60-7"><a href="modelo-multinomial.html#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta1)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="modelo-multinomial.html#cb60-1" aria-hidden="true" tabindex="-1"></a>posterior_theta1 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[1]&quot;</span>)</span>
+<span id="cb60-2"><a href="modelo-multinomial.html#cb60-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta1) <span class="sc">+</span></span>
+<span id="cb60-3"><a href="modelo-multinomial.html#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta1) ) <span class="sc">/</span> </span>
+<span id="cb60-4"><a href="modelo-multinomial.html#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta1)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-47-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="modelo-multinomial.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_Multinom$draws(&quot;theta[2]&quot;)) +</span></span>
-<span id="cb61-2"><a href="modelo-multinomial.html#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_Multinom$draws(&quot;theta[2]&quot;)))/ </span></span>
-<span id="cb61-3"><a href="modelo-multinomial.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_Multinom$draws(&quot;theta[2]&quot;)) </span></span>
-<span id="cb61-4"><a href="modelo-multinomial.html#cb61-4" aria-hidden="true" tabindex="-1"></a>posterior_theta2 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[2]&quot;</span>)</span>
-<span id="cb61-5"><a href="modelo-multinomial.html#cb61-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta2) <span class="sc">+</span></span>
-<span id="cb61-6"><a href="modelo-multinomial.html#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta2) ) <span class="sc">/</span> </span>
-<span id="cb61-7"><a href="modelo-multinomial.html#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta2)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="modelo-multinomial.html#cb61-1" aria-hidden="true" tabindex="-1"></a>posterior_theta2 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[2]&quot;</span>)</span>
+<span id="cb61-2"><a href="modelo-multinomial.html#cb61-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta2) <span class="sc">+</span></span>
+<span id="cb61-3"><a href="modelo-multinomial.html#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta2) ) <span class="sc">/</span> </span>
+<span id="cb61-4"><a href="modelo-multinomial.html#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta2)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-48-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="modelo-multinomial.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_Multinom$draws(&quot;theta[3]&quot;)) +</span></span>
-<span id="cb62-2"><a href="modelo-multinomial.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_Multinom$draws(&quot;theta[3]&quot;)))/ </span></span>
-<span id="cb62-3"><a href="modelo-multinomial.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_Multinom$draws(&quot;theta[3]&quot;)) </span></span>
-<span id="cb62-4"><a href="modelo-multinomial.html#cb62-4" aria-hidden="true" tabindex="-1"></a>posterior_theta3 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[3]&quot;</span>)</span>
-<span id="cb62-5"><a href="modelo-multinomial.html#cb62-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta3) <span class="sc">+</span></span>
-<span id="cb62-6"><a href="modelo-multinomial.html#cb62-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta3) ) <span class="sc">/</span> </span>
-<span id="cb62-7"><a href="modelo-multinomial.html#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta3)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="modelo-multinomial.html#cb62-1" aria-hidden="true" tabindex="-1"></a>posterior_theta3 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;theta[3]&quot;</span>)</span>
+<span id="cb62-2"><a href="modelo-multinomial.html#cb62-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta3) <span class="sc">+</span></span>
+<span id="cb62-3"><a href="modelo-multinomial.html#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta3) ) <span class="sc">/</span> </span>
+<span id="cb62-4"><a href="modelo-multinomial.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta3)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-49-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="modelo-multinomial.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_Multinom$draws(&quot;delta&quot;)) +</span></span>
-<span id="cb63-2"><a href="modelo-multinomial.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_Multinom$draws(&quot;delta&quot;)))/ </span></span>
-<span id="cb63-3"><a href="modelo-multinomial.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_Multinom$draws(&quot;delta&quot;)) </span></span>
-<span id="cb63-4"><a href="modelo-multinomial.html#cb63-4" aria-hidden="true" tabindex="-1"></a>posterior_delta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;delta&quot;</span>)</span>
-<span id="cb63-5"><a href="modelo-multinomial.html#cb63-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_delta) <span class="sc">+</span></span>
-<span id="cb63-6"><a href="modelo-multinomial.html#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_delta) ) <span class="sc">/</span> </span>
-<span id="cb63-7"><a href="modelo-multinomial.html#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_delta)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="modelo-multinomial.html#cb63-1" aria-hidden="true" tabindex="-1"></a>posterior_delta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;delta&quot;</span>)</span>
+<span id="cb63-2"><a href="modelo-multinomial.html#cb63-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_delta) <span class="sc">+</span></span>
+<span id="cb63-3"><a href="modelo-multinomial.html#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_delta) ) <span class="sc">/</span> </span>
+<span id="cb63-4"><a href="modelo-multinomial.html#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_delta)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-50-1.svg" width="672" /></p>
 <p>La imagen es muy pesada no se carga al repositorio.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="modelo-multinomial.html#cb64-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dataMult)</span>
-<span id="cb64-2"><a href="modelo-multinomial.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_B &lt;- model_Multinom$draws(variables = &quot;ypred&quot;, format = &quot;matrix&quot;)</span></span>
-<span id="cb64-3"><a href="modelo-multinomial.html#cb64-3" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb64-4"><a href="modelo-multinomial.html#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb64-5"><a href="modelo-multinomial.html#cb64-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-6"><a href="modelo-multinomial.html#cb64-6" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">50</span>)</span>
-<span id="cb64-7"><a href="modelo-multinomial.html#cb64-7" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[, <span class="dv">1</span><span class="sc">:</span>n]</span>
-<span id="cb64-8"><a href="modelo-multinomial.html#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(dataMult<span class="sc">$</span>n), y_pred2)</span></code></pre></div>
+<span id="cb64-2"><a href="modelo-multinomial.html#cb64-2" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Multinom, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-3"><a href="modelo-multinomial.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
+<span id="cb64-4"><a href="modelo-multinomial.html#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="modelo-multinomial.html#cb64-5" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">50</span>)</span>
+<span id="cb64-6"><a href="modelo-multinomial.html#cb64-6" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[, <span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb64-7"><a href="modelo-multinomial.html#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(dataMult<span class="sc">$</span>n), y_pred2)</span></code></pre></div>
+<p><img src="Recursos/D%C3%ADa1/Sesion4/0Recursos/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

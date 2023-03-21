@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
 <li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
@@ -217,6 +217,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -312,34 +321,24 @@ p(\theta,\sigma^2 \mid \mathbf{Y})&amp;\propto (\sigma^2)^{-(n+n_0)/2-1} \notag 
 <span id="cb45-22"><a href="parámetros-independientes.html#cb45-22" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb45-23"><a href="parámetros-independientes.html#cb45-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Preparando el código de <code>STAN</code></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="parámetros-independientes.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file.edit(&quot;Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan&quot;)</span></span>
-<span id="cb46-2"><a href="parámetros-independientes.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NormalMeanVar  &lt;- cmdstan_model(stan_file = &quot;Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan&quot;) </span></span>
-<span id="cb46-3"><a href="parámetros-independientes.html#cb46-3" aria-hidden="true" tabindex="-1"></a>NormalMeanVar  <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan&quot;</span> </span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="parámetros-independientes.html#cb46-1" aria-hidden="true" tabindex="-1"></a>NormalMeanVar  <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan&quot;</span> </span></code></pre></div>
 <p>Organizando datos para <code>STAN</code></p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="parámetros-independientes.html#cb47-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">nrow</span>(dataNormal),</span>
 <span id="cb47-2"><a href="parámetros-independientes.html#cb47-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> dataNormal<span class="sc">$</span>logIngreso)</span></code></pre></div>
-<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>cmdstanr</em></p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="parámetros-independientes.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_NormalMedia &lt;- NormalMeanVar$sample(data = sample_data, </span></span>
-<span id="cb48-2"><a href="parámetros-independientes.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                  chains = 4,</span></span>
-<span id="cb48-3"><a href="parámetros-independientes.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                  parallel_chains = 4,</span></span>
-<span id="cb48-4"><a href="parámetros-independientes.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                   seed = 1234,</span></span>
-<span id="cb48-5"><a href="parámetros-independientes.html#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                  refresh = 1000)</span></span>
-<span id="cb48-6"><a href="parámetros-independientes.html#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="parámetros-independientes.html#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb48-8"><a href="parámetros-independientes.html#cb48-8" aria-hidden="true" tabindex="-1"></a>model_NormalMedia <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb48-9"><a href="parámetros-independientes.html#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> NormalMeanVar,  </span>
-<span id="cb48-10"><a href="parámetros-independientes.html#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
-<span id="cb48-11"><a href="parámetros-independientes.html#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb48-12"><a href="parámetros-independientes.html#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
-<span id="cb48-13"><a href="parámetros-independientes.html#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
-<span id="cb48-14"><a href="parámetros-independientes.html#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
-<span id="cb48-15"><a href="parámetros-independientes.html#cb48-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>rstan</em></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="parámetros-independientes.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb48-2"><a href="parámetros-independientes.html#cb48-2" aria-hidden="true" tabindex="-1"></a>model_NormalMedia <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb48-3"><a href="parámetros-independientes.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> NormalMeanVar,  </span>
+<span id="cb48-4"><a href="parámetros-independientes.html#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
+<span id="cb48-5"><a href="parámetros-independientes.html#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb48-6"><a href="parámetros-independientes.html#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
+<span id="cb48-7"><a href="parámetros-independientes.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
+<span id="cb48-8"><a href="parámetros-independientes.html#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
+<span id="cb48-9"><a href="parámetros-independientes.html#cb48-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>La estimación del parámetro <span class="math inline">\(\theta\)</span> y <span class="math inline">\(\sigma^2\)</span> es:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="parámetros-independientes.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_NormalMedia$summary(variables = c(&quot;theta&quot;, &quot;sigma2&quot;, &quot;sigma&quot;)) %&gt;%</span></span>
-<span id="cb49-2"><a href="parámetros-independientes.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(variable:q95) %&gt;% tba()</span></span>
-<span id="cb49-3"><a href="parámetros-independientes.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_NormalMedia, </span>
-<span id="cb49-4"><a href="parámetros-independientes.html#cb49-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;sigma&quot;</span>))<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb49-5"><a href="parámetros-independientes.html#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tba</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="parámetros-independientes.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_NormalMedia, </span>
+<span id="cb49-2"><a href="parámetros-independientes.html#cb49-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>, <span class="st">&quot;sigma2&quot;</span>, <span class="st">&quot;sigma&quot;</span>))<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="parámetros-independientes.html#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tba</span>()</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -485,38 +484,26 @@ sigma
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="parámetros-independientes.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_NormalMedia$draws(&quot;theta&quot;)) +</span></span>
-<span id="cb50-2"><a href="parámetros-independientes.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_NormalMedia$draws(&quot;theta&quot;)))/ </span></span>
-<span id="cb50-3"><a href="parámetros-independientes.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_NormalMedia$draws(&quot;theta&quot;)) </span></span>
-<span id="cb50-4"><a href="parámetros-independientes.html#cb50-4" aria-hidden="true" tabindex="-1"></a>posterior_theta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)</span>
-<span id="cb50-5"><a href="parámetros-independientes.html#cb50-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta) <span class="sc">+</span></span>
-<span id="cb50-6"><a href="parámetros-independientes.html#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta) ) <span class="sc">/</span> </span>
-<span id="cb50-7"><a href="parámetros-independientes.html#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="parámetros-independientes.html#cb50-1" aria-hidden="true" tabindex="-1"></a>posterior_theta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb50-2"><a href="parámetros-independientes.html#cb50-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta) <span class="sc">+</span></span>
+<span id="cb50-3"><a href="parámetros-independientes.html#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta) ) <span class="sc">/</span> </span>
+<span id="cb50-4"><a href="parámetros-independientes.html#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-37-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="parámetros-independientes.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_NormalMedia$draws(&quot;sigma2&quot;)) +</span></span>
-<span id="cb51-2"><a href="parámetros-independientes.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_NormalMedia$draws(&quot;sigma2&quot;)))/ </span></span>
-<span id="cb51-3"><a href="parámetros-independientes.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_NormalMedia$draws(&quot;sigma2&quot;)) </span></span>
-<span id="cb51-4"><a href="parámetros-independientes.html#cb51-4" aria-hidden="true" tabindex="-1"></a>posterior_sigma2 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;sigma2&quot;</span>)</span>
-<span id="cb51-5"><a href="parámetros-independientes.html#cb51-5" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2) <span class="sc">+</span></span>
-<span id="cb51-6"><a href="parámetros-independientes.html#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2) ) <span class="sc">/</span> </span>
-<span id="cb51-7"><a href="parámetros-independientes.html#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="parámetros-independientes.html#cb51-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2 <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;sigma2&quot;</span>)</span>
+<span id="cb51-2"><a href="parámetros-independientes.html#cb51-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2) <span class="sc">+</span></span>
+<span id="cb51-3"><a href="parámetros-independientes.html#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2) ) <span class="sc">/</span> </span>
+<span id="cb51-4"><a href="parámetros-independientes.html#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-38-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="parámetros-independientes.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_NormalMedia$draws(&quot;sigma&quot;)) +</span></span>
-<span id="cb52-2"><a href="parámetros-independientes.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_NormalMedia$draws(&quot;sigma&quot;)))/ </span></span>
-<span id="cb52-3"><a href="parámetros-independientes.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_NormalMedia$draws(&quot;sigma&quot;)) </span></span>
-<span id="cb52-4"><a href="parámetros-independientes.html#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-5"><a href="parámetros-independientes.html#cb52-5" aria-hidden="true" tabindex="-1"></a>posterior_sigma <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;sigma&quot;</span>)</span>
-<span id="cb52-6"><a href="parámetros-independientes.html#cb52-6" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma) <span class="sc">+</span></span>
-<span id="cb52-7"><a href="parámetros-independientes.html#cb52-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma) ) <span class="sc">/</span> </span>
-<span id="cb52-8"><a href="parámetros-independientes.html#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="parámetros-independientes.html#cb52-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;sigma&quot;</span>)</span>
+<span id="cb52-2"><a href="parámetros-independientes.html#cb52-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="parámetros-independientes.html#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma) ) <span class="sc">/</span> </span>
+<span id="cb52-4"><a href="parámetros-independientes.html#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-39-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="parámetros-independientes.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_B &lt;- model_NormalMedia$draws(variables = &quot;ypred&quot;, </span></span>
-<span id="cb53-2"><a href="parámetros-independientes.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                                     format = &quot;matrix&quot;)</span></span>
-<span id="cb53-3"><a href="parámetros-independientes.html#cb53-3" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb53-4"><a href="parámetros-independientes.html#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb53-5"><a href="parámetros-independientes.html#cb53-5" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
-<span id="cb53-6"><a href="parámetros-independientes.html#cb53-6" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
-<span id="cb53-7"><a href="parámetros-independientes.html#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(<span class="fu">exp</span>(dataNormal<span class="sc">$</span>logIngreso)<span class="sc">-</span><span class="dv">1</span>), y_pred2) <span class="sc">+</span>   <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">5000000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="parámetros-independientes.html#cb53-1" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_NormalMedia, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="parámetros-independientes.html#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
+<span id="cb53-3"><a href="parámetros-independientes.html#cb53-3" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
+<span id="cb53-4"><a href="parámetros-independientes.html#cb53-4" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
+<span id="cb53-5"><a href="parámetros-independientes.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(<span class="fu">exp</span>(dataNormal<span class="sc">$</span>logIngreso)<span class="sc">-</span><span class="dv">1</span>), y_pred2) <span class="sc">+</span>   <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">5000000</span>)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-40-1.svg" width="672" /></p>
 </div>
 </div>

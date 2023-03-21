@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="validación-de-los-resultados..html"/>
-<link rel="next" href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"/>
+<link rel="next" href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
 <li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
@@ -217,6 +217,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -240,6 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="mapa-de-pobreza" class="section level2 hasAnchor" number="6.5">
 <h2><span class="header-section-number">6.5</span> Mapa de pobreza<a href="mapa-de-pobreza.html#mapa-de-pobreza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Este es un bloque de código se cargan varios paquetes (<code>sp</code>, <code>sf</code>, <code>tmap</code>) y realiza algunas operaciones. Primero, realiza una unión (<code>left_join</code>) entre las estimaciones de ajustadas por el Benchmarking (<code>estimacionesBench</code>) y las estimaciones del modelo (<code>data_dir</code>, <code>data_syn</code>), utilizando la variable <code>dam2</code> como clave para la unión. Luego, lee un archivo <code>Shapefile</code> que contiene información geoespacial del país. A continuación, crea un mapa temático (<code>tmap</code>) utilizando la función <code>tm_shape()</code> y agregando capas con la función <code>tm_polygons()</code>. El mapa representa una variable <code>theta_pred_RBench</code> utilizando una paleta de colores llamada “YlOrRd” y establece los cortes de los intervalos de la variable con la variable <code>brks_lp.</code> Finalmente, la función <code>tm_layout()</code> establece algunos parámetros de diseño del mapa, como la relación de aspecto (asp).</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="mapa-de-pobreza.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
 <span id="cb106-2"><a href="mapa-de-pobreza.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb106-3"><a href="mapa-de-pobreza.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
@@ -268,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb106-26"><a href="mapa-de-pobreza.html#cb106-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">1.5</span>)</span>
 <span id="cb106-27"><a href="mapa-de-pobreza.html#cb106-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-28"><a href="mapa-de-pobreza.html#cb106-28" aria-hidden="true" tabindex="-1"></a>Mapa_lp</span></code></pre></div>
-<p><img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-26-1.svg" width="672" height="120%" /></p>
+<p><img src="Recursos/D%C3%ADa2/Sesion2/0Recursos/Mapa_COL_pobreza_normal.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
 
 </div>
 <!-- </div> -->
@@ -278,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="validación-de-los-resultados..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -155,7 +155,6 @@ En `STAN` es posible obtener el mismo tipo de inferencia creando cuatro cadenas 
 
 
 ```r
-## Definir el modelo
 data {                         // Entrada el modelo 
   int<lower=0> n;              // Numero de observaciones  
   int y[n];                    // Vector de longitud n
@@ -187,24 +186,17 @@ Para compilar *STAN* debemos definir los parámetros de entrada
                         b = 1)
 ```
 
-Para ejecutar `STAN` en R tenemos la librería *cmdstanr*
+Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
 library(cmdstanr)
 library(rstan)
-# file.edit("Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan")
-# Bernoulli <- cmdstan_model(stan_file = "Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan") 
 Bernoulli <- "Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan"
 ```
 
 
 ```r
-# model_Bernoulli <- Bernoulli$sample(data = sample_data, 
-#                  chains = 4,
-#                  parallel_chains = 4,
-#                  seed = 1234,
-#                  refresh = 1000)
 options(mc.cores = parallel::detectCores())
 model_Bernoulli <- stan(
   file = Bernoulli,  # Stan program
@@ -220,8 +212,6 @@ La estimación del parámetro $\theta$ es:
 
 
 ```r
-# model_Bernoulli$summary(variables = "theta") %>%
-#   select(variable:q95) %>% tba()
 summary(model_Bernoulli, pars = "theta")$summary %>% tba()
 ```
 
@@ -244,16 +234,16 @@ summary(model_Bernoulli, pars = "theta")$summary %>% tba()
 <tbody>
   <tr>
    <td style="text-align:left;"> theta </td>
-   <td style="text-align:right;"> 0.5182 </td>
+   <td style="text-align:right;"> 0.5179 </td>
    <td style="text-align:right;"> 1e-04 </td>
-   <td style="text-align:right;"> 0.0034 </td>
-   <td style="text-align:right;"> 0.5115 </td>
-   <td style="text-align:right;"> 0.516 </td>
-   <td style="text-align:right;"> 0.5182 </td>
-   <td style="text-align:right;"> 0.5206 </td>
-   <td style="text-align:right;"> 0.5243 </td>
-   <td style="text-align:right;"> 740.5358 </td>
-   <td style="text-align:right;"> 1.0028 </td>
+   <td style="text-align:right;"> 0.0035 </td>
+   <td style="text-align:right;"> 0.5109 </td>
+   <td style="text-align:right;"> 0.5155 </td>
+   <td style="text-align:right;"> 0.5178 </td>
+   <td style="text-align:right;"> 0.5201 </td>
+   <td style="text-align:right;"> 0.5246 </td>
+   <td style="text-align:right;"> 799.1369 </td>
+   <td style="text-align:right;"> 1.002 </td>
   </tr>
 </tbody>
 </table>
@@ -264,7 +254,6 @@ Para observar las cadenas compilamos las lineas de código
 ```r
 library(posterior) 
 library(ggplot2)
-#temp <- as_draws_df(model_Bernoulli$draws(variables = "theta"))
 temp <- as_draws_df(as.array(model_Bernoulli,pars = "theta"))
 
 ggplot(data = temp, aes(x = theta))+ 
@@ -287,10 +276,6 @@ Para validar las cadenas
 
 ```r
 library(bayesplot)
-# (mcmc_dens_chains(model_Bernoulli$draws("theta")) +
-# mcmc_areas(model_Bernoulli$draws("theta")))/ 
-# mcmc_trace(model_Bernoulli$draws("theta")) 
-
 posterior_theta <- as.array(model_Bernoulli, pars = "theta")
 (mcmc_dens_chains(posterior_theta) +
     mcmc_areas(posterior_theta) ) / 
@@ -303,7 +288,6 @@ Predicción de $Y$ en cada una de las iteraciones de las cadenas.
 
 
 ```r
-# y_pred_B <- model_Bernoulli$draws(variables = "ypred", format = "matrix")
 y_pred_B <- as.array(model_Bernoulli, pars = "ypred") %>% 
   as_draws_matrix()
 
@@ -539,9 +523,6 @@ Preparando el código de `STAN`
 
 
 ```r
-## Definir el modelo
-# file.edit("Recursos/Día1/Sesion4/Data/modelosStan/3Binomial.stan")
-# Binomial2 <- cmdstan_model(stan_file = "Recursos/Día1/Sesion4/Data/modelosStan/3Binomial.stan") 
 Binomial2 <- "Recursos/Día1/Sesion4/Data/modelosStan/3Binomial.stan"
 ```
 
@@ -556,15 +537,10 @@ sample_data <- list(K = nrow(dataS),
                     b = 1)
 ```
 
-Para ejecutar `STAN` en R tenemos la librería *cmdstanr*
+Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
-# model_Binomial2 <- Binomial2$sample(data = sample_data, 
-#                  chains = 4,
-#                  parallel_chains = 4,
-#                  seed = 1234,
-#                  refresh = 1000)
 options(mc.cores = parallel::detectCores())
 model_Binomial2 <- stan(
   file = Binomial2,  # Stan program
@@ -580,8 +556,6 @@ La estimación del parámetro $\theta$ es:
 
 
 ```r
-# model_Binomial2$summary(variables = "theta") %>% 
-#   select(variable:q95) %>% tba()
 summary(model_Binomial2, pars = "theta")$summary %>% tba()
 ```
 
@@ -921,7 +895,6 @@ Para validar las cadenas
 
 
 ```r
-# mcmc_areas(model_Binomial2$draws("theta"))
 mcmc_areas(as.array(model_Binomial2, pars = "theta"))
 ```
 
@@ -929,7 +902,6 @@ mcmc_areas(as.array(model_Binomial2, pars = "theta"))
 
 
 ```r
-# mcmc_trace(model_Binomial2$draws("theta")) 
 mcmc_trace(as.array(model_Binomial2, pars = "theta"))
 ```
 
@@ -937,8 +909,6 @@ mcmc_trace(as.array(model_Binomial2, pars = "theta"))
 
 
 ```r
-# y_pred_B <- model_Binomial2$draws(variables = "spred", format = "matrix")
-
 y_pred_B <- as.array(model_Binomial2, pars = "spred") %>% 
   as_draws_matrix()
 
@@ -1050,9 +1020,6 @@ Preparando el código de `STAN`
 
 
 ```r
-# file.edit("Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan")
-# NormalMedia <- cmdstan_model(stan_file = "Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan") 
-
 NormalMedia <- "Recursos/Día1/Sesion4/Data/modelosStan/4NormalMedia.stan" 
 ```
 
@@ -1065,16 +1032,10 @@ sample_data <- list(n = nrow(dataNormal),
                     y = dataNormal$logIngreso)
 ```
 
-Para ejecutar `STAN` en R tenemos la librería *cmdstanr*
+Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
-# model_NormalMedia <- NormalMedia$sample(data = sample_data, 
-#                  chains = 4,
-#                  parallel_chains = 4,
-#                  seed = 1234,
-#                  refresh = 1000
-#                  )
 options(mc.cores = parallel::detectCores())
 model_NormalMedia <- stan(
   file = NormalMedia,  
@@ -1090,8 +1051,6 @@ La estimación del parámetro $\theta$ es:
 
 
 ```r
-# model_NormalMedia$summary(variables = "theta")%>%
-#   select(variable:q95) %>% tba()
 summary(model_NormalMedia, pars = "theta")$summary %>% tba()
 ```
 
@@ -1130,10 +1089,6 @@ summary(model_NormalMedia, pars = "theta")$summary %>% tba()
 
 
 ```r
-# (mcmc_dens_chains(model_NormalMedia$draws("theta")) +
-# mcmc_areas(model_NormalMedia$draws("theta")))/ 
-# mcmc_trace(model_NormalMedia$draws("theta")) 
-
 posterior_theta <- as.array(model_NormalMedia, pars = "theta")
 (mcmc_dens_chains(posterior_theta) +
     mcmc_areas(posterior_theta) ) / 
@@ -1144,8 +1099,6 @@ posterior_theta <- as.array(model_NormalMedia, pars = "theta")
 
 
 ```r
-# y_pred_B <- model_NormalMedia$draws(variables = "ypred", format = "matrix")
-
 y_pred_B <- as.array(model_NormalMedia, pars = "ypred") %>% 
   as_draws_matrix()
 
@@ -1271,8 +1224,6 @@ Preparando el código de `STAN`
 
 
 ```r
-# file.edit("Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan")
-# NormalMeanVar  <- cmdstan_model(stan_file = "Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan") 
 NormalMeanVar  <- "Recursos/Día1/Sesion4/Data/modelosStan/5NormalMeanVar.stan" 
 ```
 
@@ -1284,16 +1235,10 @@ sample_data <- list(n = nrow(dataNormal),
                     y = dataNormal$logIngreso)
 ```
 
-Para ejecutar `STAN` en R tenemos la librería *cmdstanr*
+Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
-# model_NormalMedia <- NormalMeanVar$sample(data = sample_data, 
-#                  chains = 4,
-#                  parallel_chains = 4,
-#                   seed = 1234,
-#                  refresh = 1000)
-
 options(mc.cores = parallel::detectCores())
 model_NormalMedia <- stan(
   file = NormalMeanVar,  
@@ -1309,8 +1254,6 @@ La estimación del parámetro $\theta$ y $\sigma^2$ es:
 
 
 ```r
-# model_NormalMedia$summary(variables = c("theta", "sigma2", "sigma")) %>%
-#   select(variable:q95) %>% tba()
 summary(model_NormalMedia, 
         pars = c("theta", "sigma2", "sigma"))$summary %>%
   tba()
@@ -1377,9 +1320,6 @@ summary(model_NormalMedia,
 
 
 ```r
-# (mcmc_dens_chains(model_NormalMedia$draws("theta")) +
-# mcmc_areas(model_NormalMedia$draws("theta")))/ 
-# mcmc_trace(model_NormalMedia$draws("theta")) 
 posterior_theta <- as.array(model_NormalMedia, pars = "theta")
 (mcmc_dens_chains(posterior_theta) +
     mcmc_areas(posterior_theta) ) / 
@@ -1391,9 +1331,6 @@ posterior_theta <- as.array(model_NormalMedia, pars = "theta")
 
 
 ```r
-# (mcmc_dens_chains(model_NormalMedia$draws("sigma2")) +
-# mcmc_areas(model_NormalMedia$draws("sigma2")))/ 
-# mcmc_trace(model_NormalMedia$draws("sigma2")) 
 posterior_sigma2 <- as.array(model_NormalMedia, pars = "sigma2")
 (mcmc_dens_chains(posterior_sigma2) +
     mcmc_areas(posterior_sigma2) ) / 
@@ -1404,10 +1341,6 @@ posterior_sigma2 <- as.array(model_NormalMedia, pars = "sigma2")
 
 
 ```r
-# (mcmc_dens_chains(model_NormalMedia$draws("sigma")) +
-# mcmc_areas(model_NormalMedia$draws("sigma")))/ 
-# mcmc_trace(model_NormalMedia$draws("sigma")) 
-
 posterior_sigma <- as.array(model_NormalMedia, pars = "sigma")
 (mcmc_dens_chains(posterior_sigma) +
     mcmc_areas(posterior_sigma) ) / 
@@ -1419,8 +1352,6 @@ posterior_sigma <- as.array(model_NormalMedia, pars = "sigma")
 
 
 ```r
-# y_pred_B <- model_NormalMedia$draws(variables = "ypred", 
-#                                     format = "matrix")
 y_pred_B <- as.array(model_NormalMedia, pars = "ypred") %>% 
   as_draws_matrix()
 rowsrandom <- sample(nrow(y_pred_B), 100)
@@ -1530,8 +1461,6 @@ Preparando el código de `STAN`
 
 
 ```r
-# file.edit("Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan")
-# Multinom  <- cmdstan_model(stan_file = "Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan") 
 Multinom  <- "Recursos/Día1/Sesion4/Data/modelosStan/6Multinom.stan" 
 ```
 
@@ -1544,15 +1473,10 @@ sample_data <- list(k = nrow(dataMult),
                     alpha = c(0.5, 0.5, 0.5))
 ```
 
-Para ejecutar `STAN` en R tenemos la librería *cmdstanr*
+Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
-# model_Multinom <- Multinom$sample(data = sample_data, 
-#                  chains = 4,
-#                  parallel_chains = 4,
-#                  seed = 1234,
-#                  refresh = 1000)
 options(mc.cores = parallel::detectCores())
 model_Multinom <- stan(
   file = Multinom,  
@@ -1569,8 +1493,6 @@ La estimación del parámetro $\theta$ y $\delta$ es:
 
 
 ```r
-# model_Multinom$summary(variables = c("delta", "theta"))%>%
-#   select(variable:q95) %>% tba()
 summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
 ```
 
@@ -1648,9 +1570,6 @@ summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
 
 
 ```r
-# (mcmc_dens_chains(model_Multinom$draws("theta[1]")) +
-# mcmc_areas(model_Multinom$draws("theta[1]")))/ 
-# mcmc_trace(model_Multinom$draws("theta[1]")) 
 posterior_theta1 <- as.array(model_Multinom, pars = "theta[1]")
 (mcmc_dens_chains(posterior_theta1) +
     mcmc_areas(posterior_theta1) ) / 
@@ -1661,9 +1580,6 @@ posterior_theta1 <- as.array(model_Multinom, pars = "theta[1]")
 
 
 ```r
-# (mcmc_dens_chains(model_Multinom$draws("theta[2]")) +
-# mcmc_areas(model_Multinom$draws("theta[2]")))/ 
-# mcmc_trace(model_Multinom$draws("theta[2]")) 
 posterior_theta2 <- as.array(model_Multinom, pars = "theta[2]")
 (mcmc_dens_chains(posterior_theta2) +
     mcmc_areas(posterior_theta2) ) / 
@@ -1674,9 +1590,6 @@ posterior_theta2 <- as.array(model_Multinom, pars = "theta[2]")
 
 
 ```r
-# (mcmc_dens_chains(model_Multinom$draws("theta[3]")) +
-# mcmc_areas(model_Multinom$draws("theta[3]")))/ 
-# mcmc_trace(model_Multinom$draws("theta[3]")) 
 posterior_theta3 <- as.array(model_Multinom, pars = "theta[3]")
 (mcmc_dens_chains(posterior_theta3) +
     mcmc_areas(posterior_theta3) ) / 
@@ -1687,9 +1600,6 @@ posterior_theta3 <- as.array(model_Multinom, pars = "theta[3]")
 
 
 ```r
-# (mcmc_dens_chains(model_Multinom$draws("delta")) +
-# mcmc_areas(model_Multinom$draws("delta")))/ 
-# mcmc_trace(model_Multinom$draws("delta")) 
 posterior_delta <- as.array(model_Multinom, pars = "delta")
 (mcmc_dens_chains(posterior_delta) +
     mcmc_areas(posterior_delta) ) / 
@@ -1703,7 +1613,6 @@ La imagen es muy pesada no se carga al repositorio.
 
 ```r
 n <- nrow(dataMult)
-# y_pred_B <- model_Multinom$draws(variables = "ypred", format = "matrix")
 y_pred_B <- as.array(model_Multinom, pars = "ypred") %>% 
   as_draws_matrix()
 
@@ -1711,3 +1620,5 @@ rowsrandom <- sample(nrow(y_pred_B), 50)
 y_pred2 <- y_pred_B[, 1:n]
 ppc_dens_overlay(y = as.numeric(dataMult$n), y_pred2)
 ```
+
+<img src="Recursos/Día1/Sesion4/0Recursos/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" />

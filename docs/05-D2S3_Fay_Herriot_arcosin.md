@@ -1,5 +1,5 @@
 
-# Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.
+# Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.
 
 
 
@@ -29,8 +29,8 @@ Suponga de las distribuciones previas para
 $\boldsymbol{\beta}$ y $\sigma_{v}^{2}$ son dadas por 
 $$
 \begin{eqnarray*}
-\boldsymbol{\beta}	\sim	N\left(0,1000\right)\\
-\sigma_{v}^{2}	\sim	IG\left(0.0001,0.0001}\right)
+\boldsymbol{\beta}	\sim	N\left(0,1000 \right)\\
+\sigma_{v}^{2}	\sim	IG\left(0.0001,0.0001\right)
 \end{eqnarray*}
 $$
 
@@ -379,21 +379,6 @@ sample_data <- list(
   
 
 ```r
-# library(cmdstanr)
-# # file.edit("Data/modelosStan/15FH_arcsin_normal.stan")
-# fit_FH_arcoseno <- cmdstan_model("Recursos/Día2/Sesion3/Data/modelosStan/15FH_arcsin_normal.stan")
-# 
-# model_FH_arcoseno <-
-#   fit_FH_arcoseno$sample(
-#     data = sample_data,
-#     chains = 4,
-#     parallel_chains = 4,
-#     iter_warmup = 2000,
-#     iter_sampling = 1000,
-#     seed = 1234,
-#     refresh = 1000
-#   )
-
 library(rstan)
 fit_FH_arcoseno <- "Recursos/Día2/Sesion3/Data/modelosStan/15FH_arcsin_normal.stan"
 options(mc.cores = parallel::detectCores())
@@ -405,7 +390,15 @@ model_FH_arcoseno <- stan(
   iter = 1000,            
   cores = 4              
 )
+saveRDS(model_FH_arcoseno,
+        "Recursos/Día2/Sesion3/Data/model_FH_arcoseno.rds")
 ```
+
+
+```r
+model_FH_arcoseno <- readRDS("Recursos/Día2/Sesion3/Data/model_FH_arcoseno.rds")
+```
+
 
 ### Resultados del modelo para los dominios observados. 
 
@@ -420,7 +413,7 @@ Finalmente, se utiliza la función `ppc_dens_overlay()` de `bayesplot` para graf
 library(bayesplot)
 library(patchwork)
 library(posterior)
-# y_pred_B <- model_FH_arcoseno$draws(variables = "theta", format = "matrix")
+
 y_pred_B <- as.array(model_FH_arcoseno, pars = "theta") %>% 
   as_draws_matrix()
 rowsrandom <- sample(nrow(y_pred_B), 100)
@@ -429,29 +422,24 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(data_dir$pobreza), y_pred2)
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-10-1.svg" width="672" />
+<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
 
 Análisis gráfico de la convergencia de las cadenas de $\sigma^2_V$. 
 
 
 ```r
-# (mcmc_dens_chains(model_FH_arcoseno$draws("sigma_v")) +
-#     mcmc_areas(model_FH_arcoseno$draws("sigma_v")))/ 
-#   mcmc_trace(model_FH_arcoseno$draws("sigma_v"))
-
 posterior_sigma2_v <- as.array(model_FH_arcoseno, pars = "sigma2_v")
 (mcmc_dens_chains(posterior_sigma2_v) +
     mcmc_areas(posterior_sigma2_v) ) / 
   mcmc_trace(posterior_sigma2_v)
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
+<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
 
 Estimación del FH de la pobreza en los dominios observados. 
 
 
 ```r
-# theta_FH <- model_FH_arcoseno$summary(variables =  "theta")
 theta_FH <-   summary(model_FH_arcoseno,pars =  "theta")$summary %>%
   data.frame()
 data_dir %<>% mutate(pred_arcoseno = theta_FH$mean, 
@@ -463,7 +451,6 @@ Estimación del FH de la pobreza en los dominios NO observados.
 
 
 ```r
-# theta_FH_pred <- model_FH_arcoseno$summary(variables =  "theta_pred")
 theta_FH_pred <- summary(model_FH_arcoseno,pars =  "theta_pred")$summary %>%
   data.frame()
 data_syn <- data_syn %>% 
@@ -473,6 +460,8 @@ data_syn <- data_syn %>%
 ```
 
 ## Mapa de pobreza
+
+El siguiente bloque de código  carga los paquetes `sp`, `sf` y `tmap`, y realiza algunas operaciones. Primero, une (rbind) las estimaciones de los dominios observados y los no observados (`data_dir`, `data_syn`) y selecciona las variables `dam2`, `pobreza`, `pred_arcoseno`, `pred_arcoseno_EE` y `Cv_pred` utilizando la función `select()`. Luego, lee un archivo `Shapefile` que contiene información geoespacial del país. A continuación, crea un mapa temático (`tmap`) utilizando la función `tm_shape()` y agregando capas con la función `tm_polygons()`. El mapa representa dos variables llamadas pobreza y `pred_arcoseno`, utilizando una paleta de colores llamada "YlOrRd" y establece los cortes de los intervalos de las variables con la variable `brks_lp`. Finalmente, la función `tm_layout()` establece algunos parámetros de diseño del mapa, como la relación de aspecto (asp).
 
 
 ```r
@@ -504,9 +493,13 @@ Mapa_lp <-
 Mapa_lp
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-14-1.svg" width="672" height="120%" />
 
-Coeficiente de variación.  
+<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+
+
+## Mapa del coeficiente de variación.  
+
+Ahora, se crea un segundo mapa temático (`tmap`) llamado `Mapa_cv`. Utiliza la misma estructura del primer mapa (mapa) creado anteriormente y agrega una capa utilizando la función `tm_polygons()`. El mapa representa la variable `Cv_pred`, utilizando una paleta de colores llamada "YlOrRd" y establece el título del mapa con el parámetro `title`. La función `tm_layout()` establece algunos parámetros de diseño del mapa, como la relación de aspecto (asp). Finalmente, el mapa Mapa_cv se muestra en la consola de R.
 
 
 ```r
@@ -521,6 +514,6 @@ Mapa_cv <-
 Mapa_cv
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-15-1.svg" width="672" height="120%" />
 
+<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
 

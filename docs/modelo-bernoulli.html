@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
 <li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
@@ -217,6 +217,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a Taller de instalación de capacidades en SAE </a></li>
@@ -328,55 +337,45 @@ E(X) = \frac{\alpha}{\alpha + \beta} = \frac{1.0299\times 10^{4}}{1.0299\times 1
 <div id="práctica-en-stan" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Práctica en <strong>STAN</strong><a href="modelo-bernoulli.html#práctica-en-stan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>En <code>STAN</code> es posible obtener el mismo tipo de inferencia creando cuatro cadenas cuya distribución de probabilidad coincide con la distribución posterior del ejemplo.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="modelo-bernoulli.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Definir el modelo</span></span>
-<span id="cb19-2"><a href="modelo-bernoulli.html#cb19-2" aria-hidden="true" tabindex="-1"></a>data {                         <span class="sc">/</span><span class="er">/</span> Entrada el modelo </span>
-<span id="cb19-3"><a href="modelo-bernoulli.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> n;              <span class="sc">/</span><span class="er">/</span> Numero de observaciones  </span>
-<span id="cb19-4"><a href="modelo-bernoulli.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  int y[n];                    <span class="sc">/</span><span class="er">/</span> Vector de longitud n</span>
-<span id="cb19-5"><a href="modelo-bernoulli.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  real a;</span>
-<span id="cb19-6"><a href="modelo-bernoulli.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  real b;</span>
-<span id="cb19-7"><a href="modelo-bernoulli.html#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-8"><a href="modelo-bernoulli.html#cb19-8" aria-hidden="true" tabindex="-1"></a>parameters {                   <span class="sc">/</span><span class="er">/</span> Definir parámetro</span>
-<span id="cb19-9"><a href="modelo-bernoulli.html#cb19-9" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span>, upper<span class="ot">=</span><span class="dv">1</span><span class="sc">&gt;</span> theta;</span>
-<span id="cb19-10"><a href="modelo-bernoulli.html#cb19-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-11"><a href="modelo-bernoulli.html#cb19-11" aria-hidden="true" tabindex="-1"></a>model {                        <span class="sc">/</span><span class="er">/</span> Definir modelo</span>
-<span id="cb19-12"><a href="modelo-bernoulli.html#cb19-12" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">bernoulli</span>(theta);</span>
-<span id="cb19-13"><a href="modelo-bernoulli.html#cb19-13" aria-hidden="true" tabindex="-1"></a>  theta <span class="sc">~</span> <span class="fu">beta</span>(a, b);      <span class="sc">/</span><span class="er">/</span> Distribución previa </span>
-<span id="cb19-14"><a href="modelo-bernoulli.html#cb19-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-15"><a href="modelo-bernoulli.html#cb19-15" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
-<span id="cb19-16"><a href="modelo-bernoulli.html#cb19-16" aria-hidden="true" tabindex="-1"></a>    real ypred[n];                    <span class="sc">/</span><span class="er">/</span> vector de longitud n</span>
-<span id="cb19-17"><a href="modelo-bernoulli.html#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb19-18"><a href="modelo-bernoulli.html#cb19-18" aria-hidden="true" tabindex="-1"></a>    ypred[ii] <span class="ot">=</span> <span class="fu">bernoulli_rng</span>(theta);</span>
-<span id="cb19-19"><a href="modelo-bernoulli.html#cb19-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-20"><a href="modelo-bernoulli.html#cb19-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="modelo-bernoulli.html#cb19-1" aria-hidden="true" tabindex="-1"></a>data {                         <span class="sc">/</span><span class="er">/</span> Entrada el modelo </span>
+<span id="cb19-2"><a href="modelo-bernoulli.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  int<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span><span class="sc">&gt;</span> n;              <span class="sc">/</span><span class="er">/</span> Numero de observaciones  </span>
+<span id="cb19-3"><a href="modelo-bernoulli.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  int y[n];                    <span class="sc">/</span><span class="er">/</span> Vector de longitud n</span>
+<span id="cb19-4"><a href="modelo-bernoulli.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  real a;</span>
+<span id="cb19-5"><a href="modelo-bernoulli.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  real b;</span>
+<span id="cb19-6"><a href="modelo-bernoulli.html#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-7"><a href="modelo-bernoulli.html#cb19-7" aria-hidden="true" tabindex="-1"></a>parameters {                   <span class="sc">/</span><span class="er">/</span> Definir parámetro</span>
+<span id="cb19-8"><a href="modelo-bernoulli.html#cb19-8" aria-hidden="true" tabindex="-1"></a>  real<span class="sc">&lt;</span>lower<span class="ot">=</span><span class="dv">0</span>, upper<span class="ot">=</span><span class="dv">1</span><span class="sc">&gt;</span> theta;</span>
+<span id="cb19-9"><a href="modelo-bernoulli.html#cb19-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-10"><a href="modelo-bernoulli.html#cb19-10" aria-hidden="true" tabindex="-1"></a>model {                        <span class="sc">/</span><span class="er">/</span> Definir modelo</span>
+<span id="cb19-11"><a href="modelo-bernoulli.html#cb19-11" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> <span class="fu">bernoulli</span>(theta);</span>
+<span id="cb19-12"><a href="modelo-bernoulli.html#cb19-12" aria-hidden="true" tabindex="-1"></a>  theta <span class="sc">~</span> <span class="fu">beta</span>(a, b);      <span class="sc">/</span><span class="er">/</span> Distribución previa </span>
+<span id="cb19-13"><a href="modelo-bernoulli.html#cb19-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-14"><a href="modelo-bernoulli.html#cb19-14" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
+<span id="cb19-15"><a href="modelo-bernoulli.html#cb19-15" aria-hidden="true" tabindex="-1"></a>    real ypred[n];                    <span class="sc">/</span><span class="er">/</span> vector de longitud n</span>
+<span id="cb19-16"><a href="modelo-bernoulli.html#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb19-17"><a href="modelo-bernoulli.html#cb19-17" aria-hidden="true" tabindex="-1"></a>    ypred[ii] <span class="ot">=</span> <span class="fu">bernoulli_rng</span>(theta);</span>
+<span id="cb19-18"><a href="modelo-bernoulli.html#cb19-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-19"><a href="modelo-bernoulli.html#cb19-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Para compilar <em>STAN</em> debemos definir los parámetros de entrada</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="modelo-bernoulli.html#cb20-1" aria-hidden="true" tabindex="-1"></a>    sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">nrow</span>(datay),</span>
 <span id="cb20-2"><a href="modelo-bernoulli.html#cb20-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y =</span> datay<span class="sc">$</span>y,</span>
 <span id="cb20-3"><a href="modelo-bernoulli.html#cb20-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">1</span>,</span>
 <span id="cb20-4"><a href="modelo-bernoulli.html#cb20-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">b =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>cmdstanr</em></p>
+<p>Para ejecutar <code>STAN</code> en R tenemos la librería <em>rstan</em></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="modelo-bernoulli.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmdstanr)</span>
 <span id="cb21-2"><a href="modelo-bernoulli.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb21-3"><a href="modelo-bernoulli.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># file.edit(&quot;Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan&quot;)</span></span>
-<span id="cb21-4"><a href="modelo-bernoulli.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Bernoulli &lt;- cmdstan_model(stan_file = &quot;Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan&quot;) </span></span>
-<span id="cb21-5"><a href="modelo-bernoulli.html#cb21-5" aria-hidden="true" tabindex="-1"></a>Bernoulli <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="modelo-bernoulli.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_Bernoulli &lt;- Bernoulli$sample(data = sample_data, </span></span>
-<span id="cb22-2"><a href="modelo-bernoulli.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                  chains = 4,</span></span>
-<span id="cb22-3"><a href="modelo-bernoulli.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                  parallel_chains = 4,</span></span>
-<span id="cb22-4"><a href="modelo-bernoulli.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                  seed = 1234,</span></span>
-<span id="cb22-5"><a href="modelo-bernoulli.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                  refresh = 1000)</span></span>
-<span id="cb22-6"><a href="modelo-bernoulli.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb22-7"><a href="modelo-bernoulli.html#cb22-7" aria-hidden="true" tabindex="-1"></a>model_Bernoulli <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb22-8"><a href="modelo-bernoulli.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Bernoulli,  <span class="co"># Stan program</span></span>
-<span id="cb22-9"><a href="modelo-bernoulli.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
-<span id="cb22-10"><a href="modelo-bernoulli.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb22-11"><a href="modelo-bernoulli.html#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,          <span class="co"># number of warmup iterations per chain</span></span>
-<span id="cb22-12"><a href="modelo-bernoulli.html#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb22-13"><a href="modelo-bernoulli.html#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb22-14"><a href="modelo-bernoulli.html#cb22-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb21-3"><a href="modelo-bernoulli.html#cb21-3" aria-hidden="true" tabindex="-1"></a>Bernoulli <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="modelo-bernoulli.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb22-2"><a href="modelo-bernoulli.html#cb22-2" aria-hidden="true" tabindex="-1"></a>model_Bernoulli <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb22-3"><a href="modelo-bernoulli.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> Bernoulli,  <span class="co"># Stan program</span></span>
+<span id="cb22-4"><a href="modelo-bernoulli.html#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
+<span id="cb22-5"><a href="modelo-bernoulli.html#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-6"><a href="modelo-bernoulli.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,          <span class="co"># number of warmup iterations per chain</span></span>
+<span id="cb22-7"><a href="modelo-bernoulli.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb22-8"><a href="modelo-bernoulli.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb22-9"><a href="modelo-bernoulli.html#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>La estimación del parámetro <span class="math inline">\(\theta\)</span> es:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="modelo-bernoulli.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model_Bernoulli$summary(variables = &quot;theta&quot;) %&gt;%</span></span>
-<span id="cb23-2"><a href="modelo-bernoulli.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(variable:q95) %&gt;% tba()</span></span>
-<span id="cb23-3"><a href="modelo-bernoulli.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="modelo-bernoulli.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -420,34 +419,34 @@ Rhat
 theta
 </td>
 <td style="text-align:right;">
-0.5182
+0.5179
 </td>
 <td style="text-align:right;">
 1e-04
 </td>
 <td style="text-align:right;">
-0.0034
+0.0035
 </td>
 <td style="text-align:right;">
-0.5115
+0.5109
 </td>
 <td style="text-align:right;">
-0.516
+0.5155
 </td>
 <td style="text-align:right;">
-0.5182
+0.5178
 </td>
 <td style="text-align:right;">
-0.5206
+0.5201
 </td>
 <td style="text-align:right;">
-0.5243
+0.5246
 </td>
 <td style="text-align:right;">
-740.5358
+799.1369
 </td>
 <td style="text-align:right;">
-1.0028
+1.002
 </td>
 </tr>
 </tbody>
@@ -455,17 +454,16 @@ theta
 <p>Para observar las cadenas compilamos las lineas de código</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="modelo-bernoulli.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior) </span>
 <span id="cb24-2"><a href="modelo-bernoulli.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb24-3"><a href="modelo-bernoulli.html#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#temp &lt;- as_draws_df(model_Bernoulli$draws(variables = &quot;theta&quot;))</span></span>
-<span id="cb24-4"><a href="modelo-bernoulli.html#cb24-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(<span class="fu">as.array</span>(model_Bernoulli,<span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span>
-<span id="cb24-5"><a href="modelo-bernoulli.html#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="modelo-bernoulli.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> temp, <span class="fu">aes</span>(<span class="at">x =</span> theta))<span class="sc">+</span> </span>
-<span id="cb24-7"><a href="modelo-bernoulli.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb24-8"><a href="modelo-bernoulli.html#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> posterior1,</span>
-<span id="cb24-9"><a href="modelo-bernoulli.html#cb24-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">y =</span> datay<span class="sc">$</span>y),</span>
-<span id="cb24-10"><a href="modelo-bernoulli.html#cb24-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb24-11"><a href="modelo-bernoulli.html#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> </span>
-<span id="cb24-12"><a href="modelo-bernoulli.html#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">theta&quot;</span>),</span>
-<span id="cb24-13"><a href="modelo-bernoulli.html#cb24-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;f(</span><span class="sc">\\</span><span class="st">theta)&quot;</span>))</span></code></pre></div>
+<span id="cb24-3"><a href="modelo-bernoulli.html#cb24-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(<span class="fu">as.array</span>(model_Bernoulli,<span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>))</span>
+<span id="cb24-4"><a href="modelo-bernoulli.html#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="modelo-bernoulli.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> temp, <span class="fu">aes</span>(<span class="at">x =</span> theta))<span class="sc">+</span> </span>
+<span id="cb24-6"><a href="modelo-bernoulli.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="modelo-bernoulli.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> posterior1,</span>
+<span id="cb24-8"><a href="modelo-bernoulli.html#cb24-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">y =</span> datay<span class="sc">$</span>y),</span>
+<span id="cb24-9"><a href="modelo-bernoulli.html#cb24-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb24-10"><a href="modelo-bernoulli.html#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> </span>
+<span id="cb24-11"><a href="modelo-bernoulli.html#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">theta&quot;</span>),</span>
+<span id="cb24-12"><a href="modelo-bernoulli.html#cb24-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">&quot;f(</span><span class="sc">\\</span><span class="st">theta)&quot;</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
 <img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-11-1.svg" alt="Resultado con STAN (línea azul) y posterior teórica (línea negra)" width="672" />
 <p class="caption">
@@ -474,23 +472,18 @@ Figura 4.2: Resultado con STAN (línea azul) y posterior teórica (línea negra)
 </div>
 <p>Para validar las cadenas</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="modelo-bernoulli.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb25-2"><a href="modelo-bernoulli.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (mcmc_dens_chains(model_Bernoulli$draws(&quot;theta&quot;)) +</span></span>
-<span id="cb25-3"><a href="modelo-bernoulli.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_areas(model_Bernoulli$draws(&quot;theta&quot;)))/ </span></span>
-<span id="cb25-4"><a href="modelo-bernoulli.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># mcmc_trace(model_Bernoulli$draws(&quot;theta&quot;)) </span></span>
-<span id="cb25-5"><a href="modelo-bernoulli.html#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="modelo-bernoulli.html#cb25-6" aria-hidden="true" tabindex="-1"></a>posterior_theta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)</span>
-<span id="cb25-7"><a href="modelo-bernoulli.html#cb25-7" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta) <span class="sc">+</span></span>
-<span id="cb25-8"><a href="modelo-bernoulli.html#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta) ) <span class="sc">/</span> </span>
-<span id="cb25-9"><a href="modelo-bernoulli.html#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta)</span></code></pre></div>
+<span id="cb25-2"><a href="modelo-bernoulli.html#cb25-2" aria-hidden="true" tabindex="-1"></a>posterior_theta <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb25-3"><a href="modelo-bernoulli.html#cb25-3" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_theta) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="modelo-bernoulli.html#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_theta) ) <span class="sc">/</span> </span>
+<span id="cb25-5"><a href="modelo-bernoulli.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_theta)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
 <p>Predicción de <span class="math inline">\(Y\)</span> en cada una de las iteraciones de las cadenas.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="modelo-bernoulli.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># y_pred_B &lt;- model_Bernoulli$draws(variables = &quot;ypred&quot;, format = &quot;matrix&quot;)</span></span>
-<span id="cb26-2"><a href="modelo-bernoulli.html#cb26-2" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-3"><a href="modelo-bernoulli.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb26-4"><a href="modelo-bernoulli.html#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="modelo-bernoulli.html#cb26-5" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
-<span id="cb26-6"><a href="modelo-bernoulli.html#cb26-6" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, <span class="dv">1</span><span class="sc">:</span>n]</span>
-<span id="cb26-7"><a href="modelo-bernoulli.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> datay<span class="sc">$</span>y, y_pred2)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="modelo-bernoulli.html#cb26-1" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_Bernoulli, <span class="at">pars =</span> <span class="st">&quot;ypred&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="modelo-bernoulli.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
+<span id="cb26-3"><a href="modelo-bernoulli.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="modelo-bernoulli.html#cb26-4" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
+<span id="cb26-5"><a href="modelo-bernoulli.html#cb26-5" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, <span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb26-6"><a href="modelo-bernoulli.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> datay<span class="sc">$</span>y, y_pred2)</span></code></pre></div>
 <p><img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-13-1.svg" width="672" /></p>
 </div>
 </div>

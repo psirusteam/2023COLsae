@@ -502,18 +502,7 @@ generated quantities{
 ```
 
  4. Compilando el modelo en `STAN`.
-A continuación mostramos dos formas de compilar el código de `STAN` desde R.  
-
-  -   Compilando con la librería `cmdstanr`
-En este código se utiliza la librería `cmdstanr` para ajustar un modelo bayesiano utilizando el archivo `17FH_normal.stan` que contiene el modelo escrito en el lenguaje de modelado probabilístico Stan.
-
-En primer lugar, se utiliza la función `cmdstan_model()` para cargar el modelo Stan. A continuación, se utiliza la función `fit_FH_normal$sample()` para ajustar el modelo a los datos de `sample_data` utilizando el método MCMC (Cadenas de Markov Monte Carlo), que es una técnica bayesiana para generar muestras de la distribución posterior del modelo.
-
-Los argumentos que se pasan a `fit_FH_normal$sample()` incluyen la cantidad de cadenas (`chains`) y el número de iteraciones para el período de calentamiento (`iter_warmup`) y el período de muestreo (`iter_sampling`), así como el número de cadenas paralelas que se ejecutan (`parallel_chains`) y la semilla aleatoria (`seed`). Además, se especifica la frecuencia con la que se actualizan los mensajes de progreso con el argumento `refresh`.
-
-El resultado del ajuste del modelo es almacenado en `model_FH_normal`, que contiene una muestra de la distribución posterior del modelo, la cual puede ser utilizada para realizar inferencias sobre los parámetros del modelo y las predicciones.
-
--   Compilando con la librería `rstan`
+A continuación mostramos la forma de compilar el código de `STAN` desde R.  
 
 En este código se utiliza la librería `rstan` para ajustar un modelo bayesiano utilizando el archivo `17FH_normal.stan` que contiene el modelo escrito en el lenguaje de modelado probabilístico Stan.
 
@@ -525,20 +514,6 @@ El resultado del ajuste del modelo es almacenado en `model_FH_normal`, que conti
 
 
 ```r
-# library(cmdstanr)
- # file.edit("Data/modelosStan/17FH_normal.stan")
- # fit_FH_normal <- cmdstan_model("Recursos/Día2/Sesion2/Data/modelosStan/17FH_normal.stan")
-# 
-# model_FH_normal <-
-#   fit_FH_normal$sample(
-#     data = sample_data,
-#     chains = 4,
-#     parallel_chains = 4,
-#     iter_warmup = 2000,
-#     iter_sampling = 1000,
-#     seed = 1234,
-#     refresh = 1000
-#   )
 library(rstan)
 fit_FH_normal <- "Recursos/Día2/Sesion2/Data/modelosStan/17FH_normal.stan"
 options(mc.cores = parallel::detectCores())
@@ -573,7 +548,6 @@ Finalmente, se utiliza la función `ppc_dens_overlay()` de `bayesplot` para graf
 library(bayesplot)
 library(posterior)
 library(patchwork)
-# y_pred_B <- model_FH_normal$draws(variables = "theta", format = "matrix")
 y_pred_B <- as.array(model_FH_normal, pars = "theta") %>% 
   as_draws_matrix()
 rowsrandom <- sample(nrow(y_pred_B), 100)
@@ -587,10 +561,6 @@ Análisis gráfico de la convergencia de las cadenas de $\sigma^2_V$.
 
 
 ```r
-# (mcmc_dens_chains(model_FH_normal$draws("sigma2_v")) +
-#     mcmc_areas(model_FH_normal$draws("sigma2_v")))/ 
-#   mcmc_trace(model_FH_normal$draws("sigma2_v"))
-
 posterior_sigma2_v <- as.array(model_FH_normal, pars = "sigma2_v")
 (mcmc_dens_chains(posterior_sigma2_v) +
     mcmc_areas(posterior_sigma2_v) ) / 
@@ -603,9 +573,6 @@ Como método de validación se comparan las diferentes elementos de la estimaci�
 
 
 ```r
-# theta <- model_FH_normal$summary(variables =  "theta")
-# thetaSyn <- model_FH_normal$summary(variables =  "thetaSyn")
-# theta_FH <- model_FH_normal$summary(variables =  "thetaFH")
 theta <-   summary(model_FH_normal,pars =  "theta")$summary %>%
   data.frame()
 thetaSyn <-   summary(model_FH_normal,pars =  "thetaSyn")$summary %>%
@@ -656,8 +623,6 @@ Estimación del FH de la pobreza en los dominios NO observados.
 
 
 ```r
-# theta_syn_pred <- model_FH_normal$summary(variables =  "y_pred")
-
 theta_syn_pred <- summary(model_FH_normal,pars =  "y_pred")$summary %>%
   data.frame()
 
@@ -1419,6 +1384,8 @@ tba(temp)
 
 ## Mapa de pobreza
 
+Este es un bloque de código se cargan varios paquetes (`sp`, `sf`, `tmap`) y realiza algunas operaciones. Primero, realiza una unión (`left_join`) entre las estimaciones de ajustadas por el Benchmarking (`estimacionesBench`) y las estimaciones del modelo  (`data_dir`,  `data_syn`), utilizando la variable `dam2` como clave para la unión. Luego, lee un archivo `Shapefile` que contiene información geoespacial del país. A continuación, crea un mapa temático (`tmap`) utilizando la función `tm_shape()` y agregando capas con la función `tm_polygons()`. El mapa representa una variable `theta_pred_RBench` utilizando una paleta de colores llamada "YlOrRd" y establece los cortes de los intervalos de la variable con la variable `brks_lp.` Finalmente, la función `tm_layout()` establece algunos parámetros de diseño del mapa, como la relación de aspecto (asp).
+
 
 ```r
 library(sp)
@@ -1451,6 +1418,8 @@ Mapa_lp <-
 Mapa_lp
 ```
 
-<img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-26-1.svg" width="672" height="120%" />
+
+<img src="Recursos/Día2/Sesion2/0Recursos/Mapa_COL_pobreza_normal.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+
 
 
