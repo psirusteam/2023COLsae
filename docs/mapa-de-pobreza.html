@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>6.5 Mapa de pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="6.5 Mapa de pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="6.5 Mapa de pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"/>
-<link rel="next" href="inferencia-bayesiana..html"/>
+<link rel="prev" href="validación-de-los-resultados..html"/>
+<link rel="next" href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,32 +238,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regla-de-bayes" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Regla de Bayes<a href="regla-de-bayes.html#regla-de-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En términos de inferencia para <span class="math inline">\(\boldsymbol{\theta}\)</span>, es necesario encontrar la distribución de los parámetros condicionada a la observación de los datos. Para este fin, es necesario definir la distribución conjunta de la variable de interés con el vector de parámetros.</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta},\mathbf{Y})=p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})
-\]</span></p>
-<ul>
-<li><p>La distribución <span class="math inline">\(p(\boldsymbol{\theta})\)</span> se le conoce con el nombre de distribución previa.</p></li>
-<li><p>El término <span class="math inline">\(p(\mathbf{Y} \mid \boldsymbol{\theta})\)</span> es la distribución de muestreo, verosimilitud o distribución de los datos.</p></li>
-<li><p>La distribución del vector de parámetros condicionada a los datos observados está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})=\frac{p(\boldsymbol{\theta},\mathbf{Y})}{p(\mathbf{Y})}=\frac{p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})}{p(\mathbf{Y})}
-\]</span></p></li>
-<li><p>A la distribución <span class="math inline">\(p(\boldsymbol{\theta} \mid \mathbf{Y})\)</span> se le conoce con el nombre de distribución <strong><em>posterior</em></strong>. Nótese que el denominador no depende del vector de parámetros y considerando a los datos observados como fijos, corresponde a una constante y puede ser obviada. Por lo tanto, otra representación de la regla de Bayes está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})\propto p(\mathbf{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta})
-\]</span></p></li>
-</ul>
+<div id="mapa-de-pobreza" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Mapa de pobreza<a href="mapa-de-pobreza.html#mapa-de-pobreza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="mapa-de-pobreza.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb106-2"><a href="mapa-de-pobreza.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb106-3"><a href="mapa-de-pobreza.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb106-4"><a href="mapa-de-pobreza.html#cb106-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-5"><a href="mapa-de-pobreza.html#cb106-5" aria-hidden="true" tabindex="-1"></a>estimacionesBench <span class="sc">%&lt;&gt;%</span> <span class="fu">left_join</span>(</span>
+<span id="cb106-6"><a href="mapa-de-pobreza.html#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb106-7"><a href="mapa-de-pobreza.html#cb106-7" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, theta_pred_EE , Cv_theta_pred),</span>
+<span id="cb106-8"><a href="mapa-de-pobreza.html#cb106-8" aria-hidden="true" tabindex="-1"></a>data_syn <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, theta_pred_EE , Cv_theta_pred)))</span>
+<span id="cb106-9"><a href="mapa-de-pobreza.html#cb106-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-10"><a href="mapa-de-pobreza.html#cb106-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Leer Shapefile del país</span></span>
+<span id="cb106-11"><a href="mapa-de-pobreza.html#cb106-11" aria-hidden="true" tabindex="-1"></a>ShapeSAE <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Shape/COL_dam2.shp&quot;</span>)</span>
+<span id="cb106-12"><a href="mapa-de-pobreza.html#cb106-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-13"><a href="mapa-de-pobreza.html#cb106-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-14"><a href="mapa-de-pobreza.html#cb106-14" aria-hidden="true" tabindex="-1"></a>mapa <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(ShapeSAE <span class="sc">%&gt;%</span></span>
+<span id="cb106-15"><a href="mapa-de-pobreza.html#cb106-15" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">left_join</span>(estimacionesBench,  <span class="at">by =</span> <span class="st">&quot;dam2&quot;</span>))</span>
+<span id="cb106-16"><a href="mapa-de-pobreza.html#cb106-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-17"><a href="mapa-de-pobreza.html#cb106-17" aria-hidden="true" tabindex="-1"></a>brks_lp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.1</span>,<span class="fl">0.15</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="dv">1</span>)</span>
+<span id="cb106-18"><a href="mapa-de-pobreza.html#cb106-18" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(<span class="at">check.and.fix =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb106-19"><a href="mapa-de-pobreza.html#cb106-19" aria-hidden="true" tabindex="-1"></a>Mapa_lp <span class="ot">&lt;-</span></span>
+<span id="cb106-20"><a href="mapa-de-pobreza.html#cb106-20" aria-hidden="true" tabindex="-1"></a>  mapa <span class="sc">+</span> <span class="fu">tm_polygons</span>(</span>
+<span id="cb106-21"><a href="mapa-de-pobreza.html#cb106-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;theta_pred_RBench&quot;</span>),</span>
+<span id="cb106-22"><a href="mapa-de-pobreza.html#cb106-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> brks_lp,</span>
+<span id="cb106-23"><a href="mapa-de-pobreza.html#cb106-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Mapa de pobreza&quot;</span>,</span>
+<span id="cb106-24"><a href="mapa-de-pobreza.html#cb106-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">&quot;YlOrRd&quot;</span>,</span>
+<span id="cb106-25"><a href="mapa-de-pobreza.html#cb106-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">colorNA =</span> <span class="st">&quot;white&quot;</span></span>
+<span id="cb106-26"><a href="mapa-de-pobreza.html#cb106-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">1.5</span>)</span>
+<span id="cb106-27"><a href="mapa-de-pobreza.html#cb106-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-28"><a href="mapa-de-pobreza.html#cb106-28" aria-hidden="true" tabindex="-1"></a>Mapa_lp</span></code></pre></div>
+<p><img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-26-1.svg" width="672" height="120%" /></p>
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="inferencia-bayesiana..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="validación-de-los-resultados..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -294,7 +309,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/04-D2S2_Fay_Herriot_normal.qmd",
 "text": "Edit"
 },
 "history": {

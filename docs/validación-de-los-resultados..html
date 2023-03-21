@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>6.4 Validación de los resultados. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="6.4 Validación de los resultados. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="6.4 Validación de los resultados. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"/>
-<link rel="next" href="inferencia-bayesiana..html"/>
+<link rel="prev" href="proceso-de-benchmark.html"/>
+<link rel="next" href="mapa-de-pobreza.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,32 +238,107 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regla-de-bayes" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Regla de Bayes<a href="regla-de-bayes.html#regla-de-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En términos de inferencia para <span class="math inline">\(\boldsymbol{\theta}\)</span>, es necesario encontrar la distribución de los parámetros condicionada a la observación de los datos. Para este fin, es necesario definir la distribución conjunta de la variable de interés con el vector de parámetros.</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta},\mathbf{Y})=p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})
-\]</span></p>
-<ul>
-<li><p>La distribución <span class="math inline">\(p(\boldsymbol{\theta})\)</span> se le conoce con el nombre de distribución previa.</p></li>
-<li><p>El término <span class="math inline">\(p(\mathbf{Y} \mid \boldsymbol{\theta})\)</span> es la distribución de muestreo, verosimilitud o distribución de los datos.</p></li>
-<li><p>La distribución del vector de parámetros condicionada a los datos observados está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})=\frac{p(\boldsymbol{\theta},\mathbf{Y})}{p(\mathbf{Y})}=\frac{p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})}{p(\mathbf{Y})}
-\]</span></p></li>
-<li><p>A la distribución <span class="math inline">\(p(\boldsymbol{\theta} \mid \mathbf{Y})\)</span> se le conoce con el nombre de distribución <strong><em>posterior</em></strong>. Nótese que el denominador no depende del vector de parámetros y considerando a los datos observados como fijos, corresponde a una constante y puede ser obviada. Por lo tanto, otra representación de la regla de Bayes está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})\propto p(\mathbf{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta})
-\]</span></p></li>
-</ul>
+<div id="validación-de-los-resultados." class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Validación de los resultados.<a href="validación-de-los-resultados..html#validación-de-los-resultados." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Este código junta las estimaciones del modelo con pesos de benchmarking con los valores observados y sintéticos, y luego resume las estimaciones combinadas para compararlas con la estimación directa obtenida anteriormente.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="validación-de-los-resultados..html#cb105-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> estimacionesBench <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(</span>
+<span id="cb105-2"><a href="validación-de-los-resultados..html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb105-3"><a href="validación-de-los-resultados..html#cb105-3" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH),</span>
+<span id="cb105-4"><a href="validación-de-los-resultados..html#cb105-4" aria-hidden="true" tabindex="-1"></a>data_syn <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, thetaSyn, thetaFH))) <span class="sc">%&gt;%</span> </span>
+<span id="cb105-5"><a href="validación-de-los-resultados..html#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">thetaSyn =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> thetaSyn),</span>
+<span id="cb105-6"><a href="validación-de-los-resultados..html#cb105-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">thetaFH =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred),</span>
+<span id="cb105-7"><a href="validación-de-los-resultados..html#cb105-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">theta_RBench =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred_RBench)</span>
+<span id="cb105-8"><a href="validación-de-los-resultados..html#cb105-8" aria-hidden="true" tabindex="-1"></a>          ) <span class="sc">%&gt;%</span> </span>
+<span id="cb105-9"><a href="validación-de-los-resultados..html#cb105-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">theta_dir =</span> directoDam<span class="sc">$</span>theta_dir,</span>
+<span id="cb105-10"><a href="validación-de-los-resultados..html#cb105-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_low =</span>directoDam<span class="sc">$</span>theta_dir_low, </span>
+<span id="cb105-11"><a href="validación-de-los-resultados..html#cb105-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta_dir_upp =</span> directoDam<span class="sc">$</span>theta_dir_upp)</span>
+<span id="cb105-12"><a href="validación-de-los-resultados..html#cb105-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-13"><a href="validación-de-los-resultados..html#cb105-13" aria-hidden="true" tabindex="-1"></a>temp <span class="sc">%&lt;&gt;%</span> <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;Metodo&quot;</span>,<span class="at">value =</span> <span class="st">&quot;Estimacion&quot;</span>, <span class="sc">-</span>theta_dir_low,<span class="sc">-</span>theta_dir_upp)</span>
+<span id="cb105-14"><a href="validación-de-los-resultados..html#cb105-14" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(temp)</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+theta_dir_low
+</th>
+<th style="text-align:right;">
+theta_dir_upp
+</th>
+<th style="text-align:left;">
+Metodo
+</th>
+<th style="text-align:right;">
+Estimacion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.2935
+</td>
+<td style="text-align:right;">
+0.3038
+</td>
+<td style="text-align:left;">
+thetaSyn
+</td>
+<td style="text-align:right;">
+0.2965
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.2935
+</td>
+<td style="text-align:right;">
+0.3038
+</td>
+<td style="text-align:left;">
+thetaFH
+</td>
+<td style="text-align:right;">
+0.2943
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.2935
+</td>
+<td style="text-align:right;">
+0.3038
+</td>
+<td style="text-align:left;">
+theta_RBench
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.2935
+</td>
+<td style="text-align:right;">
+0.3038
+</td>
+<td style="text-align:left;">
+theta_dir
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+</tbody>
+</table>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="inferencia-bayesiana..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="proceso-de-benchmark.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mapa-de-pobreza.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -294,7 +369,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/04-D2S2_Fay_Herriot_normal.qmd",
 "text": "Edit"
 },
 "history": {

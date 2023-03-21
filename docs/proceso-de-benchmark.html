@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.1 Datos de la encuesta | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>6.3 Proceso de Benchmark | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.1 Datos de la encuesta | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="6.3 Proceso de Benchmark | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.1 Datos de la encuesta | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="6.3 Proceso de Benchmark | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"/>
-<link rel="next" href="análisis-gráfico.html"/>
+<link rel="prev" href="preparando-los-insumos-para-stan.html"/>
+<link rel="next" href="validación-de-los-resultados..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,33 +238,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datos-de-la-encuesta" class="section level2 hasAnchor" number="5.1">
-<h2><span class="header-section-number">5.1</span> Datos de la encuesta<a href="datos-de-la-encuesta.html#datos-de-la-encuesta" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El siguiente bloque de código utiliza varias librerías en R (<code>tidyverse</code> y <code>magrittr</code>), así como también utiliza una función definida en otro archivo (source(“Recursos/Día2/Sesion1/0Recursos/0Source_FH.R”)).</p>
-<p>Luego, el código carga la encuesta que esta almacenada en un archivo de datos en formato RDS y utiliza la función <code>%&gt;%</code> para encadenar una serie de transformaciones en los datos:</p>
-<ul>
-<li><p><code>transmute()</code> se utiliza para seleccionar y renombrar columnas. En este caso, se seleccionan las columnas <code>dam_ee</code>, <code>dam2</code>, <code>_fep</code> y <code>segmento</code>, y se renombran a <code>dam</code>, <code>dam2</code>, <code>wkx</code>, y <code>upm</code>, respectivamente.</p></li>
-<li><p>Se crea una nueva variable llamada <code>estrato</code> que combina la variable <code>dam</code> con la variable <code>area_ee</code> después de convertir <code>area_ee</code> en una variable de factor utilizando <code>haven::as_factor()</code>. La función <code>paste0()</code> se utiliza para concatenar las dos variables.</p></li>
-<li><p>Se crea una nueva variable llamada <code>pobreza</code> que se establece en 1 si la variable <code>ingcorte</code>(ingreso percapital) es menor que la variable <code>lp</code>, y en 0 en caso contrario. La función <code>ifelse()</code> se utiliza para asignar valores a la variable “pobreza” en función de si el ingreso de un individuo es menor o mayor que el umbral de pobreza.</p></li>
-</ul>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="datos-de-la-encuesta.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb65-2"><a href="datos-de-la-encuesta.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb65-3"><a href="datos-de-la-encuesta.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;Recursos/Día2/Sesion1/0Recursos/0Source_FH.R&quot;</span>)</span>
-<span id="cb65-4"><a href="datos-de-la-encuesta.html#cb65-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-5"><a href="datos-de-la-encuesta.html#cb65-5" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion1/Data/encuestaCOL18N1.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb65-6"><a href="datos-de-la-encuesta.html#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb65-7"><a href="datos-de-la-encuesta.html#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dam =</span> dam_ee,</span>
-<span id="cb65-8"><a href="datos-de-la-encuesta.html#cb65-8" aria-hidden="true" tabindex="-1"></a>    dam2,</span>
-<span id="cb65-9"><a href="datos-de-la-encuesta.html#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">wkx =</span> <span class="st">`</span><span class="at">_fep</span><span class="st">`</span>, </span>
-<span id="cb65-10"><a href="datos-de-la-encuesta.html#cb65-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">upm =</span> segmento,</span>
-<span id="cb65-11"><a href="datos-de-la-encuesta.html#cb65-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">estrato =</span> <span class="fu">paste0</span>(dam, haven<span class="sc">::</span><span class="fu">as_factor</span>(area_ee,<span class="at">levels =</span> <span class="st">&quot;values&quot;</span>)),</span>
-<span id="cb65-12"><a href="datos-de-la-encuesta.html#cb65-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">pobreza =</span> <span class="fu">ifelse</span>(ingcorte <span class="sc">&lt;</span> lp, <span class="dv">1</span> , <span class="dv">0</span>))</span></code></pre></div>
-<ul>
-<li><p><em>dam</em>: Corresponde al código asignado a la división administrativa mayor del país.</p></li>
-<li><p><em>dam2</em>: Corresponde al código asignado a la segunda división administrativa del país.</p></li>
-<li><p><em>lp</em> linea de pobreza definida por CEPAL.</p></li>
-<li><p>Factor de expansión por persona (<em>wkx</em>)</p></li>
-</ul>
+<div id="proceso-de-benchmark" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Proceso de Benchmark<a href="proceso-de-benchmark.html#proceso-de-benchmark" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Del censo extraer el total de personas por DAM2</li>
+</ol>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="proceso-de-benchmark.html#cb97-1" aria-hidden="true" tabindex="-1"></a>total_pp <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">&quot;Recursos/Día2/Sesion2/Data/total_personas_dam2.rds&quot;</span>)</span>
+<span id="cb97-2"><a href="proceso-de-benchmark.html#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-3"><a href="proceso-de-benchmark.html#cb97-3" aria-hidden="true" tabindex="-1"></a>N_dam_pp <span class="ot">&lt;-</span> total_pp <span class="sc">%&gt;%</span>   <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb97-4"><a href="proceso-de-benchmark.html#cb97-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="at">dam_pp =</span> <span class="fu">sum</span>(total_pp) ) </span>
+<span id="cb97-5"><a href="proceso-de-benchmark.html#cb97-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-6"><a href="proceso-de-benchmark.html#cb97-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(N_dam_pp <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>))</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -275,16 +259,10 @@ dam
 dam2
 </th>
 <th style="text-align:right;">
-wkx
-</th>
-<th style="text-align:left;">
-upm
-</th>
-<th style="text-align:left;">
-estrato
+total_pp
 </th>
 <th style="text-align:right;">
-pobreza
+dam_pp
 </th>
 </tr>
 </thead>
@@ -294,19 +272,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05001
 </td>
 <td style="text-align:right;">
-127.2220
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+2372330
 </td>
 <td style="text-align:right;">
-0
+44164417
 </td>
 </tr>
 <tr>
@@ -314,19 +286,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05002
 </td>
 <td style="text-align:right;">
-127.2220
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+17599
 </td>
 <td style="text-align:right;">
-0
+44164417
 </td>
 </tr>
 <tr>
@@ -334,19 +300,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05004
 </td>
 <td style="text-align:right;">
-127.2220
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+2159
 </td>
 <td style="text-align:right;">
-0
+44164417
 </td>
 </tr>
 <tr>
@@ -354,19 +314,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05021
 </td>
 <td style="text-align:right;">
-127.2220
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+3839
 </td>
 <td style="text-align:right;">
-0
+44164417
 </td>
 </tr>
 <tr>
@@ -374,19 +328,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05030
 </td>
 <td style="text-align:right;">
-127.2220
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+26821
 </td>
 <td style="text-align:right;">
-0
+44164417
 </td>
 </tr>
 <tr>
@@ -394,19 +342,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05031
 </td>
 <td style="text-align:right;">
-125.7202
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+20265
 </td>
 <td style="text-align:right;">
-1
+44164417
 </td>
 </tr>
 <tr>
@@ -414,19 +356,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05034
 </td>
 <td style="text-align:right;">
-125.7202
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+38144
 </td>
 <td style="text-align:right;">
-1
+44164417
 </td>
 </tr>
 <tr>
@@ -434,19 +370,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05036
 </td>
 <td style="text-align:right;">
-125.7202
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+5027
 </td>
 <td style="text-align:right;">
-1
+44164417
 </td>
 </tr>
 <tr>
@@ -454,19 +384,13 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05038
 </td>
 <td style="text-align:right;">
-125.7202
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+10500
 </td>
 <td style="text-align:right;">
-1
+44164417
 </td>
 </tr>
 <tr>
@@ -474,125 +398,498 @@ pobreza
 05
 </td>
 <td style="text-align:left;">
-05360
+05040
 </td>
 <td style="text-align:right;">
-115.8661
-</td>
-<td style="text-align:left;">
-010126005360
-</td>
-<td style="text-align:left;">
-051
+14502
 </td>
 <td style="text-align:right;">
-1
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05042
+</td>
+<td style="text-align:right;">
+23216
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05044
+</td>
+<td style="text-align:right;">
+6388
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+113469
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05051
+</td>
+<td style="text-align:right;">
+26289
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05055
+</td>
+<td style="text-align:right;">
+6752
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05059
+</td>
+<td style="text-align:right;">
+3819
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+44757
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05086
+</td>
+<td style="text-align:right;">
+5349
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+481901
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05091
+</td>
+<td style="text-align:right;">
+8589
+</td>
+<td style="text-align:right;">
+44164417
 </td>
 </tr>
 </tbody>
 </table>
-<p>Definir el diseño muestral haciendo uso de las librerías <code>srvyr</code> y <code>survey</code></p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="datos-de-la-encuesta.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
-<span id="cb66-2"><a href="datos-de-la-encuesta.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(srvyr)</span>
-<span id="cb66-3"><a href="datos-de-la-encuesta.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">survey.lonely.psu =</span> <span class="st">&quot;adjust&quot;</span>)</span>
-<span id="cb66-4"><a href="datos-de-la-encuesta.html#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-5"><a href="datos-de-la-encuesta.html#cb66-5" aria-hidden="true" tabindex="-1"></a>diseno <span class="ot">&lt;-</span></span>
-<span id="cb66-6"><a href="datos-de-la-encuesta.html#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_survey_design</span>(</span>
-<span id="cb66-7"><a href="datos-de-la-encuesta.html#cb66-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ids =</span> upm,</span>
-<span id="cb66-8"><a href="datos-de-la-encuesta.html#cb66-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">weights =</span> wkx,</span>
-<span id="cb66-9"><a href="datos-de-la-encuesta.html#cb66-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">strata =</span> estrato,</span>
-<span id="cb66-10"><a href="datos-de-la-encuesta.html#cb66-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">nest =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb66-11"><a href="datos-de-la-encuesta.html#cb66-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.data =</span> encuesta</span>
-<span id="cb66-12"><a href="datos-de-la-encuesta.html#cb66-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb66-13"><a href="datos-de-la-encuesta.html#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(diseno)</span></code></pre></div>
-<pre><code>## Stratified 1 - level Cluster Sampling design (with replacement)
-## With (21869) clusters.
-## Called via srvyr
-## Probabilities:
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## 0.001089 0.012313 0.037623 0.057119 0.080947 0.783027 
-## Stratum Sizes: 
-##              051  052   081  082   111 112   131  132   151  152   171  172
-## obs        41761 3706 43299 1022 32177  36 32757 2853 23299 3186 27959 2805
-## design.PSU  1247  123   926   29   972   1   828   83   762  131   905  101
-## actual.PSU  1247  123   926   29   972   1   828   83   762  131   905  101
-##              181  182   191  192   201  202   231  232  251  252   271  272
-## obs        23698 5144 28826 5531 30225 2229 29181 2805 6271 2797 22812 4016
-## design.PSU   760  130   852  180   832   81   650   83  181  106   699  140
-## actual.PSU   760  130   852  180   832   81   650   83  181  106   699  140
-##              411  412   441  442   471  472   501  502   521  522   541  542
-## obs        27446 3282 32062 3556 34690 2944 26381 2936 24656 4271 27554 3830
-## design.PSU   866  105   790  120   889   84   803   96   734  131   793  134
-## actual.PSU   866  105   790  120   889   84   803   96   734  131   793  134
-##              631  632   661  662   681  682   701  702   731  732   761  762
-## obs        26616 1660 25945 3254 28390 3388 32471 3054 25315 3101 35065 2491
-## design.PSU   864   55   818  103   749  108   737   96   788   91  1027   86
-## actual.PSU   864   55   818  103   749  108   737   96   788   91  1027   86
-## Data variables:
-## [1] &quot;dam&quot;     &quot;dam2&quot;    &quot;wkx&quot;     &quot;upm&quot;     &quot;estrato&quot; &quot;pobreza&quot;</code></pre>
-<p>Para la estimación directa de la proporción se emplea la función <code>direct.supr</code>, disponible en el archivo <code>0Source_FH.R</code>. Está función realiza las estimaciones y criterios de calidad en una encuesta de muestreo complejo con diseño estratificado y por conglomerados. Toma cinco argumentos: <code>design.base</code>, <code>variable</code>, <code>group</code>, <code>upm</code> y <code>estrato</code>.</p>
-<p>La función comienza cargando varios paquetes, como <code>rlang</code>, <code>tidyverse</code>, <code>dplyr</code>, <code>survey</code> y <code>srvyr.</code> Luego, los argumentos <code>group</code>, <code>variable</code>, <code>upm</code> y <code>estrato</code> se convierten en argumentos utilizando la función enquo.</p>
-<p>La función utiliza la encuesta de muestreo complejo <code>design.base</code> para calcular las estimaciones de los parámetros y los criterios de calidad. Utiliza la función <code>survey_mean()</code> de la librería <code>survey</code> para calcular la media y los intervalos de confianza de la variable de interés. La función también calcula otros indicadores de calidad, como el coeficiente de variación, el tamaño de muestra efectivo y el efecto del diseño. Luego, utiliza la función <code>as.data.frame()</code> para convertir los resultados en un objeto de marco de datos.</p>
-<p>Además, la función calcula otros criterios de calidad para determinar si las estimaciones son confiables. En particular, evalúa si se cumple un umbral mínimo para el número de grados de libertad, si la muestra es suficientemente grande y si el efecto del diseño es razonable. La función también tiene la opción de incluir o excluir ciertos grupos de muestreo basados en sus características.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="datos-de-la-encuesta.html#cb68-1" aria-hidden="true" tabindex="-1"></a>directodam2 <span class="ot">&lt;-</span> <span class="fu">direct.supr</span>(<span class="at">design.base =</span> diseno,</span>
-<span id="cb68-2"><a href="datos-de-la-encuesta.html#cb68-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">variable =</span> pobreza, </span>
-<span id="cb68-3"><a href="datos-de-la-encuesta.html#cb68-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">group =</span> dam2,</span>
-<span id="cb68-4"><a href="datos-de-la-encuesta.html#cb68-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">upm =</span> upm,</span>
-<span id="cb68-5"><a href="datos-de-la-encuesta.html#cb68-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">estrato =</span> estrato)</span>
-<span id="cb68-6"><a href="datos-de-la-encuesta.html#cb68-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-7"><a href="datos-de-la-encuesta.html#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-8"><a href="datos-de-la-encuesta.html#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-9"><a href="datos-de-la-encuesta.html#cb68-9" aria-hidden="true" tabindex="-1"></a>directodam2 <span class="sc">%&gt;%</span></span>
-<span id="cb68-10"><a href="datos-de-la-encuesta.html#cb68-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Flag) <span class="sc">%&gt;%</span></span>
-<span id="cb68-11"><a href="datos-de-la-encuesta.html#cb68-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb68-12"><a href="datos-de-la-encuesta.html#cb68-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Obtener las estimaciones directa por DAM o el nivel de agregación en el cual la encuesta es representativa.</li>
+</ol>
+<p>En este código, se lee un archivo RDS de una encuesta (<code>encuestaCOL18N1.rds</code>) y se utilizan las funciones <code>transmute()</code> y <code>paste0()</code> para seleccionar y transformar las variables de interés.</p>
+<p>En primer lugar, se crea una variable <code>dam</code> que corresponde al identificador de la división administrativa mayor de la encuesta. A continuación, se utiliza la columna <code>dam_ee</code> para crear una variable <code>dam</code>, se selecciona la variable <code>dam2</code> que corresponde al identificador de la división administrativa municipal de segundo nivel (subdivisión del departamento) de la encuesta.</p>
+<p>Luego, se crea una variable <code>wkx</code> que corresponde al peso de la observación en la encuesta, y una variable <code>upm</code> que corresponde al identificador del segmento muestral en la encuesta.</p>
+<p>La variable <code>estrato</code> se crea utilizando la función <code>paste0()</code>, que concatena los valores de <code>dam</code> y <code>area_ee</code> (una variable que indica el área geográfica en la que se encuentra la vivienda de la encuesta).</p>
+<p>Finalmente, se crea una variable <code>pobreza</code> que toma el valor 1 si el ingreso de la vivienda es menor que un umbral lp, y 0 en caso contrario.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="proceso-de-benchmark.html#cb98-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Data/encuestaCOL18N1.rds&quot;</span>)<span class="sc">%&gt;%</span> </span>
+<span id="cb98-2"><a href="proceso-de-benchmark.html#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb98-3"><a href="proceso-de-benchmark.html#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dam =</span> dam_ee,</span>
+<span id="cb98-4"><a href="proceso-de-benchmark.html#cb98-4" aria-hidden="true" tabindex="-1"></a>    dam2,</span>
+<span id="cb98-5"><a href="proceso-de-benchmark.html#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wkx =</span> <span class="st">`</span><span class="at">_fep</span><span class="st">`</span>, </span>
+<span id="cb98-6"><a href="proceso-de-benchmark.html#cb98-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">upm =</span> segmento,</span>
+<span id="cb98-7"><a href="proceso-de-benchmark.html#cb98-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estrato =</span> <span class="fu">paste0</span>(dam, haven<span class="sc">::</span><span class="fu">as_factor</span>(area_ee,<span class="at">levels =</span> <span class="st">&quot;values&quot;</span>)),</span>
+<span id="cb98-8"><a href="proceso-de-benchmark.html#cb98-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pobreza =</span> <span class="fu">ifelse</span>(ingcorte <span class="sc">&lt;</span> lp, <span class="dv">1</span> , <span class="dv">0</span>))</span></code></pre></div>
+<p>El código está realizando un análisis de datos de encuestas utilizando el paquete <code>survey</code> de R. Primero, se crea un objeto <code>diseno</code> de diseño de encuestas usando la función <code>as_survey_design()</code> del paquete <code>srvyr</code>, que incluye los identificadores de la unidad primaria de muestreo (<code>upm</code>), los pesos (<code>wkx</code>), las estratos (<code>estrato</code>) y los datos de la encuesta (encuesta). Posteriormente, se agrupa el objeto <code>diseno</code> por la variable “Agregado” y se calcula la media de la variable pobreza con un intervalo de confianza para toda la población utilizando la función <code>survey_mean()</code>. El resultado se guarda en el objeto <code>directoDam</code> y se muestra en una tabla.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="proceso-de-benchmark.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb99-2"><a href="proceso-de-benchmark.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(srvyr)</span>
+<span id="cb99-3"><a href="proceso-de-benchmark.html#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">survey.lonely.psu =</span> <span class="st">&quot;adjust&quot;</span>)</span>
+<span id="cb99-4"><a href="proceso-de-benchmark.html#cb99-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-5"><a href="proceso-de-benchmark.html#cb99-5" aria-hidden="true" tabindex="-1"></a>diseno <span class="ot">&lt;-</span></span>
+<span id="cb99-6"><a href="proceso-de-benchmark.html#cb99-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_survey_design</span>(</span>
+<span id="cb99-7"><a href="proceso-de-benchmark.html#cb99-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ids =</span> upm,</span>
+<span id="cb99-8"><a href="proceso-de-benchmark.html#cb99-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">weights =</span> wkx,</span>
+<span id="cb99-9"><a href="proceso-de-benchmark.html#cb99-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">strata =</span> estrato,</span>
+<span id="cb99-10"><a href="proceso-de-benchmark.html#cb99-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">nest =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb99-11"><a href="proceso-de-benchmark.html#cb99-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.data =</span> encuesta</span>
+<span id="cb99-12"><a href="proceso-de-benchmark.html#cb99-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb99-13"><a href="proceso-de-benchmark.html#cb99-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-14"><a href="proceso-de-benchmark.html#cb99-14" aria-hidden="true" tabindex="-1"></a>directoDam <span class="ot">&lt;-</span> diseno <span class="sc">%&gt;%</span> </span>
+<span id="cb99-15"><a href="proceso-de-benchmark.html#cb99-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(<span class="at">Agregado =</span> <span class="st">&quot;Nacional&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb99-16"><a href="proceso-de-benchmark.html#cb99-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb99-17"><a href="proceso-de-benchmark.html#cb99-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta_dir =</span> <span class="fu">survey_mean</span>(pobreza, <span class="at">vartype =</span> <span class="fu">c</span>(<span class="st">&quot;ci&quot;</span>))</span>
+<span id="cb99-18"><a href="proceso-de-benchmark.html#cb99-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb99-19"><a href="proceso-de-benchmark.html#cb99-19" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(directoDam)</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
-Flag
+Agregado
 </th>
 <th style="text-align:right;">
-n
+theta_dir
+</th>
+<th style="text-align:right;">
+theta_dir_low
+</th>
+<th style="text-align:right;">
+theta_dir_upp
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-Excluir
+Nacional
 </td>
 <td style="text-align:right;">
-59
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Incluir
+0.2986
 </td>
 <td style="text-align:right;">
-379
+0.2935
+</td>
+<td style="text-align:right;">
+0.3038
 </td>
 </tr>
 </tbody>
 </table>
-<p>Para los dominios que no son excluidos se hace la transformación arcoseno, calculo del <em>DEFF</em> y varianza</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="datos-de-la-encuesta.html#cb69-1" aria-hidden="true" tabindex="-1"></a>base_sae <span class="ot">&lt;-</span> directodam2 <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="datos-de-la-encuesta.html#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Flag <span class="sc">!=</span> <span class="st">&quot;Excluir&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb69-3"><a href="datos-de-la-encuesta.html#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb69-4"><a href="datos-de-la-encuesta.html#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">dam2 =</span> dam2,             <span class="co"># Id para los dominios</span></span>
-<span id="cb69-5"><a href="datos-de-la-encuesta.html#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">nd =</span> n,                    <span class="co"># Número de observaciones por dominios</span></span>
-<span id="cb69-6"><a href="datos-de-la-encuesta.html#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_effec =</span> n.eff,           <span class="co"># n efectivo. </span></span>
-<span id="cb69-7"><a href="datos-de-la-encuesta.html#cb69-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pobreza =</span> p,               <span class="co"># Estimación de la variable</span></span>
-<span id="cb69-8"><a href="datos-de-la-encuesta.html#cb69-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pobreza_T =</span> <span class="fu">asin</span>(<span class="fu">sqrt</span>(pobreza)), <span class="co"># Transformación arcoseno </span></span>
-<span id="cb69-9"><a href="datos-de-la-encuesta.html#cb69-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">vardir =</span> ee <span class="sc">^</span> <span class="dv">2</span>,                 <span class="co"># Estimación de la varianza directa </span></span>
-<span id="cb69-10"><a href="datos-de-la-encuesta.html#cb69-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">cv =</span> CV,                       </span>
-<span id="cb69-11"><a href="datos-de-la-encuesta.html#cb69-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_zd =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> n_effec),      <span class="co"># Varianza para la tranformación arcsin</span></span>
-<span id="cb69-12"><a href="datos-de-la-encuesta.html#cb69-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">deff_dam2 =</span> deff                <span class="co"># Deff por dominio</span></span>
-<span id="cb69-13"><a href="datos-de-la-encuesta.html#cb69-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb69-14"><a href="datos-de-la-encuesta.html#cb69-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-15"><a href="datos-de-la-encuesta.html#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="co"># View(base_sae)</span></span>
-<span id="cb69-16"><a href="datos-de-la-encuesta.html#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(<span class="fu">head</span>(base_sae))</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Realizar el consolidando información obtenida en <em>1</em> y <em>2</em>.</li>
+</ol>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="proceso-de-benchmark.html#cb100-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> estimacionesPre <span class="sc">%&gt;%</span></span>
+<span id="cb100-2"><a href="proceso-de-benchmark.html#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(N_dam_pp ) <span class="sc">%&gt;%</span> </span>
+<span id="cb100-3"><a href="proceso-de-benchmark.html#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">theta_dir =</span> directoDam<span class="sc">$</span>theta_dir )</span>
+<span id="cb100-4"><a href="proceso-de-benchmark.html#cb100-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-5"><a href="proceso-de-benchmark.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(temp <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam
+</th>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+theta_pred
+</th>
+<th style="text-align:right;">
+total_pp
+</th>
+<th style="text-align:right;">
+dam_pp
+</th>
+<th style="text-align:right;">
+theta_dir
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.1596
+</td>
+<td style="text-align:right;">
+2372330
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.4158
+</td>
+<td style="text-align:right;">
+17599
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.4132
+</td>
+<td style="text-align:right;">
+20265
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.4428
+</td>
+<td style="text-align:right;">
+38144
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+0.3107
+</td>
+<td style="text-align:right;">
+113469
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+0.3465
+</td>
+<td style="text-align:right;">
+44757
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+0.1331
+</td>
+<td style="text-align:right;">
+481901
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05093
+</td>
+<td style="text-align:right;">
+0.3910
+</td>
+<td style="text-align:right;">
+15097
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05120
+</td>
+<td style="text-align:right;">
+0.6753
+</td>
+<td style="text-align:right;">
+26460
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05129
+</td>
+<td style="text-align:right;">
+0.1181
+</td>
+<td style="text-align:right;">
+76260
+</td>
+<td style="text-align:right;">
+44164417
+</td>
+<td style="text-align:right;">
+0.2986
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li>Con la información organizada realizar el calculo de los pesos para el Benchmark</li>
+</ol>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="proceso-de-benchmark.html#cb101-1" aria-hidden="true" tabindex="-1"></a>R_dam2 <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span> </span>
+<span id="cb101-2"><a href="proceso-de-benchmark.html#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb101-3"><a href="proceso-de-benchmark.html#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_dam_RB =</span> <span class="fu">unique</span>(theta_dir) <span class="sc">/</span> <span class="fu">sum</span>((total_pp  <span class="sc">/</span> dam_pp) <span class="sc">*</span> theta_pred),</span>
+<span id="cb101-4"><a href="proceso-de-benchmark.html#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_dam_DB =</span> <span class="fu">unique</span>(theta_dir) <span class="sc">-</span> <span class="fu">sum</span>((total_pp  <span class="sc">/</span> dam_pp) <span class="sc">*</span> theta_pred)</span>
+<span id="cb101-5"><a href="proceso-de-benchmark.html#cb101-5" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb101-6"><a href="proceso-de-benchmark.html#cb101-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-7"><a href="proceso-de-benchmark.html#cb101-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(R_dam2)</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+R_dam_RB
+</th>
+<th style="text-align:right;">
+R_dam_DB
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1.0148
+</td>
+<td style="text-align:right;">
+0.0044
+</td>
+</tr>
+</tbody>
+</table>
+<p>calculando los pesos para cada dominio.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="proceso-de-benchmark.html#cb102-1" aria-hidden="true" tabindex="-1"></a>pesos <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a href="proceso-de-benchmark.html#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">W_i =</span> total_pp <span class="sc">/</span> dam_pp) <span class="sc">%&gt;%</span> </span>
+<span id="cb102-3"><a href="proceso-de-benchmark.html#cb102-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam2, W_i)</span>
+<span id="cb102-4"><a href="proceso-de-benchmark.html#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(pesos <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -600,28 +897,7 @@ Incluir
 dam2
 </th>
 <th style="text-align:right;">
-nd
-</th>
-<th style="text-align:right;">
-n_effec
-</th>
-<th style="text-align:right;">
-pobreza
-</th>
-<th style="text-align:right;">
-pobreza_T
-</th>
-<th style="text-align:right;">
-vardir
-</th>
-<th style="text-align:right;">
-cv
-</th>
-<th style="text-align:right;">
-var_zd
-</th>
-<th style="text-align:right;">
-deff_dam2
+W_i
 </th>
 </tr>
 </thead>
@@ -631,28 +907,7 @@ deff_dam2
 05001
 </td>
 <td style="text-align:right;">
-27432
-</td>
-<td style="text-align:right;">
-1914.8077
-</td>
-<td style="text-align:right;">
-0.1597
-</td>
-<td style="text-align:right;">
-0.4111
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-4.1932
-</td>
-<td style="text-align:right;">
-0.0001
-</td>
-<td style="text-align:right;">
-14.3262
+0.0537
 </td>
 </tr>
 <tr>
@@ -660,28 +915,7 @@ deff_dam2
 05002
 </td>
 <td style="text-align:right;">
-257
-</td>
-<td style="text-align:right;">
-21.3006
-</td>
-<td style="text-align:right;">
-0.4049
-</td>
-<td style="text-align:right;">
-0.6897
-</td>
-<td style="text-align:right;">
-0.0032
-</td>
-<td style="text-align:right;">
-14.0276
-</td>
-<td style="text-align:right;">
-0.0117
-</td>
-<td style="text-align:right;">
-12.0654
+0.0004
 </td>
 </tr>
 <tr>
@@ -689,28 +923,7 @@ deff_dam2
 05031
 </td>
 <td style="text-align:right;">
-199
-</td>
-<td style="text-align:right;">
-7.8051
-</td>
-<td style="text-align:right;">
-0.3817
-</td>
-<td style="text-align:right;">
-0.6660
-</td>
-<td style="text-align:right;">
-0.0042
-</td>
-<td style="text-align:right;">
-17.0554
-</td>
-<td style="text-align:right;">
-0.0320
-</td>
-<td style="text-align:right;">
-25.4963
+0.0005
 </td>
 </tr>
 <tr>
@@ -718,28 +931,7 @@ deff_dam2
 05034
 </td>
 <td style="text-align:right;">
-223
-</td>
-<td style="text-align:right;">
-25.8934
-</td>
-<td style="text-align:right;">
-0.4731
-</td>
-<td style="text-align:right;">
-0.7585
-</td>
-<td style="text-align:right;">
-0.0018
-</td>
-<td style="text-align:right;">
-8.8997
-</td>
-<td style="text-align:right;">
-0.0097
-</td>
-<td style="text-align:right;">
-8.6122
+0.0009
 </td>
 </tr>
 <tr>
@@ -747,28 +939,7 @@ deff_dam2
 05045
 </td>
 <td style="text-align:right;">
-480
-</td>
-<td style="text-align:right;">
-5.0044
-</td>
-<td style="text-align:right;">
-0.2876
-</td>
-<td style="text-align:right;">
-0.5661
-</td>
-<td style="text-align:right;">
-0.0064
-</td>
-<td style="text-align:right;">
-27.9009
-</td>
-<td style="text-align:right;">
-0.0500
-</td>
-<td style="text-align:right;">
-95.9148
+0.0026
 </td>
 </tr>
 <tr>
@@ -776,44 +947,283 @@ deff_dam2
 05079
 </td>
 <td style="text-align:right;">
-191
+0.0010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05088
 </td>
 <td style="text-align:right;">
-22.5008
+0.0109
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05093
 </td>
 <td style="text-align:right;">
-0.4001
+0.0003
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05120
 </td>
 <td style="text-align:right;">
-0.6848
+0.0006
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05129
 </td>
 <td style="text-align:right;">
-0.0063
-</td>
-<td style="text-align:right;">
-19.8514
-</td>
-<td style="text-align:right;">
-0.0111
-</td>
-<td style="text-align:right;">
-8.4886
+0.0017
 </td>
 </tr>
 </tbody>
 </table>
-<p>seguidamente se realiza la transformación <span class="math inline">\(\log(\hat{\sigma}^2_d)\)</span>, además se realiza la selección de las columnas identificador del municipio (<code>dam2</code>), la estimación directa (<code>pobreza</code>), El número de personas en el dominio (<code>nd</code>) y la varianza estimada del para la estimación directa <code>vardir</code>,siendo esta la que transforma mediante la función <code>log()</code>.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="datos-de-la-encuesta.html#cb70-1" aria-hidden="true" tabindex="-1"></a>baseFGV <span class="ot">&lt;-</span>  base_sae <span class="sc">%&gt;%</span> </span>
-<span id="cb70-2"><a href="datos-de-la-encuesta.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam2, pobreza, nd, vardir) <span class="sc">%&gt;%</span></span>
-<span id="cb70-3"><a href="datos-de-la-encuesta.html#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ln_sigma2 =</span> <span class="fu">log</span>(vardir))</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Realizar la estimación FH Benchmark</li>
+</ol>
+<p>En este proceso, se realiza la adición de una nueva columna denominada <code>R_dam_RB</code>, que es obtenida a partir de un objeto denominado <code>R_dam2</code>. Posteriormente, se agrega una nueva columna denominada <code>theta_pred_RBench</code>, la cual es igual a la multiplicación de <code>R_dam_RB</code> y <code>theta_pred.</code> Finalmente, se hace un <code>left_join</code> con el dataframe pesos, y se seleccionan únicamente las columnas <code>dam</code>, <code>dam2</code>, <code>W_i</code>, <code>theta_pred</code> y <code>theta_pred_RBench</code> para ser presentadas en una tabla (tba) que muestra únicamente las primeras 10 filas.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="proceso-de-benchmark.html#cb103-1" aria-hidden="true" tabindex="-1"></a>estimacionesBench <span class="ot">&lt;-</span> estimacionesPre <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="proceso-de-benchmark.html#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">R_dam_RB =</span> R_dam2<span class="sc">$</span>R_dam_RB) <span class="sc">%&gt;%</span></span>
+<span id="cb103-3"><a href="proceso-de-benchmark.html#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">theta_pred_RBench =</span> R_dam_RB <span class="sc">*</span> theta_pred) <span class="sc">%&gt;%</span></span>
+<span id="cb103-4"><a href="proceso-de-benchmark.html#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pesos) <span class="sc">%&gt;%</span> </span>
+<span id="cb103-5"><a href="proceso-de-benchmark.html#cb103-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dam, dam2, W_i, theta_pred, theta_pred_RBench)  </span>
+<span id="cb103-6"><a href="proceso-de-benchmark.html#cb103-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-7"><a href="proceso-de-benchmark.html#cb103-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tba</span>(estimacionesBench <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam
+</th>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+W_i
+</th>
+<th style="text-align:right;">
+theta_pred
+</th>
+<th style="text-align:right;">
+theta_pred_RBench
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.0537
+</td>
+<td style="text-align:right;">
+0.1596
+</td>
+<td style="text-align:right;">
+0.1619
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.0004
+</td>
+<td style="text-align:right;">
+0.4158
+</td>
+<td style="text-align:right;">
+0.4220
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.0005
+</td>
+<td style="text-align:right;">
+0.4132
+</td>
+<td style="text-align:right;">
+0.4193
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.0009
+</td>
+<td style="text-align:right;">
+0.4428
+</td>
+<td style="text-align:right;">
+0.4494
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+0.0026
+</td>
+<td style="text-align:right;">
+0.3107
+</td>
+<td style="text-align:right;">
+0.3153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+0.0010
+</td>
+<td style="text-align:right;">
+0.3465
+</td>
+<td style="text-align:right;">
+0.3516
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+0.0109
+</td>
+<td style="text-align:right;">
+0.1331
+</td>
+<td style="text-align:right;">
+0.1351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05093
+</td>
+<td style="text-align:right;">
+0.0003
+</td>
+<td style="text-align:right;">
+0.3910
+</td>
+<td style="text-align:right;">
+0.3968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05120
+</td>
+<td style="text-align:right;">
+0.0006
+</td>
+<td style="text-align:right;">
+0.6753
+</td>
+<td style="text-align:right;">
+0.6853
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+05129
+</td>
+<td style="text-align:right;">
+0.0017
+</td>
+<td style="text-align:right;">
+0.1181
+</td>
+<td style="text-align:right;">
+0.1199
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="6" style="list-style-type: decimal">
+<li>Validación: Estimación FH con Benchmark</li>
+</ol>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="proceso-de-benchmark.html#cb104-1" aria-hidden="true" tabindex="-1"></a>estimacionesBench <span class="sc">%&gt;%</span> </span>
+<span id="cb104-2"><a href="proceso-de-benchmark.html#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">theta_reg_RB =</span> <span class="fu">sum</span>(W_i <span class="sc">*</span> theta_pred_RBench)) <span class="sc">%&gt;%</span> </span>
+<span id="cb104-3"><a href="proceso-de-benchmark.html#cb104-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">theta_dir =</span> directoDam<span class="sc">$</span>theta_dir)</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+theta_reg_RB
+</th>
+<th style="text-align:right;">
+theta_dir
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.2986344
+</td>
+<td style="text-align:right;">
+0.2986344
+</td>
+</tr>
+</tbody>
+</table>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="análisis-gráfico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="preparando-los-insumos-para-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="validación-de-los-resultados..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -844,7 +1254,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/03-D2S1_FGV.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/04-D2S2_Fay_Herriot_normal.qmd",
 "text": "Edit"
 },
 "history": {

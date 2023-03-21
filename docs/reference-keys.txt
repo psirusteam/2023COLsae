@@ -38,3 +38,15 @@ día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza
 datos-de-la-encuesta
 análisis-gráfico
 modelo-para-la-varianza
+día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza
+procedimiento-de-estimación
+preparando-los-insumos-para-stan
+resultados-del-modelo-para-los-dominios-observados.
+proceso-de-benchmark
+validación-de-los-resultados.
+mapa-de-pobreza
+día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno.
+procedimiento-de-estimación-1
+preparando-los-insumos-para-stan-1
+resultados-del-modelo-para-los-dominios-observados.-1
+mapa-de-pobreza-1

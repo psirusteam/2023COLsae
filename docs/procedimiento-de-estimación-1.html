@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>7.1 Procedimiento de estimación | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="7.1 Procedimiento de estimación | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="7.1 Procedimiento de estimación | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"/>
-<link rel="next" href="inferencia-bayesiana..html"/>
+<link rel="prev" href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"/>
+<link rel="next" href="preparando-los-insumos-para-stan-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,32 +238,348 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regla-de-bayes" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Regla de Bayes<a href="regla-de-bayes.html#regla-de-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En términos de inferencia para <span class="math inline">\(\boldsymbol{\theta}\)</span>, es necesario encontrar la distribución de los parámetros condicionada a la observación de los datos. Para este fin, es necesario definir la distribución conjunta de la variable de interés con el vector de parámetros.</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta},\mathbf{Y})=p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})
-\]</span></p>
-<ul>
-<li><p>La distribución <span class="math inline">\(p(\boldsymbol{\theta})\)</span> se le conoce con el nombre de distribución previa.</p></li>
-<li><p>El término <span class="math inline">\(p(\mathbf{Y} \mid \boldsymbol{\theta})\)</span> es la distribución de muestreo, verosimilitud o distribución de los datos.</p></li>
-<li><p>La distribución del vector de parámetros condicionada a los datos observados está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})=\frac{p(\boldsymbol{\theta},\mathbf{Y})}{p(\mathbf{Y})}=\frac{p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})}{p(\mathbf{Y})}
-\]</span></p></li>
-<li><p>A la distribución <span class="math inline">\(p(\boldsymbol{\theta} \mid \mathbf{Y})\)</span> se le conoce con el nombre de distribución <strong><em>posterior</em></strong>. Nótese que el denominador no depende del vector de parámetros y considerando a los datos observados como fijos, corresponde a una constante y puede ser obviada. Por lo tanto, otra representación de la regla de Bayes está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})\propto p(\mathbf{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta})
-\]</span></p></li>
-</ul>
+<div id="procedimiento-de-estimación-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Procedimiento de estimación<a href="procedimiento-de-estimación-1.html#procedimiento-de-estimación-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Lectura de la base de datos que resultó en el paso anterior y selección de las columnas de interés</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="procedimiento-de-estimación-1.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb107-2"><a href="procedimiento-de-estimación-1.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb107-3"><a href="procedimiento-de-estimación-1.html#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="procedimiento-de-estimación-1.html#cb107-4" aria-hidden="true" tabindex="-1"></a>base_FH <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion3/Data/base_FH_2018.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb107-5"><a href="procedimiento-de-estimación-1.html#cb107-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(dam2,                            <span class="do">## id dominios</span></span>
+<span id="cb107-6"><a href="procedimiento-de-estimación-1.html#cb107-6" aria-hidden="true" tabindex="-1"></a>            pobreza,</span>
+<span id="cb107-7"><a href="procedimiento-de-estimación-1.html#cb107-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">T_pobreza =</span> <span class="fu">asin</span>(<span class="fu">sqrt</span>(pobreza)),  <span class="do">## creando zd</span></span>
+<span id="cb107-8"><a href="procedimiento-de-estimación-1.html#cb107-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">n_effec =</span> n_eff_FGV,              <span class="do">## n efectivo</span></span>
+<span id="cb107-9"><a href="procedimiento-de-estimación-1.html#cb107-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">varhat =</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">4</span><span class="sc">*</span>n_effec)            <span class="do">## varianza para zd</span></span>
+<span id="cb107-10"><a href="procedimiento-de-estimación-1.html#cb107-10" aria-hidden="true" tabindex="-1"></a>            )</span></code></pre></div>
+<p>Lectura de las covariables, las cuales son obtenidas previamente. Dado la diferencia entre las escalas de las variables es necesario hacer un ajuste a estas.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="procedimiento-de-estimación-1.html#cb108-1" aria-hidden="true" tabindex="-1"></a>statelevel_predictors_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion3/Data/statelevel_predictors_df_dam2.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb108-2"><a href="procedimiento-de-estimación-1.html#cb108-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_at</span>(<span class="at">.vars =</span> <span class="fu">c</span>(<span class="st">&quot;luces_nocturnas&quot;</span>,</span>
+<span id="cb108-3"><a href="procedimiento-de-estimación-1.html#cb108-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;cubrimiento_cultivo&quot;</span>,</span>
+<span id="cb108-4"><a href="procedimiento-de-estimación-1.html#cb108-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;cubrimiento_urbano&quot;</span>,</span>
+<span id="cb108-5"><a href="procedimiento-de-estimación-1.html#cb108-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;modificacion_humana&quot;</span>,</span>
+<span id="cb108-6"><a href="procedimiento-de-estimación-1.html#cb108-6" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;accesibilidad_hospitales&quot;</span>,</span>
+<span id="cb108-7"><a href="procedimiento-de-estimación-1.html#cb108-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;accesibilidad_hosp_caminado&quot;</span>),</span>
+<span id="cb108-8"><a href="procedimiento-de-estimación-1.html#cb108-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">function</span>(x) <span class="fu">as.numeric</span>(<span class="fu">scale</span>(x)))</span></code></pre></div>
+<p>Uniendo las dos bases de datos.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="procedimiento-de-estimación-1.html#cb109-1" aria-hidden="true" tabindex="-1"></a>base_FH <span class="ot">&lt;-</span> <span class="fu">full_join</span>(base_FH, statelevel_predictors_df, <span class="at">by =</span> <span class="st">&quot;dam2&quot;</span> )</span>
+<span id="cb109-2"><a href="procedimiento-de-estimación-1.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(base_FH[,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+pobreza
+</th>
+<th style="text-align:right;">
+T_pobreza
+</th>
+<th style="text-align:right;">
+n_effec
+</th>
+<th style="text-align:right;">
+varhat
+</th>
+<th style="text-align:left;">
+dam
+</th>
+<th style="text-align:right;">
+area1
+</th>
+<th style="text-align:right;">
+sexo2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.1597
+</td>
+<td style="text-align:right;">
+0.4111
+</td>
+<td style="text-align:right;">
+1150.9156
+</td>
+<td style="text-align:right;">
+0.0002
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.9832
+</td>
+<td style="text-align:right;">
+0.5299
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.4049
+</td>
+<td style="text-align:right;">
+0.6897
+</td>
+<td style="text-align:right;">
+11.4884
+</td>
+<td style="text-align:right;">
+0.0218
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.3953
+</td>
+<td style="text-align:right;">
+0.4807
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.3817
+</td>
+<td style="text-align:right;">
+0.6660
+</td>
+<td style="text-align:right;">
+5.6901
+</td>
+<td style="text-align:right;">
+0.0439
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.5766
+</td>
+<td style="text-align:right;">
+0.4978
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.4731
+</td>
+<td style="text-align:right;">
+0.7585
+</td>
+<td style="text-align:right;">
+7.4016
+</td>
+<td style="text-align:right;">
+0.0338
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.5029
+</td>
+<td style="text-align:right;">
+0.4815
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+0.2876
+</td>
+<td style="text-align:right;">
+0.5661
+</td>
+<td style="text-align:right;">
+6.9301
+</td>
+<td style="text-align:right;">
+0.0361
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.8091
+</td>
+<td style="text-align:right;">
+0.5078
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+0.4001
+</td>
+<td style="text-align:right;">
+0.6848
+</td>
+<td style="text-align:right;">
+23.8486
+</td>
+<td style="text-align:right;">
+0.0105
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.4821
+</td>
+<td style="text-align:right;">
+0.5038
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+0.1314
+</td>
+<td style="text-align:right;">
+0.3709
+</td>
+<td style="text-align:right;">
+48.7553
+</td>
+<td style="text-align:right;">
+0.0051
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.9569
+</td>
+<td style="text-align:right;">
+0.5186
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05093
+</td>
+<td style="text-align:right;">
+0.3273
+</td>
+<td style="text-align:right;">
+0.6091
+</td>
+<td style="text-align:right;">
+6.0577
+</td>
+<td style="text-align:right;">
+0.0413
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.2776
+</td>
+<td style="text-align:right;">
+0.4862
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05120
+</td>
+<td style="text-align:right;">
+0.7049
+</td>
+<td style="text-align:right;">
+0.9965
+</td>
+<td style="text-align:right;">
+11.8232
+</td>
+<td style="text-align:right;">
+0.0211
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.1989
+</td>
+<td style="text-align:right;">
+0.4787
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05129
+</td>
+<td style="text-align:right;">
+0.1140
+</td>
+<td style="text-align:right;">
+0.3444
+</td>
+<td style="text-align:right;">
+47.8247
+</td>
+<td style="text-align:right;">
+0.0052
+</td>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:right;">
+0.8065
+</td>
+<td style="text-align:right;">
+0.5202
+</td>
+</tr>
+</tbody>
+</table>
+<p>Seleccionando las covariables para el modelo.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="procedimiento-de-estimación-1.html#cb110-1" aria-hidden="true" tabindex="-1"></a>names_cov <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb110-2"><a href="procedimiento-de-estimación-1.html#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;sexo2&quot;</span> ,</span>
+<span id="cb110-3"><a href="procedimiento-de-estimación-1.html#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;anoest2&quot;</span> ,</span>
+<span id="cb110-4"><a href="procedimiento-de-estimación-1.html#cb110-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;anoest3&quot;</span>,</span>
+<span id="cb110-5"><a href="procedimiento-de-estimación-1.html#cb110-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;anoest4&quot;</span>,</span>
+<span id="cb110-6"><a href="procedimiento-de-estimación-1.html#cb110-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;edad2&quot;</span> ,</span>
+<span id="cb110-7"><a href="procedimiento-de-estimación-1.html#cb110-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;edad3&quot;</span> ,</span>
+<span id="cb110-8"><a href="procedimiento-de-estimación-1.html#cb110-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;edad4&quot;</span> ,</span>
+<span id="cb110-9"><a href="procedimiento-de-estimación-1.html#cb110-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;edad5&quot;</span> ,</span>
+<span id="cb110-10"><a href="procedimiento-de-estimación-1.html#cb110-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;etnia1&quot;</span>,</span>
+<span id="cb110-11"><a href="procedimiento-de-estimación-1.html#cb110-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;etnia2&quot;</span> ,</span>
+<span id="cb110-12"><a href="procedimiento-de-estimación-1.html#cb110-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tasa_desocupacion&quot;</span> ,</span>
+<span id="cb110-13"><a href="procedimiento-de-estimación-1.html#cb110-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;luces_nocturnas&quot;</span> ,</span>
+<span id="cb110-14"><a href="procedimiento-de-estimación-1.html#cb110-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cubrimiento_cultivo&quot;</span> ,</span>
+<span id="cb110-15"><a href="procedimiento-de-estimación-1.html#cb110-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;alfabeta&quot;</span></span>
+<span id="cb110-16"><a href="procedimiento-de-estimación-1.html#cb110-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="inferencia-bayesiana..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="preparando-los-insumos-para-stan-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -294,7 +610,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/05-D2S3_Fay_Herriot_arcosin.qmd",
 "text": "Edit"
 },
 "history": {

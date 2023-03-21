@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>Capítulo 7 Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="Capítulo 7 Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.1 Regla de Bayes | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="Capítulo 7 Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno. | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"/>
-<link rel="next" href="inferencia-bayesiana..html"/>
+<link rel="prev" href="mapa-de-pobreza.html"/>
+<link rel="next" href="procedimiento-de-estimación-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,32 +238,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regla-de-bayes" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Regla de Bayes<a href="regla-de-bayes.html#regla-de-bayes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En términos de inferencia para <span class="math inline">\(\boldsymbol{\theta}\)</span>, es necesario encontrar la distribución de los parámetros condicionada a la observación de los datos. Para este fin, es necesario definir la distribución conjunta de la variable de interés con el vector de parámetros.</p>
+<div id="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno." class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Capítulo 7</span> Día 2 - Sesión 2- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.<a href="día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html#día-2---sesión-2--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno." class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En su concepción más básica, el modelo de <strong>Fay-Herriot</strong> es una combinación lineal de covariables. Sin embargo, el resultado de esta combinación pueden tomar valores que se salen del rango aceptable en el que puede estar una proporción; es decir, en general el estimador de Fay-Herriot <span class="math inline">\(\theta \in R\)</span>, mientras que el estimador directo <span class="math inline">\(\theta \in (0,1)\)</span>. La transformación arcoseno esta dada por:</p>
 <p><span class="math display">\[
-p(\boldsymbol{\theta},\mathbf{Y})=p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})
+\hat{z}_d = arcsin\left( \sqrt{ \hat{\theta}_d} \right)
+\]</span> donde</p>
+<p><span class="math display">\[
+Var\left( \hat{z}_d \right) = \frac{\widehat{DEFF}_d}{4\times n_d} = \frac{1}{4\times n_{d,efectivo} }
 \]</span></p>
-<ul>
-<li><p>La distribución <span class="math inline">\(p(\boldsymbol{\theta})\)</span> se le conoce con el nombre de distribución previa.</p></li>
-<li><p>El término <span class="math inline">\(p(\mathbf{Y} \mid \boldsymbol{\theta})\)</span> es la distribución de muestreo, verosimilitud o distribución de los datos.</p></li>
-<li><p>La distribución del vector de parámetros condicionada a los datos observados está dada por</p>
+<p>El modelo de Fay-Herriot estaría definido de la siguiente forma:</p>
 <p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})=\frac{p(\boldsymbol{\theta},\mathbf{Y})}{p(\mathbf{Y})}=\frac{p(\boldsymbol{\theta})p(\mathbf{Y} \mid \boldsymbol{\theta})}{p(\mathbf{Y})}
-\]</span></p></li>
-<li><p>A la distribución <span class="math inline">\(p(\boldsymbol{\theta} \mid \mathbf{Y})\)</span> se le conoce con el nombre de distribución <strong><em>posterior</em></strong>. Nótese que el denominador no depende del vector de parámetros y considerando a los datos observados como fijos, corresponde a una constante y puede ser obviada. Por lo tanto, otra representación de la regla de Bayes está dada por</p>
-<p><span class="math display">\[
-p(\boldsymbol{\theta} \mid \mathbf{Y})\propto p(\mathbf{Y} \mid \boldsymbol{\theta})p(\boldsymbol{\theta})
-\]</span></p></li>
-</ul>
+\begin{eqnarray*}
+Z \mid \mu,\sigma_e &amp;  \sim  &amp; N(\mu, \sigma_e)\\
+\mu &amp; = &amp; \boldsymbol{X\beta} + V \\
+\theta &amp; = &amp;  \left(sin(\mu)\right)^2
+\end{eqnarray*}
+\]</span> donde <span class="math inline">\(V \sim N(0 , \sigma_v)\)</span>.</p>
+<p>Suponga de las distribuciones previas para
+<span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma_{v}^{2}\)</span> son dadas por
+<span class="math display">\[
+\begin{eqnarray*}
+\boldsymbol{\beta}  \sim    N\left(0,1000\right)\\
+\sigma_{v}^{2}  \sim    IG\left(0.0001,0.0001}\right)
+\end{eqnarray*}
+\]</span></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="inferencia-bayesiana..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="mapa-de-pobreza.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="procedimiento-de-estimación-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -294,7 +301,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/02-D1S4_Fundamentos_Bayesiana.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/05-D2S3_Fay_Herriot_arcosin.qmd",
 "text": "Edit"
 },
 "history": {
