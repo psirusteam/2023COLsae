@@ -78,3 +78,9 @@ distribución-posterior.
 estimación-del-ingreso-medio-nacional
 estimación-para-el-dam-11.
 estimación-para-la-dam2-05001
+día-3---sesión-2--estimación-de-la-pobreza-a-partir-del-ingreso
+proceso-de-estimación-y-predicción-1
+distribución-posterior.-1
+estimación-de-la-pobreza
+estimación-para-el-dam-44.
+estimación-para-la-dam2-44001

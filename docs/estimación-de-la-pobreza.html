@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 1 Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030 | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>10.2 Estimación de la pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 1 Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030 | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="10.2 Estimación de la pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 1 Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030 | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="10.2 Estimación de la pobreza | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"/>
+<link rel="prev" href="proceso-de-estimación-y-predicción-1.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -282,17 +282,434 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Capítulo 1</span> Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030<a href="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html#día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><a href="https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf">Ver presentación</a></p>
+<div id="estimación-de-la-pobreza" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Estimación de la pobreza<a href="estimación-de-la-pobreza.html#estimación-de-la-pobreza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="estimación-de-la-pobreza.html#cb185-1" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> poststrat_df<span class="sc">$</span>n</span>
+<span id="cb185-2"><a href="estimación-de-la-pobreza.html#cb185-2" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> epred_mat_pobreza_lp <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb185-3"><a href="estimación-de-la-pobreza.html#cb185-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-4"><a href="estimación-de-la-pobreza.html#cb185-4" aria-hidden="true" tabindex="-1"></a>(temp_ing <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb185-5"><a href="estimación-de-la-pobreza.html#cb185-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb185-6"><a href="estimación-de-la-pobreza.html#cb185-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb185-7"><a href="estimación-de-la-pobreza.html#cb185-7" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.1805
+</td>
+<td style="text-align:right;">
+0.0542
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio nacional es 0.18 lineas de pobreza</p>
+<div id="estimación-para-el-dam-44." class="section level3 hasAnchor" number="10.2.1">
+<h3><span class="header-section-number">10.2.1</span> Estimación para el dam == “44”.<a href="estimación-de-la-pobreza.html#estimación-para-el-dam-44." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Es importante siempre conservar el orden de la base, dado que relación entre la predicción y el censo en uno a uno.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="estimación-de-la-pobreza.html#cb186-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> poststrat_df <span class="sc">%&gt;%</span>  <span class="fu">mutate</span>(<span class="at">Posi =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb186-2"><a href="estimación-de-la-pobreza.html#cb186-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">filter</span>(temp, dam <span class="sc">==</span> <span class="st">&quot;44&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(n, Posi)</span>
+<span id="cb186-3"><a href="estimación-de-la-pobreza.html#cb186-3" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> temp<span class="sc">$</span>n</span>
+<span id="cb186-4"><a href="estimación-de-la-pobreza.html#cb186-4" aria-hidden="true" tabindex="-1"></a>temp_epred_mat <span class="ot">&lt;-</span> epred_mat_pobreza_lp[, temp<span class="sc">$</span>Posi]</span>
+<span id="cb186-5"><a href="estimación-de-la-pobreza.html#cb186-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-6"><a href="estimación-de-la-pobreza.html#cb186-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimando el CME</span></span>
+<span id="cb186-7"><a href="estimación-de-la-pobreza.html#cb186-7" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> temp_epred_mat <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb186-8"><a href="estimación-de-la-pobreza.html#cb186-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb186-9"><a href="estimación-de-la-pobreza.html#cb186-9" aria-hidden="true" tabindex="-1"></a>(temp_dam44 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb186-10"><a href="estimación-de-la-pobreza.html#cb186-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb186-11"><a href="estimación-de-la-pobreza.html#cb186-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb186-12"><a href="estimación-de-la-pobreza.html#cb186-12" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+0.0336
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio en el dam 44 es 0.18 lineas de pobreza</p>
 </div>
+<div id="estimación-para-la-dam2-44001" class="section level3 hasAnchor" number="10.2.2">
+<h3><span class="header-section-number">10.2.2</span> Estimación para la dam2 == “44001”<a href="estimación-de-la-pobreza.html#estimación-para-la-dam2-44001" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="estimación-de-la-pobreza.html#cb187-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> poststrat_df <span class="sc">%&gt;%</span>  <span class="fu">mutate</span>(<span class="at">Posi =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb187-2"><a href="estimación-de-la-pobreza.html#cb187-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span></span>
+<span id="cb187-3"><a href="estimación-de-la-pobreza.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(temp, dam2 <span class="sc">==</span> <span class="st">&quot;44001&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(n, Posi)</span>
+<span id="cb187-4"><a href="estimación-de-la-pobreza.html#cb187-4" aria-hidden="true" tabindex="-1"></a>n_filtered <span class="ot">&lt;-</span> temp<span class="sc">$</span>n</span>
+<span id="cb187-5"><a href="estimación-de-la-pobreza.html#cb187-5" aria-hidden="true" tabindex="-1"></a>temp_epred_mat <span class="ot">&lt;-</span> epred_mat_pobreza_lp[, temp<span class="sc">$</span>Posi]</span>
+<span id="cb187-6"><a href="estimación-de-la-pobreza.html#cb187-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimando el CME</span></span>
+<span id="cb187-7"><a href="estimación-de-la-pobreza.html#cb187-7" aria-hidden="true" tabindex="-1"></a>mrp_estimates <span class="ot">&lt;-</span> temp_epred_mat <span class="sc">%*%</span> n_filtered <span class="sc">/</span> <span class="fu">sum</span>(n_filtered)</span>
+<span id="cb187-8"><a href="estimación-de-la-pobreza.html#cb187-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb187-9"><a href="estimación-de-la-pobreza.html#cb187-9" aria-hidden="true" tabindex="-1"></a>(temp_dam2_44001 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb187-10"><a href="estimación-de-la-pobreza.html#cb187-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate =</span> <span class="fu">mean</span>(mrp_estimates),</span>
+<span id="cb187-11"><a href="estimación-de-la-pobreza.html#cb187-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">mrp_estimate_se =</span> <span class="fu">sd</span>(mrp_estimates)</span>
+<span id="cb187-12"><a href="estimación-de-la-pobreza.html#cb187-12" aria-hidden="true" tabindex="-1"></a>) ) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.185
+</td>
+<td style="text-align:right;">
+0.0336
+</td>
+</tr>
+</tbody>
+</table>
+<p>El resultado nos indica que el ingreso medio en la dam2 44001 es 0.18 lineas de pobreza</p>
+<p>Después de comprender la forma en que se realiza la estimación de los dominios no observados procedemos el uso de la función <em>Aux_Agregado</em> que es desarrollada para este fin.</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="estimación-de-la-pobreza.html#cb188-1" aria-hidden="true" tabindex="-1"></a>(mrp_estimate_Ingresolp <span class="ot">&lt;-</span></span>
+<span id="cb188-2"><a href="estimación-de-la-pobreza.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb188-3"><a href="estimación-de-la-pobreza.html#cb188-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat_pobreza_lp,</span>
+<span id="cb188-4"><a href="estimación-de-la-pobreza.html#cb188-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="cn">NULL</span>)</span>
+<span id="cb188-5"><a href="estimación-de-la-pobreza.html#cb188-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Nacional
+</th>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Nacional
+</td>
+<td style="text-align:right;">
+0.1805
+</td>
+<td style="text-align:right;">
+0.0542
+</td>
+</tr>
+</tbody>
+</table>
+<p>De forma similar es posible obtener los resultados para las divisiones administrativas.</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="estimación-de-la-pobreza.html#cb189-1" aria-hidden="true" tabindex="-1"></a>mrp_estimate_dam <span class="ot">&lt;-</span></span>
+<span id="cb189-2"><a href="estimación-de-la-pobreza.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb189-3"><a href="estimación-de-la-pobreza.html#cb189-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat_pobreza_lp,</span>
+<span id="cb189-4"><a href="estimación-de-la-pobreza.html#cb189-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="st">&quot;dam&quot;</span>)</span>
+<span id="cb189-5"><a href="estimación-de-la-pobreza.html#cb189-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(mrp_estimate_dam <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.5176
+</td>
+<td style="text-align:right;">
+0.0845
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05004
+</td>
+<td style="text-align:right;">
+0.5230
+</td>
+<td style="text-align:right;">
+0.3123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05021
+</td>
+<td style="text-align:right;">
+0.5038
+</td>
+<td style="text-align:right;">
+0.3061
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05030
+</td>
+<td style="text-align:right;">
+0.2005
+</td>
+<td style="text-align:right;">
+0.2373
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.5409
+</td>
+<td style="text-align:right;">
+0.0828
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.2354
+</td>
+<td style="text-align:right;">
+0.0755
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05036
+</td>
+<td style="text-align:right;">
+0.2414
+</td>
+<td style="text-align:right;">
+0.2577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05038
+</td>
+<td style="text-align:right;">
+0.5010
+</td>
+<td style="text-align:right;">
+0.3142
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05040
+</td>
+<td style="text-align:right;">
+0.5639
+</td>
+<td style="text-align:right;">
+0.3063
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="estimación-de-la-pobreza.html#cb190-1" aria-hidden="true" tabindex="-1"></a>mrp_estimate_dam2 <span class="ot">&lt;-</span></span>
+<span id="cb190-2"><a href="estimación-de-la-pobreza.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb190-3"><a href="estimación-de-la-pobreza.html#cb190-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat_pobreza_lp,</span>
+<span id="cb190-4"><a href="estimación-de-la-pobreza.html#cb190-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="st">&quot;dam2&quot;</span>)</span>
+<span id="cb190-5"><a href="estimación-de-la-pobreza.html#cb190-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb190-6"><a href="estimación-de-la-pobreza.html#cb190-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(mrp_estimate_dam2 <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) )</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+mrp_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+0.5176
+</td>
+<td style="text-align:right;">
+0.0845
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05004
+</td>
+<td style="text-align:right;">
+0.5230
+</td>
+<td style="text-align:right;">
+0.3123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05021
+</td>
+<td style="text-align:right;">
+0.5038
+</td>
+<td style="text-align:right;">
+0.3061
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05030
+</td>
+<td style="text-align:right;">
+0.2005
+</td>
+<td style="text-align:right;">
+0.2373
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05031
+</td>
+<td style="text-align:right;">
+0.5409
+</td>
+<td style="text-align:right;">
+0.0828
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05034
+</td>
+<td style="text-align:right;">
+0.2354
+</td>
+<td style="text-align:right;">
+0.0755
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05036
+</td>
+<td style="text-align:right;">
+0.2414
+</td>
+<td style="text-align:right;">
+0.2577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05038
+</td>
+<td style="text-align:right;">
+0.5010
+</td>
+<td style="text-align:right;">
+0.3142
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05040
+</td>
+<td style="text-align:right;">
+0.5639
+</td>
+<td style="text-align:right;">
+0.3063
+</td>
+</tr>
+</tbody>
+</table>
+<p>El mapa resultante es el siguiente</p>
+<p><img src="Recursos/D%C3%ADa3/Sesion2/0Recursos/Mapa_COL_Pobreza.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+<!-- </div> -->
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="proceso-de-estimación-y-predicción-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -323,7 +740,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/index.Rmd",
+"link": "https://github.com/psirusteam/2021ASDA/09-D3S2_Modelo_unidad_Estimacion_pobreza_a_partir_ingreso.qmd",
 "text": "Edit"
 },
 "history": {
