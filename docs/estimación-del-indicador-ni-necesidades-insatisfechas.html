@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>13.8 Estimación del indicador NI (Necesidades Insatisfechas) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <meta name="description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="13.8 Estimación del indicador NI (Necesidades Insatisfechas) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="github-repo" content="psirusteam/HHS-Handbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13.8 Estimación del indicador NI (Necesidades Insatisfechas) | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  
+  <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
+  
+
+<meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
+
+
+<meta name="date" content="2023-03-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"/>
+<link rel="next" href="día-4---sesión-4--estimación-del-indicador-d7.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Taller de instalación de capacidades en SAE</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Agenda</a></li>
+<li class="chapter" data-level="1" data-path="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><a href="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><i class="fa fa-check"></i><b>1</b> Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030</a></li>
+<li class="chapter" data-level="2" data-path="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><a href="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><i class="fa fa-check"></i><b>2</b> Día 1 - Sesión 2- Limitaciones de las encuestas de hogares</a></li>
+<li class="chapter" data-level="3" data-path="día-1---sesión-3--censo-e-información-satelital.html"><a href="día-1---sesión-3--censo-e-información-satelital.html"><i class="fa fa-check"></i><b>3</b> Día 1 - Sesión 3- Censo e información satelital</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html"><i class="fa fa-check"></i><b>3.1</b> Uso de imágenes satelitales y SAE</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html#fuentes-de-datos-de-imágenes-satelitales"><i class="fa fa-check"></i><b>3.1.1</b> Fuentes de datos de imágenes satelitales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="google-earth-eninge.html"><a href="google-earth-eninge.html"><i class="fa fa-check"></i><b>3.2</b> Google Earth Eninge</a></li>
+<li class="chapter" data-level="3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html"><i class="fa fa-check"></i><b>3.3</b> Instalación de rgee</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#descargar-información-satelital"><i class="fa fa-check"></i><b>3.3.1</b> Descargar información satelital</a></li>
+<li class="chapter" data-level="3.3.2" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#luces-nocturnas"><i class="fa fa-check"></i><b>3.3.2</b> Luces nocturnas</a></li>
+<li class="chapter" data-level="3.3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-cultivos"><i class="fa fa-check"></i><b>3.3.3</b> Cubrimiento cultivos</a></li>
+<li class="chapter" data-level="3.3.4" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-urbanos"><i class="fa fa-check"></i><b>3.3.4</b> Cubrimiento urbanos</a></li>
+<li class="chapter" data-level="3.3.5" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#modificación-humana"><i class="fa fa-check"></i><b>3.3.5</b> Modificación humana</a></li>
+<li class="chapter" data-level="3.3.6" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital"><i class="fa fa-check"></i><b>3.3.6</b> Tiempo promedio al hospital</a></li>
+<li class="chapter" data-level="3.3.7" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital-en-vehiculo-no-motorizado"><i class="fa fa-check"></i><b>3.3.7</b> Tiempo promedio al hospital en vehiculo no motorizado</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html"><i class="fa fa-check"></i><b>3.4</b> Censos de población y vivienda</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html#mapas-de-las-variables-con-información-censal."><i class="fa fa-check"></i><b>3.4.1</b> Mapas de las variables con información censal.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><i class="fa fa-check"></i><b>4</b> Día 1 - Sesión 4- Fundamentos de la inferencia Bayesiana en R y STAN</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regla-de-bayes.html"><a href="regla-de-bayes.html"><i class="fa fa-check"></i><b>4.1</b> Regla de Bayes</a></li>
+<li class="chapter" data-level="4.2" data-path="inferencia-bayesiana..html"><a href="inferencia-bayesiana..html"><i class="fa fa-check"></i><b>4.2</b> Inferencia Bayesiana.</a></li>
+<li class="chapter" data-level="4.3" data-path="modelos-uniparamétricos.html"><a href="modelos-uniparamétricos.html"><i class="fa fa-check"></i><b>4.3</b> Modelos uniparamétricos</a></li>
+<li class="chapter" data-level="4.4" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html"><i class="fa fa-check"></i><b>4.4</b> Modelo Bernoulli</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-r"><i class="fa fa-check"></i><b>4.4.1</b> Práctica en <strong>R</strong></a></li>
+<li class="chapter" data-level="4.4.2" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-stan"><i class="fa fa-check"></i><b>4.4.2</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="modelo-binomial.html"><a href="modelo-binomial.html"><i class="fa fa-check"></i><b>4.5</b> Modelo Binomial</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="modelo-binomial.html"><a href="modelo-binomial.html#práctica-en-stan-1"><i class="fa fa-check"></i><b>4.5.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html"><i class="fa fa-check"></i><b>4.6</b> Modelo Normal con media desconocida</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html#práctica-en-stan-2"><i class="fa fa-check"></i><b>4.6.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="modelos-multiparamétricos.html"><a href="modelos-multiparamétricos.html"><i class="fa fa-check"></i><b>4.7</b> Modelos multiparamétricos</a></li>
+<li class="chapter" data-level="4.8" data-path="modelo-normal-con-media-y-varianza-desconocida.html"><a href="modelo-normal-con-media-y-varianza-desconocida.html"><i class="fa fa-check"></i><b>4.8</b> Modelo Normal con media y varianza desconocida</a></li>
+<li class="chapter" data-level="4.9" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html"><i class="fa fa-check"></i><b>4.9</b> Parámetros independientes</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html#práctica-en-stan-3"><i class="fa fa-check"></i><b>4.9.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html"><i class="fa fa-check"></i><b>4.10</b> Modelo Multinomial</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html#práctica-en-stan-4"><i class="fa fa-check"></i><b>4.10.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"><a href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"><i class="fa fa-check"></i><b>5</b> Día 2 - Sesión 1- Estimaciones GEIH y Función Generalizada de Varianza</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="datos-de-la-encuesta.html"><a href="datos-de-la-encuesta.html"><i class="fa fa-check"></i><b>5.1</b> Datos de la encuesta</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-gráfico.html"><a href="análisis-gráfico.html"><i class="fa fa-check"></i><b>5.2</b> Análisis gráfico</a></li>
+<li class="chapter" data-level="5.3" data-path="modelo-para-la-varianza.html"><a href="modelo-para-la-varianza.html"><i class="fa fa-check"></i><b>5.3</b> Modelo para la varianza</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html#resultados-del-modelo-para-los-dominios-observados."><i class="fa fa-check"></i><b>6.2.1</b> Resultados del modelo para los dominios observados.</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="proceso-de-benchmark.html"><a href="proceso-de-benchmark.html"><i class="fa fa-check"></i><b>6.3</b> Proceso de Benchmark</a></li>
+<li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
+<li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.2</b> Modelo de Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-3"><i class="fa fa-check"></i><b>8.2.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-3"><i class="fa fa-check"></i><b>8.2.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio.html"><a href="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio.html"><i class="fa fa-check"></i><b>9</b> Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="modelo-bayesiano..html"><a href="modelo-bayesiano..html"><i class="fa fa-check"></i><b>9.1</b> Modelo bayesiano.</a></li>
+<li class="chapter" data-level="9.2" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html"><i class="fa fa-check"></i><b>9.2</b> Proceso de estimación en <code>R</code></a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#encuesta-de-hogares"><i class="fa fa-check"></i><b>9.2.1</b> Encuesta de hogares</a></li>
+<li class="chapter" data-level="9.2.2" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#niveles-de-agregación-para-colapsar-la-encuesta"><i class="fa fa-check"></i><b>9.2.2</b> Niveles de agregación para colapsar la encuesta</a></li>
+<li class="chapter" data-level="9.2.3" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#creando-base-con-la-encuesta-agregada"><i class="fa fa-check"></i><b>9.2.3</b> Creando base con la encuesta agregada</a></li>
+<li class="chapter" data-level="9.2.4" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#definiendo-el-modelo-multinivel."><i class="fa fa-check"></i><b>9.2.4</b> Definiendo el modelo multinivel.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html"><i class="fa fa-check"></i><b>9.3</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#distribución-posterior."><i class="fa fa-check"></i><b>9.3.1</b> Distribución posterior.</a></li>
+<li class="chapter" data-level="9.3.2" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-del-ingreso-medio-nacional"><i class="fa fa-check"></i><b>9.3.2</b> Estimación del ingreso medio nacional</a></li>
+<li class="chapter" data-level="9.3.3" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-para-el-dam-11."><i class="fa fa-check"></i><b>9.3.3</b> Estimación para el dam == “11”.</a></li>
+<li class="chapter" data-level="9.3.4" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-para-la-dam2-05001"><i class="fa fa-check"></i><b>9.3.4</b> Estimación para la dam2 == “05001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="día-3---sesión-2--estimación-de-la-pobreza-a-partir-del-ingreso.html"><a href="día-3---sesión-2--estimación-de-la-pobreza-a-partir-del-ingreso.html"><i class="fa fa-check"></i><b>10</b> Día 3 - Sesión 2- Estimación de la pobreza a partir del ingreso</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="proceso-de-estimación-y-predicción-1.html"><a href="proceso-de-estimación-y-predicción-1.html"><i class="fa fa-check"></i><b>10.1</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="proceso-de-estimación-y-predicción-1.html"><a href="proceso-de-estimación-y-predicción-1.html#distribución-posterior.-1"><i class="fa fa-check"></i><b>10.1.1</b> Distribución posterior.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>10.2</b> Estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html#estimación-para-el-dam-44."><i class="fa fa-check"></i><b>10.2.1</b> Estimación para el dam == “44”.</a></li>
+<li class="chapter" data-level="10.2.2" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html#estimación-para-la-dam2-44001"><i class="fa fa-check"></i><b>10.2.2</b> Estimación para la dam2 == “44001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="día-3---sesión-3--modelo-de-unidad-para-la-estimación-de-la-pobreza.html"><a href="día-3---sesión-3--modelo-de-unidad-para-la-estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>11</b> Día 3 - Sesión 3- Modelo de unidad para la estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="modelo-de-regresión-logistica..html"><a href="modelo-de-regresión-logistica..html"><i class="fa fa-check"></i><b>11.1</b> Modelo de regresión logistica.</a></li>
+<li class="chapter" data-level="11.2" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html"><i class="fa fa-check"></i><b>11.2</b> Proceso de estimación en <code>R</code></a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#encuesta-de-hogares-1"><i class="fa fa-check"></i><b>11.2.1</b> Encuesta de hogares</a></li>
+<li class="chapter" data-level="11.2.2" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#niveles-de-agregación-para-colapsar-la-encuesta-1"><i class="fa fa-check"></i><b>11.2.2</b> Niveles de agregación para colapsar la encuesta</a></li>
+<li class="chapter" data-level="11.2.3" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#creando-base-con-la-encuesta-agregada-1"><i class="fa fa-check"></i><b>11.2.3</b> Creando base con la encuesta agregada</a></li>
+<li class="chapter" data-level="11.2.4" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#definiendo-el-modelo-multinivel.-1"><i class="fa fa-check"></i><b>11.2.4</b> Definiendo el modelo multinivel.</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html"><i class="fa fa-check"></i><b>11.3</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#distribución-posterior.-2"><i class="fa fa-check"></i><b>11.3.1</b> Distribución posterior.</a></li>
+<li class="chapter" data-level="11.3.2" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-de-la-tasa-de-pobreza"><i class="fa fa-check"></i><b>11.3.2</b> Estimación de la tasa de pobreza</a></li>
+<li class="chapter" data-level="11.3.3" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-para-el-dam-44.-1"><i class="fa fa-check"></i><b>11.3.3</b> Estimación para el dam == “44”.</a></li>
+<li class="chapter" data-level="11.3.4" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-para-la-dam2-44001-1"><i class="fa fa-check"></i><b>11.3.4</b> Estimación para la dam2 == “44001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="día-3---sesión-4--estimación-del-índice-de-privación-multidimensional-ipm.html"><a href="día-3---sesión-4--estimación-del-índice-de-privación-multidimensional-ipm.html"><i class="fa fa-check"></i><b>12</b> Día 3 - Sesión 4- Estimación del Índice de Privación Multidimensional (IPM)</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="índice-de-privación-multidimensional-ipm.html"><a href="índice-de-privación-multidimensional-ipm.html"><i class="fa fa-check"></i><b>12.1</b> Índice de Privación Multidimensional (IPM)</a></li>
+<li class="chapter" data-level="12.2" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html"><i class="fa fa-check"></i><b>12.2</b> Definición del modelo</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#procesamiento-del-modelo-en-r."><i class="fa fa-check"></i><b>12.2.1</b> Procesamiento del modelo en <code>R</code>.</a></li>
+<li class="chapter" data-level="12.2.2" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#definiendo-el-modelo-multinivel.-2"><i class="fa fa-check"></i><b>12.2.2</b> Definiendo el modelo multinivel.</a></li>
+<li class="chapter" data-level="12.2.3" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#proceso-de-estimación-y-predicción-3"><i class="fa fa-check"></i><b>12.2.3</b> Proceso de estimación y predicción</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="día-4---sesión-3--estimación-de-uso-de-métodos-de-planificación-familiar-empleando-modelos-de-unidad.html"><a href="día-4---sesión-3--estimación-de-uso-de-métodos-de-planificación-familiar-empleando-modelos-de-unidad.html"><i class="fa fa-check"></i><b>13</b> Día 4 - Sesión 3- Estimación de uso de métodos de planificación familiar empleando modelos de unidad</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="definiciones-de-los-indicadores-de-interés..html"><a href="definiciones-de-los-indicadores-de-interés..html"><i class="fa fa-check"></i><b>13.1</b> Definiciones de los indicadores de interés.</a></li>
+<li class="chapter" data-level="13.2" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html"><i class="fa fa-check"></i><b>13.2</b> Estandarización de la encuesta</a>
+<ul>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#tipo-de-vivienda"><i class="fa fa-check"></i>Tipo de vivienda</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-material-que-predomina-en-las-paredes-exteriores-de-la-vivienda-en-la-que-usted-reside"><i class="fa fa-check"></i>¿Cuál es el material que predomina en las paredes exteriores de la vivienda en la que usted reside?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-material-que-predomina-en-los-pisos-de-la-vivienda-que-usted-reside"><i class="fa fa-check"></i>¿Cuál es el material que predomina en los pisos de la vivienda que usted reside?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#de-dónde-obtiene-principalmente-su-hogar-el-agua-para-preparar-los-alimentos"><i class="fa fa-check"></i>¿De dónde obtiene principalmente su hogar el agua para preparar los alimentos?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-nivel-educativo-más-alto-alcanzado-por-y-el-último-año-o-grado-aprobado-en-ese-nivel"><i class="fa fa-check"></i>¿Cuál es el nivel educativo más alto alcanzado por … y el último año o grado aprobado en ese nivel?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#en-qué-actividad-ocupó-la-mayor-parte-del-tiempo-la-semana-pasada"><i class="fa fa-check"></i>¿En qué actividad ocupó … la mayor parte del tiempo la semana pasada?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#actualmente-el-estado-civil-de-es"><i class="fa fa-check"></i>¿Actualmente el estado civil de … es:</a></li>
+<li class="chapter" data-level="13.2.1" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#indicadores"><i class="fa fa-check"></i><b>13.2.1</b> Indicadores</a></li>
+<li class="chapter" data-level="13.2.2" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#variables-para-el-diseño-muestral"><i class="fa fa-check"></i><b>13.2.2</b> Variables para el diseño muestral</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="censos-de-población-y-vivienda-1.html"><a href="censos-de-población-y-vivienda-1.html"><i class="fa fa-check"></i><b>13.3</b> Censos de población y vivienda</a></li>
+<li class="chapter" data-level="13.4" data-path="imagenes-satelitales-como-información-auxiliar.html"><a href="imagenes-satelitales-como-información-auxiliar.html"><i class="fa fa-check"></i><b>13.4</b> Imagenes satelitales como información auxiliar</a></li>
+<li class="chapter" data-level="13.5" data-path="modelo-mrp.html"><a href="modelo-mrp.html"><i class="fa fa-check"></i><b>13.5</b> Modelo MRP</a></li>
+<li class="chapter" data-level="13.6" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html"><i class="fa fa-check"></i><b>13.6</b> Estimación del modelo para D6</a>
+<ul>
+<li class="chapter" data-level="13.6.1" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#validación-del-modelo"><i class="fa fa-check"></i><b>13.6.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="13.6.2" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#predicción-en-el-censo"><i class="fa fa-check"></i><b>13.6.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="13.6.3" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#metodología-de-benchmarking"><i class="fa fa-check"></i><b>13.6.3</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="13.6.4" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#estimación-y-mapa-del-indicador."><i class="fa fa-check"></i><b>13.6.4</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="13.6.5" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#mapas-para-el-indicador-d6"><i class="fa fa-check"></i><b>13.6.5</b> Mapas para el indicador D6</a></li>
+</ul></li>
+<li class="chapter" data-level="13.7" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><i class="fa fa-check"></i><b>13.7</b> Estimación del indicador D6m (Uso de métodos anticonceptivos)</a>
+<ul>
+<li class="chapter" data-level="13.7.1" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#validación-del-modelo-1"><i class="fa fa-check"></i><b>13.7.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="13.7.2" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#predicción-en-el-censo-1"><i class="fa fa-check"></i><b>13.7.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="13.7.3" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#metodología-benchmarking"><i class="fa fa-check"></i><b>13.7.3</b> Metodología Benchmarking</a></li>
+<li class="chapter" data-level="13.7.4" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#estimación-y-mapa-del-indicador-d6m."><i class="fa fa-check"></i><b>13.7.4</b> Estimación y mapa del indicador D6m.</a></li>
+<li class="chapter" data-level="13.7.5" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#mapas-para-el-indicador-d6m"><i class="fa fa-check"></i><b>13.7.5</b> Mapas para el indicador D6m</a></li>
+</ul></li>
+<li class="chapter" data-level="13.8" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html"><i class="fa fa-check"></i><b>13.8</b> Estimación del indicador NI (Necesidades Insatisfechas)</a>
+<ul>
+<li class="chapter" data-level="13.8.1" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#validación-del-modelo-2"><i class="fa fa-check"></i><b>13.8.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="13.8.2" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#predicción-en-el-censo-2"><i class="fa fa-check"></i><b>13.8.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="13.8.3" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#metodología-de-benchmarking-1"><i class="fa fa-check"></i><b>13.8.3</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="13.8.4" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#estimación-y-mapa-del-indicador.-1"><i class="fa fa-check"></i><b>13.8.4</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="13.8.5" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#mapas-para-el-indicador-ni"><i class="fa fa-check"></i><b>13.8.5</b> Mapas para el indicador NI</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="día-4---sesión-4--estimación-del-indicador-d7.html"><a href="día-4---sesión-4--estimación-del-indicador-d7.html"><i class="fa fa-check"></i><b>14</b> Día 4 - Sesión 4- Estimación del indicador D7</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="predicción-en-el-censo-3.html"><a href="predicción-en-el-censo-3.html"><i class="fa fa-check"></i><b>14.1</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="14.2" data-path="estimación-y-mapa-del-indicador.-2.html"><a href="estimación-y-mapa-del-indicador.-2.html"><i class="fa fa-check"></i><b>14.2</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="14.3" data-path="mapas-para-el-indicador-d7.html"><a href="mapas-para-el-indicador-d7.html"><i class="fa fa-check"></i><b>14.3</b> Mapas para el indicador D7</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a Taller de instalación de capacidades en SAE </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="estimación-del-indicador-ni-necesidades-insatisfechas" class="section level2 hasAnchor" number="13.8">
+<h2><span class="header-section-number">13.8</span> Estimación del indicador NI (Necesidades Insatisfechas)<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#estimación-del-indicador-ni-necesidades-insatisfechas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Lectura de insumos</p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb292-1" aria-hidden="true" tabindex="-1"></a>encuesta_mrp <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día4/Sesion3/UNFPA/NI/encuesta_mrp.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb292-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">dam2 =</span> mpio)</span>
+<span id="cb292-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb292-3" aria-hidden="true" tabindex="-1"></a>statelevel_predictors_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día4/Sesion3/UNFPA/NI/statelevel_predictors_df_dam2.rds&quot;</span>)</span>
+<span id="cb292-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb292-4" aria-hidden="true" tabindex="-1"></a>censo_mrp <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día4/Sesion3/UNFPA/NI/censo_mrp.rds&quot;</span>)</span>
+<span id="cb292-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb292-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día4/Sesion3/UNFPA/NI/fit_bayes.rds&quot;</span>)</span></code></pre></div>
+<p>Por el proceso de estandarizado realizado es renombrado el indicador <em>necesInst</em> como <em>probreza</em>, el modelo contemplado para el indicador es:</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb293-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>call</span></code></pre></div>
+<pre><code>## stan_glmer(formula = cbind(pobres, nopobres) ~ (1 | dam2) + (1 | 
+##     edad) + (1 | etnia) + (1 | area:anoest) + (1 | edad:anoest) + 
+##     tasa_desocupacion + luces_nocturnas + cubrimiento_cultivo + 
+##     cubrimiento_urbano + unida, data = encuesta_df_agg, family = binomial(link = &quot;logit&quot;), 
+##     verbose = TRUE, cores = 7, chains = 4, iter = 1000)</code></pre>
+<p>El resultado del modelo es el siguiente.</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(<span class="fu">coef</span>(fit)<span class="sc">$</span>dam2 <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+(Intercept)
+</th>
+<th style="text-align:right;">
+tasa_desocupacion
+</th>
+<th style="text-align:right;">
+luces_nocturnas
+</th>
+<th style="text-align:right;">
+cubrimiento_cultivo
+</th>
+<th style="text-align:right;">
+cubrimiento_urbano
+</th>
+<th style="text-align:right;">
+unida2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+05001
+</td>
+<td style="text-align:right;">
+-2.0367
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05002
+</td>
+<td style="text-align:right;">
+-2.2247
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05045
+</td>
+<td style="text-align:right;">
+-2.3102
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05051
+</td>
+<td style="text-align:right;">
+-2.0963
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05059
+</td>
+<td style="text-align:right;">
+-2.0905
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05079
+</td>
+<td style="text-align:right;">
+-2.0638
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05088
+</td>
+<td style="text-align:right;">
+-1.8973
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05129
+</td>
+<td style="text-align:right;">
+-2.0657
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05134
+</td>
+<td style="text-align:right;">
+-2.2877
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05154
+</td>
+<td style="text-align:right;">
+-2.1144
+</td>
+<td style="text-align:right;">
+-9.805
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+-0.0102
+</td>
+<td style="text-align:right;">
+0.0086
+</td>
+<td style="text-align:right;">
+-0.6534
+</td>
+</tr>
+</tbody>
+</table>
+<div id="validación-del-modelo-2" class="section level3 hasAnchor" number="13.8.1">
+<h3><span class="header-section-number">13.8.1</span> Validación del modelo<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#validación-del-modelo-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
+<span id="cb296-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb296-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb296-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb296-3" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">as.array</span>(fit)</span>
+<span id="cb296-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb296-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(fit, <span class="at">pars =</span> var_names)</span></code></pre></div>
+<p><img src="14-D4S3_Modelo_unidad_UNFPA_files/figure-html/unnamed-chunk-70-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_trace</span>(fit,<span class="at">pars =</span> var_names)</span></code></pre></div>
+<p><img src="14-D4S3_Modelo_unidad_UNFPA_files/figure-html/unnamed-chunk-71-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb298-1" aria-hidden="true" tabindex="-1"></a>encuesta_mrp2 <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(encuesta_mrp, statelevel_predictors_df)</span>
+<span id="cb298-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb298-2" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">posterior_epred</span>(fit, <span class="at">newdata =</span> encuesta_mrp2)</span>
+<span id="cb298-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb298-3" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
+<span id="cb298-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb298-4" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
+<span id="cb298-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb298-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(encuesta_mrp2<span class="sc">$</span>necesInst), y_pred2) </span></code></pre></div>
+</div>
+<div id="predicción-en-el-censo-2" class="section level3 hasAnchor" number="13.8.2">
+<h3><span class="header-section-number">13.8.2</span> Predicción en el censo<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#predicción-en-el-censo-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-1" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="ot">&lt;-</span> censo_mrp <span class="sc">%&gt;%</span>  </span>
+<span id="cb299-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by_at</span>(byAgrega) <span class="sc">%&gt;%</span></span>
+<span id="cb299-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">sum</span>(n), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
+<span id="cb299-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb299-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-5" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="ot">&lt;-</span> <span class="fu">left_join</span>(poststrat_df, statelevel_predictors_df)</span>
+<span id="cb299-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb299-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-7" aria-hidden="true" tabindex="-1"></a>epred_mat <span class="ot">&lt;-</span> <span class="fu">posterior_epred</span>(fit, <span class="at">newdata =</span> poststrat_df, </span>
+<span id="cb299-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb299-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">allow.new.levels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Asignar la predicción a la base de <code>poststrat_df</code></p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb300-1" aria-hidden="true" tabindex="-1"></a>poststrat_df<span class="sc">$</span>epred_mat <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(epred_mat)</span></code></pre></div>
+</div>
+<div id="metodología-de-benchmarking-1" class="section level3 hasAnchor" number="13.8.3">
+<h3><span class="header-section-number">13.8.3</span> Metodología de Benchmarking<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#metodología-de-benchmarking-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>Validarse los nombres de las covariables disponibles en censo y encuesta, que deben ser las mismas con las que se han venido trabajando, para este caso resultaron</li>
+</ol>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb301-1" aria-hidden="true" tabindex="-1"></a>names_cov <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;area&quot;</span>,  <span class="st">&quot;etnia&quot;</span>, <span class="st">&quot;edad&quot;</span> , <span class="st">&quot;unida&quot;</span> )</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Calcular las estimaciones para cada una de las variables de la base de datos de <code>encuesta_mrp</code> utilizando el indicador de interés.</li>
+</ol>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-1" aria-hidden="true" tabindex="-1"></a>encuesta_mrp <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">pobreza =</span> necesInst)</span>
+<span id="cb302-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-3" aria-hidden="true" tabindex="-1"></a>paso <span class="ot">&lt;-</span> <span class="fu">sapply</span>(names_cov, <span class="cf">function</span>(byi){</span>
+<span id="cb302-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    encuesta_mrp <span class="sc">%&gt;%</span> </span>
+<span id="cb302-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by_at</span>(<span class="fu">all_of</span>(byi)) <span class="sc">%&gt;%</span> </span>
+<span id="cb302-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Nhat =</span> <span class="fu">sum</span>(fexp),</span>
+<span id="cb302-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">t_pobreza =</span> <span class="fu">sum</span>(pobreza<span class="sc">*</span>fexp),</span>
+<span id="cb302-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">medias =</span> <span class="fu">weighted.mean</span>(pobreza,fexp))</span>
+<span id="cb302-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb302-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>( Categoría <span class="ot">=</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;area&quot;</span>,]),</span>
+<span id="cb302-12"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">Total =</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;t_pobreza&quot;</span>,]),</span>
+<span id="cb302-13"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">Hat_Media =</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;medias&quot;</span>,])) <span class="sc">%&gt;%</span> </span>
+<span id="cb302-14"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb302-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Categoría
+</th>
+<th style="text-align:right;">
+Total
+</th>
+<th style="text-align:right;">
+Hat_Media
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+area1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+190593.78
+</td>
+<td style="text-align:right;">
+0.0755
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+area2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+527643.13
+</td>
+<td style="text-align:right;">
+0.0539
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+61766.89
+</td>
+<td style="text-align:right;">
+0.0910
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+77274.24
+</td>
+<td style="text-align:right;">
+0.0720
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+579195.78
+</td>
+<td style="text-align:right;">
+0.0549
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+174822.54
+</td>
+<td style="text-align:right;">
+0.0700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+291849.88
+</td>
+<td style="text-align:right;">
+0.0759
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+132394.00
+</td>
+<td style="text-align:right;">
+0.0436
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad4
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+119170.49
+</td>
+<td style="text-align:right;">
+0.0407
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+unida1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+435117.28
+</td>
+<td style="text-align:right;">
+0.0668
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" style="list-style-type: decimal">
+<li>Crear variables dummys en <code>poststrat_df</code> y multiplicar cada variable por la predicción <code>epred_mat</code></li>
+</ol>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb303-1" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb303-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb303-2" aria-hidden="true" tabindex="-1"></a>  fastDummies<span class="sc">::</span><span class="fu">dummy_cols</span>(<span class="at">select_columns =</span> names_cov,   <span class="at">remove_selected_columns =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb303-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb303-3" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb303-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb303-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="fu">matches</span>(<span class="st">&quot;_</span><span class="sc">\\</span><span class="st">d$&quot;</span>)) ,<span class="sc">~</span>.<span class="sc">*</span>poststrat_df<span class="sc">$</span>epred_mat)</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Con la función <code>calib</code> se procede a calcular los <span class="math inline">\(g_k\)</span>, verificando que el proceso se haya realizado con éxito y exista convergencia</li>
+</ol>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sampling)</span>
+<span id="cb304-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-3" aria-hidden="true" tabindex="-1"></a>poststrat_df<span class="sc">$</span>gk <span class="ot">&lt;-</span> <span class="fu">calib</span>(</span>
+<span id="cb304-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Xs =</span> poststrat_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">&quot;_</span><span class="sc">\\</span><span class="st">d{,2}$&quot;</span>)), <span class="do">## Variable dummys </span></span>
+<span id="cb304-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> poststrat_df<span class="sc">$</span>n,                            <span class="do">## Conteos en el post-estrato</span></span>
+<span id="cb304-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">total =</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;t_pobreza&quot;</span>,]),            <span class="do">## Valores objetivo</span></span>
+<span id="cb304-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method=</span><span class="st">&quot;logit&quot;</span>)                                <span class="do">## Método empleado</span></span>
+<span id="cb304-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb304-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-9" aria-hidden="true" tabindex="-1"></a><span class="fu">checkcalibration</span>(<span class="at">Xs =</span> poststrat_df <span class="sc">%&gt;%</span> </span>
+<span id="cb304-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-10" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">&quot;_</span><span class="sc">\\</span><span class="st">d{,2}$&quot;</span>)), </span>
+<span id="cb304-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span> poststrat_df<span class="sc">$</span>n,</span>
+<span id="cb304-12"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">total =</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;t_pobreza&quot;</span>,]),</span>
+<span id="cb304-13"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb304-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">g =</span> poststrat_df<span class="sc">$</span>gk)</span></code></pre></div>
+<pre><code>## $message
+## [1] &quot;the calibration is done&quot;
+## 
+## $result
+## [1] TRUE
+## 
+## $value
+## [1] 1e-06</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Realizar validación sobre los resultados obtenidos.</li>
+</ol>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(poststrat_df<span class="sc">$</span>gk)</span></code></pre></div>
+<p><img src="14-D4S3_Modelo_unidad_UNFPA_files/figure-html/unnamed-chunk-81-1.svg" width="672" /></p>
+<p>Continuando con la validación se define define la columna <code>pobreza2</code></p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb307-1" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb307-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb307-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pobreza2 =</span> epred_mat <span class="sc">*</span>gk,</span>
+<span id="cb307-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb307-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">pobreza2 =</span> <span class="fu">ifelse</span>(pobreza2<span class="sc">&gt;</span><span class="dv">1</span>, <span class="dv">1</span>, pobreza2),</span>
+<span id="cb307-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb307-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">pobreza2 =</span> <span class="fu">ifelse</span>(pobreza2<span class="sc">&lt;</span><span class="dv">0</span>, <span class="dv">0</span>, pobreza2)) </span></code></pre></div>
+<p>Paso seguido realizamos el calculo de los totales calibrados.</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">map_df</span>(names_cov ,<span class="sc">~</span> poststrat_df <span class="sc">%&gt;%</span> </span>
+<span id="cb308-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by_at</span>(<span class="fu">all_of</span>(.x)) <span class="sc">%&gt;%</span></span>
+<span id="cb308-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(</span>
+<span id="cb308-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">Nhat =</span> <span class="fu">sum</span>(n),</span>
+<span id="cb308-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">t_pobreza =</span> <span class="fu">sum</span>(n<span class="sc">*</span>pobreza2)) <span class="sc">%&gt;%</span> </span>
+<span id="cb308-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">transmute</span>(</span>
+<span id="cb308-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">Cal_Media =</span> t_pobreza<span class="sc">/</span>Nhat,</span>
+<span id="cb308-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">Variable =</span> <span class="fu">paste0</span>(.x, <span class="fu">get</span>(.x) ))) </span>
+<span id="cb308-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb308-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>( Categoría <span class="ot">=</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;area&quot;</span>,]),</span>
+<span id="cb308-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">Hat_Media =</span> <span class="fu">unlist</span>(paso[<span class="st">&quot;medias&quot;</span>,])) <span class="sc">%&gt;%</span> </span>
+<span id="cb308-12"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb308-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(temp) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">tba</span>()</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Categoría
+</th>
+<th style="text-align:right;">
+Hat_Media
+</th>
+<th style="text-align:right;">
+Cal_Media
+</th>
+<th style="text-align:left;">
+Variable
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+area1
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+0.0755
+</td>
+<td style="text-align:right;">
+0.0747
+</td>
+<td style="text-align:left;">
+area0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+area2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+0.0539
+</td>
+<td style="text-align:right;">
+0.0538
+</td>
+<td style="text-align:left;">
+area1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+0.0910
+</td>
+<td style="text-align:right;">
+0.0897
+</td>
+<td style="text-align:left;">
+etnia1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia2
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+0.0720
+</td>
+<td style="text-align:right;">
+0.0711
+</td>
+<td style="text-align:left;">
+etnia2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+etnia3
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+0.0549
+</td>
+<td style="text-align:right;">
+0.0547
+</td>
+<td style="text-align:left;">
+etnia3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+0.0700
+</td>
+<td style="text-align:right;">
+0.0695
+</td>
+<td style="text-align:left;">
+edad2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad2
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:right;">
+0.0759
+</td>
+<td style="text-align:right;">
+0.0756
+</td>
+<td style="text-align:left;">
+edad3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad3
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:right;">
+0.0436
+</td>
+<td style="text-align:right;">
+0.0434
+</td>
+<td style="text-align:left;">
+edad4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad4
+</td>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:right;">
+0.0407
+</td>
+<td style="text-align:right;">
+0.0405
+</td>
+<td style="text-align:left;">
+edad5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+unida1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+0.0668
+</td>
+<td style="text-align:right;">
+0.0708
+</td>
+<td style="text-align:left;">
+unida1
+</td>
+</tr>
+</tbody>
+</table>
+<p>También es posible hacer validaciones visuales.</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb309-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(srvyr)</span>
+<span id="cb309-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb309-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;Recursos/Día4/Sesion3/0Recursos/funciones_mrp.R&quot;</span>)</span>
+<span id="cb309-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-6" aria-hidden="true" tabindex="-1"></a>poststrat_df <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">yk_lmer =</span> epred_mat,   <span class="at">yk_bench =</span> pobreza2)</span>
+<span id="cb309-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-8" aria-hidden="true" tabindex="-1"></a>diseno <span class="ot">&lt;-</span> encuesta_mrp <span class="sc">%&gt;%</span></span>
+<span id="cb309-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yk_dir =</span> pobreza,</span>
+<span id="cb309-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">dam =</span> <span class="fu">substr</span>(dam2,<span class="dv">1</span>,<span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb309-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_survey_design</span>(<span class="at">weights =</span> fexp)</span>
+<span id="cb309-12"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-13"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-13" aria-hidden="true" tabindex="-1"></a>bynames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;area&quot;</span>, <span class="st">&quot;edad&quot;</span>, <span class="st">&quot;dam&quot;</span>, <span class="st">&quot;etnia&quot;</span>)</span>
+<span id="cb309-14"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-14" aria-hidden="true" tabindex="-1"></a>plot_uni <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb309-15"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> <span class="fu">setNames</span>(bynames, bynames),</span>
+<span id="cb309-16"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-16" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">plot_compare2</span>(</span>
+<span id="cb309-17"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_diseno =</span> diseno,</span>
+<span id="cb309-18"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb309-19"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">by1 =</span> .x</span>
+<span id="cb309-20"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb309-21"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb309-22"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-23"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-23" aria-hidden="true" tabindex="-1"></a>plot_uni<span class="sc">$</span>dam<span class="sc">$</span>Plot<span class="sc">$</span>plot1<span class="sc">/</span></span>
+<span id="cb309-24"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-25"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-25" aria-hidden="true" tabindex="-1"></a>(plot_uni<span class="sc">$</span>edad<span class="sc">$</span>Plot<span class="sc">$</span>plot1 <span class="sc">+</span></span>
+<span id="cb309-26"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb309-26" aria-hidden="true" tabindex="-1"></a>plot_uni<span class="sc">$</span>area<span class="sc">$</span>Plot<span class="sc">$</span>plot1<span class="sc">+</span> plot_uni<span class="sc">$</span>etnia<span class="sc">$</span>Plot<span class="sc">$</span>plot1)</span></code></pre></div>
+<p><img src="Recursos/D%C3%ADa4/Sesion3/0Recursos/NI/plot_uni.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+</div>
+<div id="estimación-y-mapa-del-indicador.-1" class="section level3 hasAnchor" number="13.8.4">
+<h3><span class="header-section-number">13.8.4</span> Estimación y mapa del indicador.<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#estimación-y-mapa-del-indicador.-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Después de todos el proceso de estandarización, creación de variables covariables, estimación del modelo y validaciones realizadas, la estimación puntual se reduce a operaciones algebraicas simples.</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-1" aria-hidden="true" tabindex="-1"></a>poststrat_df2 <span class="ot">&lt;-</span>  poststrat_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(anoest <span class="sc">!=</span> <span class="st">&quot;99&quot;</span>)</span>
+<span id="cb310-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-3" aria-hidden="true" tabindex="-1"></a>dat_dam2 <span class="ot">&lt;-</span> poststrat_df2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(dam2) <span class="sc">%&gt;%</span></span>
+<span id="cb310-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb310-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">Benchmarking_estimate =</span> <span class="fu">sum</span>(n <span class="sc">*</span> pobreza2) <span class="sc">/</span> <span class="fu">sum</span>(n),</span>
+<span id="cb310-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb310-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb310-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<p>El cuadrado medio del error lo obtenemos con la función <code>Aux_Agregado</code> que hemos usado previamente.</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-1" aria-hidden="true" tabindex="-1"></a>mrp_cme <span class="ot">&lt;-</span></span>
+<span id="cb311-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Aux_Agregado</span>(<span class="at">poststrat =</span> poststrat_df,</span>
+<span id="cb311-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">epredmat =</span> epred_mat,</span>
+<span id="cb311-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">byMap =</span> <span class="st">&quot;dam2&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb311-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>mrp_estimate)</span>
+<span id="cb311-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-7" aria-hidden="true" tabindex="-1"></a>dat_dam2 <span class="ot">&lt;-</span> dat_dam2 <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(mrp_cme) <span class="sc">%&gt;%</span> </span>
+<span id="cb311-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mrp_cv =</span> mrp_estimate_se<span class="sc">/</span>Benchmarking_estimate<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb311-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mrp_cv))</span>
+<span id="cb311-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb311-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(dat_dam2 <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
+<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+dam2
+</th>
+<th style="text-align:right;">
+Benchmarking_estimate
+</th>
+<th style="text-align:right;">
+mrp_estimate_se
+</th>
+<th style="text-align:right;">
+mrp_cv
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+52022
+</td>
+<td style="text-align:right;">
+0.0479
+</td>
+<td style="text-align:right;">
+0.0187
+</td>
+<td style="text-align:right;">
+38.9611
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15476
+</td>
+<td style="text-align:right;">
+0.0342
+</td>
+<td style="text-align:right;">
+0.0133
+</td>
+<td style="text-align:right;">
+38.7280
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15835
+</td>
+<td style="text-align:right;">
+0.0369
+</td>
+<td style="text-align:right;">
+0.0142
+</td>
+<td style="text-align:right;">
+38.5526
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15500
+</td>
+<td style="text-align:right;">
+0.0358
+</td>
+<td style="text-align:right;">
+0.0138
+</td>
+<td style="text-align:right;">
+38.4971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+52317
+</td>
+<td style="text-align:right;">
+0.0535
+</td>
+<td style="text-align:right;">
+0.0204
+</td>
+<td style="text-align:right;">
+38.1757
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+52506
+</td>
+<td style="text-align:right;">
+0.0376
+</td>
+<td style="text-align:right;">
+0.0143
+</td>
+<td style="text-align:right;">
+38.0635
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19573
+</td>
+<td style="text-align:right;">
+0.0422
+</td>
+<td style="text-align:right;">
+0.0160
+</td>
+<td style="text-align:right;">
+37.9832
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15367
+</td>
+<td style="text-align:right;">
+0.0389
+</td>
+<td style="text-align:right;">
+0.0147
+</td>
+<td style="text-align:right;">
+37.7739
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+19845
+</td>
+<td style="text-align:right;">
+0.0430
+</td>
+<td style="text-align:right;">
+0.0162
+</td>
+<td style="text-align:right;">
+37.6584
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+27073
+</td>
+<td style="text-align:right;">
+0.0925
+</td>
+<td style="text-align:right;">
+0.0347
+</td>
+<td style="text-align:right;">
+37.5371
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mapas-para-el-indicador-ni" class="section level3 hasAnchor" number="13.8.5">
+<h3><span class="header-section-number">13.8.5</span> Mapas para el indicador NI<a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#mapas-para-el-indicador-ni" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb312-2"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb312-3"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb312-4"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-5"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-5" aria-hidden="true" tabindex="-1"></a>ShapeSAE <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">&quot;Recursos/Día4/Sesion3/Shape/COL_dam2.shp&quot;</span>)</span>
+<span id="cb312-6"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-7"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-7" aria-hidden="true" tabindex="-1"></a>P1_ingresolp <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(ShapeSAE <span class="sc">%&gt;%</span>    <span class="fu">left_join</span>(dat_dam2,  <span class="at">by =</span> <span class="st">&quot;dam2&quot;</span>))</span>
+<span id="cb312-8"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-9"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_options</span>(<span class="at">check.and.fix =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb312-10"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-10" aria-hidden="true" tabindex="-1"></a>Mapa_lp <span class="ot">&lt;-</span></span>
+<span id="cb312-11"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-11" aria-hidden="true" tabindex="-1"></a>  P1_ingresolp <span class="sc">+</span> <span class="fu">tm_polygons</span>(</span>
+<span id="cb312-12"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Benchmarking_estimate&quot;</span>,</span>
+<span id="cb312-13"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;NI&quot;</span>,</span>
+<span id="cb312-14"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">&quot;YlOrRd&quot;</span></span>
+<span id="cb312-15"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="dv">0</span>)</span>
+<span id="cb312-16"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-17"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-17" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_save</span>(</span>
+<span id="cb312-18"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-18" aria-hidden="true" tabindex="-1"></a>  Mapa_lp,</span>
+<span id="cb312-19"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Recursos/Día4/Sesion3/UNFPA/NI/Estados2.jpeg&quot;</span>,</span>
+<span id="cb312-20"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">6920</span>,</span>
+<span id="cb312-21"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">4080</span>,</span>
+<span id="cb312-22"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">asp =</span> <span class="dv">0</span></span>
+<span id="cb312-23"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb312-24"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#cb312-24" aria-hidden="true" tabindex="-1"></a>Mapa_lp</span></code></pre></div>
+<p><img src="Recursos/D%C3%ADa4/Sesion3/UNFPA/NI/Estados2.jpeg" width="800px" height="200px" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="día-4---sesión-4--estimación-del-indicador-d7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/psirusteam/2021ASDA/14-D4S3_Modelo_unidad_UNFPA.qmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.pdf", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.epub", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.mobi"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"tconfig": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
