@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>14.3 Preparando insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <meta name="description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="14.3 Preparando insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
+  <meta name="github-repo" content="psirusteam/HHS-Handbook" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="14.3 Preparando insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  
+  <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
+  
+
+<meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
+
+
+<meta name="date" content="2023-03-23" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo-programando-en-stan-1.html"/>
+<link rel="next" href="validación-del-modelo-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Taller de instalación de capacidades en SAE</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Agenda</a></li>
+<li class="chapter" data-level="1" data-path="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><a href="día-1---sesión-1--no-dejar-a-nadie-atrás---ods-y-la-agenda-2030.html"><i class="fa fa-check"></i><b>1</b> Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030</a></li>
+<li class="chapter" data-level="2" data-path="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><a href="día-1---sesión-2--limitaciones-de-las-encuestas-de-hogares.html"><i class="fa fa-check"></i><b>2</b> Día 1 - Sesión 2- Limitaciones de las encuestas de hogares</a></li>
+<li class="chapter" data-level="3" data-path="día-1---sesión-3--censo-e-información-satelital.html"><a href="día-1---sesión-3--censo-e-información-satelital.html"><i class="fa fa-check"></i><b>3</b> Día 1 - Sesión 3- Censo e información satelital</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html"><i class="fa fa-check"></i><b>3.1</b> Uso de imágenes satelitales y SAE</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="uso-de-imágenes-satelitales-y-sae.html"><a href="uso-de-imágenes-satelitales-y-sae.html#fuentes-de-datos-de-imágenes-satelitales"><i class="fa fa-check"></i><b>3.1.1</b> Fuentes de datos de imágenes satelitales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="google-earth-eninge.html"><a href="google-earth-eninge.html"><i class="fa fa-check"></i><b>3.2</b> Google Earth Eninge</a></li>
+<li class="chapter" data-level="3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html"><i class="fa fa-check"></i><b>3.3</b> Instalación de rgee</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#descargar-información-satelital"><i class="fa fa-check"></i><b>3.3.1</b> Descargar información satelital</a></li>
+<li class="chapter" data-level="3.3.2" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#luces-nocturnas"><i class="fa fa-check"></i><b>3.3.2</b> Luces nocturnas</a></li>
+<li class="chapter" data-level="3.3.3" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-cultivos"><i class="fa fa-check"></i><b>3.3.3</b> Cubrimiento cultivos</a></li>
+<li class="chapter" data-level="3.3.4" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#cubrimiento-urbanos"><i class="fa fa-check"></i><b>3.3.4</b> Cubrimiento urbanos</a></li>
+<li class="chapter" data-level="3.3.5" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#modificación-humana"><i class="fa fa-check"></i><b>3.3.5</b> Modificación humana</a></li>
+<li class="chapter" data-level="3.3.6" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital"><i class="fa fa-check"></i><b>3.3.6</b> Tiempo promedio al hospital</a></li>
+<li class="chapter" data-level="3.3.7" data-path="instalación-de-rgee.html"><a href="instalación-de-rgee.html#tiempo-promedio-al-hospital-en-vehiculo-no-motorizado"><i class="fa fa-check"></i><b>3.3.7</b> Tiempo promedio al hospital en vehiculo no motorizado</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html"><i class="fa fa-check"></i><b>3.4</b> Censos de población y vivienda</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="censos-de-población-y-vivienda.html"><a href="censos-de-población-y-vivienda.html#mapas-de-las-variables-con-información-censal."><i class="fa fa-check"></i><b>3.4.1</b> Mapas de las variables con información censal.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><a href="día-1---sesión-4--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan.html"><i class="fa fa-check"></i><b>4</b> Día 1 - Sesión 4- Fundamentos de la inferencia Bayesiana en R y STAN</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regla-de-bayes.html"><a href="regla-de-bayes.html"><i class="fa fa-check"></i><b>4.1</b> Regla de Bayes</a></li>
+<li class="chapter" data-level="4.2" data-path="inferencia-bayesiana..html"><a href="inferencia-bayesiana..html"><i class="fa fa-check"></i><b>4.2</b> Inferencia Bayesiana.</a></li>
+<li class="chapter" data-level="4.3" data-path="modelos-uniparamétricos.html"><a href="modelos-uniparamétricos.html"><i class="fa fa-check"></i><b>4.3</b> Modelos uniparamétricos</a></li>
+<li class="chapter" data-level="4.4" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html"><i class="fa fa-check"></i><b>4.4</b> Modelo Bernoulli</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-r"><i class="fa fa-check"></i><b>4.4.1</b> Práctica en <strong>R</strong></a></li>
+<li class="chapter" data-level="4.4.2" data-path="modelo-bernoulli.html"><a href="modelo-bernoulli.html#práctica-en-stan"><i class="fa fa-check"></i><b>4.4.2</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="modelo-binomial.html"><a href="modelo-binomial.html"><i class="fa fa-check"></i><b>4.5</b> Modelo Binomial</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="modelo-binomial.html"><a href="modelo-binomial.html#práctica-en-stan-1"><i class="fa fa-check"></i><b>4.5.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html"><i class="fa fa-check"></i><b>4.6</b> Modelo Normal con media desconocida</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="modelo-normal-con-media-desconocida.html"><a href="modelo-normal-con-media-desconocida.html#práctica-en-stan-2"><i class="fa fa-check"></i><b>4.6.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="modelos-multiparamétricos.html"><a href="modelos-multiparamétricos.html"><i class="fa fa-check"></i><b>4.7</b> Modelos multiparamétricos</a></li>
+<li class="chapter" data-level="4.8" data-path="modelo-normal-con-media-y-varianza-desconocida.html"><a href="modelo-normal-con-media-y-varianza-desconocida.html"><i class="fa fa-check"></i><b>4.8</b> Modelo Normal con media y varianza desconocida</a></li>
+<li class="chapter" data-level="4.9" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html"><i class="fa fa-check"></i><b>4.9</b> Parámetros independientes</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="parámetros-independientes.html"><a href="parámetros-independientes.html#práctica-en-stan-3"><i class="fa fa-check"></i><b>4.9.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html"><i class="fa fa-check"></i><b>4.10</b> Modelo Multinomial</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="modelo-multinomial.html"><a href="modelo-multinomial.html#práctica-en-stan-4"><i class="fa fa-check"></i><b>4.10.1</b> Práctica en <strong>STAN</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"><a href="día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza.html"><i class="fa fa-check"></i><b>5</b> Día 2 - Sesión 1- Estimaciones GEIH y Función Generalizada de Varianza</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="datos-de-la-encuesta.html"><a href="datos-de-la-encuesta.html"><i class="fa fa-check"></i><b>5.1</b> Datos de la encuesta</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-gráfico.html"><a href="análisis-gráfico.html"><i class="fa fa-check"></i><b>5.2</b> Análisis gráfico</a></li>
+<li class="chapter" data-level="5.3" data-path="modelo-para-la-varianza.html"><a href="modelo-para-la-varianza.html"><i class="fa fa-check"></i><b>5.3</b> Modelo para la varianza</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html#resultados-del-modelo-para-los-dominios-observados."><i class="fa fa-check"></i><b>6.2.1</b> Resultados del modelo para los dominios observados.</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="proceso-de-benchmark.html"><a href="proceso-de-benchmark.html"><i class="fa fa-check"></i><b>6.3</b> Proceso de Benchmark</a></li>
+<li class="chapter" data-level="6.4" data-path="validación-de-los-resultados..html"><a href="validación-de-los-resultados..html"><i class="fa fa-check"></i><b>6.4</b> Validación de los resultados.</a></li>
+<li class="chapter" data-level="6.5" data-path="mapa-de-pobreza.html"><a href="mapa-de-pobreza.html"><i class="fa fa-check"></i><b>6.5</b> Mapa de pobreza</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><a href="día-2---sesión-3--modelos-de-área---estimación-de-la-pobreza-y-la-transformación-arcoseno..html"><i class="fa fa-check"></i><b>7</b> Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="procedimiento-de-estimación-1.html"><a href="procedimiento-de-estimación-1.html"><i class="fa fa-check"></i><b>7.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="7.2" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>7.2</b> Preparando los insumos para <code>STAN</code></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="preparando-los-insumos-para-stan-1.html"><a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1"><i class="fa fa-check"></i><b>7.2.1</b> Resultados del modelo para los dominios observados.</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="mapa-de-pobreza-1.html"><a href="mapa-de-pobreza-1.html"><i class="fa fa-check"></i><b>7.3</b> Mapa de pobreza</a></li>
+<li class="chapter" data-level="7.4" data-path="mapa-del-coeficiente-de-variación..html"><a href="mapa-del-coeficiente-de-variación..html"><i class="fa fa-check"></i><b>7.4</b> Mapa del coeficiente de variación.</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial.html"><i class="fa fa-check"></i><b>8</b> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.1</b> Modelo Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-2"><i class="fa fa-check"></i><b>8.1.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.1.2" data-path="modelo-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-2"><i class="fa fa-check"></i><b>8.1.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><i class="fa fa-check"></i><b>8.2</b> Modelo de Fay Herriot de variable respuesta beta.</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#procedimiento-de-estimación-3"><i class="fa fa-check"></i><b>8.2.1</b> Procedimiento de estimación</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modelo-de-fay-herriot-de-variable-respuesta-beta..html"><a href="modelo-de-fay-herriot-de-variable-respuesta-beta..html#preparando-los-insumos-para-stan-3"><i class="fa fa-check"></i><b>8.2.2</b> Preparando los insumos para <code>STAN</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio.html"><a href="día-3---sesión-1--modelo-de-unidad-para-la-estimación-del-ingreso-medio.html"><i class="fa fa-check"></i><b>9</b> Día 3 - Sesión 1- Modelo de unidad para la estimación del ingreso medio</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="modelo-bayesiano..html"><a href="modelo-bayesiano..html"><i class="fa fa-check"></i><b>9.1</b> Modelo bayesiano.</a></li>
+<li class="chapter" data-level="9.2" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html"><i class="fa fa-check"></i><b>9.2</b> Proceso de estimación en <code>R</code></a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#encuesta-de-hogares"><i class="fa fa-check"></i><b>9.2.1</b> Encuesta de hogares</a></li>
+<li class="chapter" data-level="9.2.2" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#niveles-de-agregación-para-colapsar-la-encuesta"><i class="fa fa-check"></i><b>9.2.2</b> Niveles de agregación para colapsar la encuesta</a></li>
+<li class="chapter" data-level="9.2.3" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#creando-base-con-la-encuesta-agregada"><i class="fa fa-check"></i><b>9.2.3</b> Creando base con la encuesta agregada</a></li>
+<li class="chapter" data-level="9.2.4" data-path="proceso-de-estimación-en-r.html"><a href="proceso-de-estimación-en-r.html#definiendo-el-modelo-multinivel."><i class="fa fa-check"></i><b>9.2.4</b> Definiendo el modelo multinivel.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html"><i class="fa fa-check"></i><b>9.3</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#distribución-posterior."><i class="fa fa-check"></i><b>9.3.1</b> Distribución posterior.</a></li>
+<li class="chapter" data-level="9.3.2" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-del-ingreso-medio-nacional"><i class="fa fa-check"></i><b>9.3.2</b> Estimación del ingreso medio nacional</a></li>
+<li class="chapter" data-level="9.3.3" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-para-el-dam-11."><i class="fa fa-check"></i><b>9.3.3</b> Estimación para el dam == “11”.</a></li>
+<li class="chapter" data-level="9.3.4" data-path="proceso-de-estimación-y-predicción.html"><a href="proceso-de-estimación-y-predicción.html#estimación-para-la-dam2-05001"><i class="fa fa-check"></i><b>9.3.4</b> Estimación para la dam2 == “05001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="día-3---sesión-2--estimación-de-la-pobreza-a-partir-del-ingreso.html"><a href="día-3---sesión-2--estimación-de-la-pobreza-a-partir-del-ingreso.html"><i class="fa fa-check"></i><b>10</b> Día 3 - Sesión 2- Estimación de la pobreza a partir del ingreso</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="proceso-de-estimación-y-predicción-1.html"><a href="proceso-de-estimación-y-predicción-1.html"><i class="fa fa-check"></i><b>10.1</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="proceso-de-estimación-y-predicción-1.html"><a href="proceso-de-estimación-y-predicción-1.html#distribución-posterior.-1"><i class="fa fa-check"></i><b>10.1.1</b> Distribución posterior.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>10.2</b> Estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html#estimación-para-el-dam-44."><i class="fa fa-check"></i><b>10.2.1</b> Estimación para el dam == “44”.</a></li>
+<li class="chapter" data-level="10.2.2" data-path="estimación-de-la-pobreza.html"><a href="estimación-de-la-pobreza.html#estimación-para-la-dam2-44001"><i class="fa fa-check"></i><b>10.2.2</b> Estimación para la dam2 == “44001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="día-3---sesión-3--modelo-de-unidad-para-la-estimación-de-la-pobreza.html"><a href="día-3---sesión-3--modelo-de-unidad-para-la-estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>11</b> Día 3 - Sesión 3- Modelo de unidad para la estimación de la pobreza</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="modelo-de-regresión-logistica..html"><a href="modelo-de-regresión-logistica..html"><i class="fa fa-check"></i><b>11.1</b> Modelo de regresión logistica.</a></li>
+<li class="chapter" data-level="11.2" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html"><i class="fa fa-check"></i><b>11.2</b> Proceso de estimación en <code>R</code></a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#encuesta-de-hogares-1"><i class="fa fa-check"></i><b>11.2.1</b> Encuesta de hogares</a></li>
+<li class="chapter" data-level="11.2.2" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#niveles-de-agregación-para-colapsar-la-encuesta-1"><i class="fa fa-check"></i><b>11.2.2</b> Niveles de agregación para colapsar la encuesta</a></li>
+<li class="chapter" data-level="11.2.3" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#creando-base-con-la-encuesta-agregada-1"><i class="fa fa-check"></i><b>11.2.3</b> Creando base con la encuesta agregada</a></li>
+<li class="chapter" data-level="11.2.4" data-path="proceso-de-estimación-en-r-1.html"><a href="proceso-de-estimación-en-r-1.html#definiendo-el-modelo-multinivel.-1"><i class="fa fa-check"></i><b>11.2.4</b> Definiendo el modelo multinivel.</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html"><i class="fa fa-check"></i><b>11.3</b> Proceso de estimación y predicción</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#distribución-posterior.-2"><i class="fa fa-check"></i><b>11.3.1</b> Distribución posterior.</a></li>
+<li class="chapter" data-level="11.3.2" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-de-la-tasa-de-pobreza"><i class="fa fa-check"></i><b>11.3.2</b> Estimación de la tasa de pobreza</a></li>
+<li class="chapter" data-level="11.3.3" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-para-el-dam-44.-1"><i class="fa fa-check"></i><b>11.3.3</b> Estimación para el dam == “44”.</a></li>
+<li class="chapter" data-level="11.3.4" data-path="proceso-de-estimación-y-predicción-2.html"><a href="proceso-de-estimación-y-predicción-2.html#estimación-para-la-dam2-44001-1"><i class="fa fa-check"></i><b>11.3.4</b> Estimación para la dam2 == “44001”</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="día-3---sesión-4--estimación-del-índice-de-privación-multidimensional-ipm.html"><a href="día-3---sesión-4--estimación-del-índice-de-privación-multidimensional-ipm.html"><i class="fa fa-check"></i><b>12</b> Día 3 - Sesión 4- Estimación del Índice de Privación Multidimensional (IPM)</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="índice-de-privación-multidimensional-ipm.html"><a href="índice-de-privación-multidimensional-ipm.html"><i class="fa fa-check"></i><b>12.1</b> Índice de Privación Multidimensional (IPM)</a></li>
+<li class="chapter" data-level="12.2" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html"><i class="fa fa-check"></i><b>12.2</b> Definición del modelo</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#procesamiento-del-modelo-en-r."><i class="fa fa-check"></i><b>12.2.1</b> Procesamiento del modelo en <code>R</code>.</a></li>
+<li class="chapter" data-level="12.2.2" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#definiendo-el-modelo-multinivel.-2"><i class="fa fa-check"></i><b>12.2.2</b> Definiendo el modelo multinivel.</a></li>
+<li class="chapter" data-level="12.2.3" data-path="definición-del-modelo.html"><a href="definición-del-modelo.html#proceso-de-estimación-y-predicción-3"><i class="fa fa-check"></i><b>12.2.3</b> Proceso de estimación y predicción</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="día-4---sesión-1--modelo-de-área-para-estadísticas-del-mercado-de-trabajo.html"><a href="día-4---sesión-1--modelo-de-área-para-estadísticas-del-mercado-de-trabajo.html"><i class="fa fa-check"></i><b>13</b> Día 4 - Sesión 1- Modelo de área para estadísticas del mercado de trabajo</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="definición-del-modelo-multinomial.html"><a href="definición-del-modelo-multinomial.html"><i class="fa fa-check"></i><b>13.1</b> Definición del modelo multinomial</a></li>
+<li class="chapter" data-level="13.2" data-path="lectura-de-librerías..html"><a href="lectura-de-librerías..html"><i class="fa fa-check"></i><b>13.2</b> Lectura de librerías.</a></li>
+<li class="chapter" data-level="13.3" data-path="lectura-de-la-encuesta-y-estimaciones-directas.html"><a href="lectura-de-la-encuesta-y-estimaciones-directas.html"><i class="fa fa-check"></i><b>13.3</b> Lectura de la encuesta y estimaciones directas</a></li>
+<li class="chapter" data-level="13.4" data-path="selección-de-dominios.html"><a href="selección-de-dominios.html"><i class="fa fa-check"></i><b>13.4</b> Selección de dominios</a></li>
+<li class="chapter" data-level="13.5" data-path="modelo-programando-en-stan.html"><a href="modelo-programando-en-stan.html"><i class="fa fa-check"></i><b>13.5</b> Modelo programando en <code>STAN</code></a></li>
+<li class="chapter" data-level="13.6" data-path="preparando-insumos-para-stan.html"><a href="preparando-insumos-para-stan.html"><i class="fa fa-check"></i><b>13.6</b> Preparando insumos para <code>STAN</code></a></li>
+<li class="chapter" data-level="13.7" data-path="validación-del-modelo.html"><a href="validación-del-modelo.html"><i class="fa fa-check"></i><b>13.7</b> Validación del modelo</a></li>
+<li class="chapter" data-level="13.8" data-path="estimación-de-los-parámetros..html"><a href="estimación-de-los-parámetros..html"><i class="fa fa-check"></i><b>13.8</b> Estimación de los parámetros.</a></li>
+<li class="chapter" data-level="13.9" data-path="estimación-de-la-desviación-estárdar-y-el-coeficiente-de-valiación.html"><a href="estimación-de-la-desviación-estárdar-y-el-coeficiente-de-valiación.html"><i class="fa fa-check"></i><b>13.9</b> Estimación de la desviación estárdar y el coeficiente de valiación</a></li>
+<li class="chapter" data-level="13.10" data-path="metodología-de-benchmarking.html"><a href="metodología-de-benchmarking.html"><i class="fa fa-check"></i><b>13.10</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="13.11" data-path="mapas-del-mercado-de-trabajo..html"><a href="mapas-del-mercado-de-trabajo..html"><i class="fa fa-check"></i><b>13.11</b> Mapas del mercado de trabajo.</a>
+<ul>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo..html"><a href="mapas-del-mercado-de-trabajo..html#ocupado-1"><i class="fa fa-check"></i>Ocupado</a></li>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo..html"><a href="mapas-del-mercado-de-trabajo..html#desocupado-1"><i class="fa fa-check"></i>Desocupado</a></li>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo..html"><a href="mapas-del-mercado-de-trabajo..html#inactivo-1"><i class="fa fa-check"></i>Inactivo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="día-4---sesión-2---definición-del-modelo-multinomial-de-efectos-aleatorios-correlacionados..html"><a href="día-4---sesión-2---definición-del-modelo-multinomial-de-efectos-aleatorios-correlacionados..html"><i class="fa fa-check"></i><b>14</b> Día 4 - Sesión 2 - Definición del modelo multinomial de efectos aleatorios correlacionados.</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="lectura-de-las-estimaciones-directas.html"><a href="lectura-de-las-estimaciones-directas.html"><i class="fa fa-check"></i><b>14.1</b> Lectura de las estimaciones directas</a></li>
+<li class="chapter" data-level="14.2" data-path="modelo-programando-en-stan-1.html"><a href="modelo-programando-en-stan-1.html"><i class="fa fa-check"></i><b>14.2</b> Modelo programando en <code>STAN</code></a></li>
+<li class="chapter" data-level="14.3" data-path="preparando-insumos-para-stan-1.html"><a href="preparando-insumos-para-stan-1.html"><i class="fa fa-check"></i><b>14.3</b> Preparando insumos para <code>STAN</code></a></li>
+<li class="chapter" data-level="14.4" data-path="validación-del-modelo-1.html"><a href="validación-del-modelo-1.html"><i class="fa fa-check"></i><b>14.4</b> Validación del modelo</a></li>
+<li class="chapter" data-level="14.5" data-path="estimación-de-los-parámetros.-1.html"><a href="estimación-de-los-parámetros.-1.html"><i class="fa fa-check"></i><b>14.5</b> Estimación de los parámetros.</a></li>
+<li class="chapter" data-level="14.6" data-path="estimación-del-desviación-estárdar-y-el-coeficiente-de-valiación.html"><a href="estimación-del-desviación-estárdar-y-el-coeficiente-de-valiación.html"><i class="fa fa-check"></i><b>14.6</b> Estimación del desviación estárdar y el coeficiente de valiación</a></li>
+<li class="chapter" data-level="14.7" data-path="metodología-de-benchmarking-1.html"><a href="metodología-de-benchmarking-1.html"><i class="fa fa-check"></i><b>14.7</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="14.8" data-path="mapas-del-mercado-de-trabajo.-1.html"><a href="mapas-del-mercado-de-trabajo.-1.html"><i class="fa fa-check"></i><b>14.8</b> Mapas del mercado de trabajo.</a>
+<ul>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo.-1.html"><a href="mapas-del-mercado-de-trabajo.-1.html#ocupado-3"><i class="fa fa-check"></i>Ocupado</a></li>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo.-1.html"><a href="mapas-del-mercado-de-trabajo.-1.html#desocupado-3"><i class="fa fa-check"></i>Desocupado</a></li>
+<li class="chapter" data-level="" data-path="mapas-del-mercado-de-trabajo.-1.html"><a href="mapas-del-mercado-de-trabajo.-1.html#inactivo-3"><i class="fa fa-check"></i>Inactivo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="día-4---sesión-3--estimación-de-uso-de-métodos-de-planificación-familiar-empleando-modelos-de-unidad.html"><a href="día-4---sesión-3--estimación-de-uso-de-métodos-de-planificación-familiar-empleando-modelos-de-unidad.html"><i class="fa fa-check"></i><b>15</b> Día 4 - Sesión 3- Estimación de uso de métodos de planificación familiar empleando modelos de unidad</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="definiciones-de-los-indicadores-de-interés..html"><a href="definiciones-de-los-indicadores-de-interés..html"><i class="fa fa-check"></i><b>15.1</b> Definiciones de los indicadores de interés.</a></li>
+<li class="chapter" data-level="15.2" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html"><i class="fa fa-check"></i><b>15.2</b> Estandarización de la encuesta</a>
+<ul>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#tipo-de-vivienda"><i class="fa fa-check"></i>Tipo de vivienda</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-material-que-predomina-en-las-paredes-exteriores-de-la-vivienda-en-la-que-usted-reside"><i class="fa fa-check"></i>¿Cuál es el material que predomina en las paredes exteriores de la vivienda en la que usted reside?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-material-que-predomina-en-los-pisos-de-la-vivienda-que-usted-reside"><i class="fa fa-check"></i>¿Cuál es el material que predomina en los pisos de la vivienda que usted reside?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#de-dónde-obtiene-principalmente-su-hogar-el-agua-para-preparar-los-alimentos"><i class="fa fa-check"></i>¿De dónde obtiene principalmente su hogar el agua para preparar los alimentos?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#cuál-es-el-nivel-educativo-más-alto-alcanzado-por-y-el-último-año-o-grado-aprobado-en-ese-nivel"><i class="fa fa-check"></i>¿Cuál es el nivel educativo más alto alcanzado por … y el último año o grado aprobado en ese nivel?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#en-qué-actividad-ocupó-la-mayor-parte-del-tiempo-la-semana-pasada"><i class="fa fa-check"></i>¿En qué actividad ocupó … la mayor parte del tiempo la semana pasada?</a></li>
+<li class="chapter" data-level="" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#actualmente-el-estado-civil-de-es"><i class="fa fa-check"></i>¿Actualmente el estado civil de … es:</a></li>
+<li class="chapter" data-level="15.2.1" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#indicadores"><i class="fa fa-check"></i><b>15.2.1</b> Indicadores</a></li>
+<li class="chapter" data-level="15.2.2" data-path="estandarización-de-la-encuesta.html"><a href="estandarización-de-la-encuesta.html#variables-para-el-diseño-muestral"><i class="fa fa-check"></i><b>15.2.2</b> Variables para el diseño muestral</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="censos-de-población-y-vivienda-1.html"><a href="censos-de-población-y-vivienda-1.html"><i class="fa fa-check"></i><b>15.3</b> Censos de población y vivienda</a></li>
+<li class="chapter" data-level="15.4" data-path="imagenes-satelitales-como-información-auxiliar.html"><a href="imagenes-satelitales-como-información-auxiliar.html"><i class="fa fa-check"></i><b>15.4</b> Imagenes satelitales como información auxiliar</a></li>
+<li class="chapter" data-level="15.5" data-path="modelo-mrp.html"><a href="modelo-mrp.html"><i class="fa fa-check"></i><b>15.5</b> Modelo MRP</a></li>
+<li class="chapter" data-level="15.6" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html"><i class="fa fa-check"></i><b>15.6</b> Estimación del modelo para D6</a>
+<ul>
+<li class="chapter" data-level="15.6.1" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#validación-del-modelo-2"><i class="fa fa-check"></i><b>15.6.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="15.6.2" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#predicción-en-el-censo"><i class="fa fa-check"></i><b>15.6.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="15.6.3" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#metodología-de-benchmarking-2"><i class="fa fa-check"></i><b>15.6.3</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="15.6.4" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#estimación-y-mapa-del-indicador."><i class="fa fa-check"></i><b>15.6.4</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="15.6.5" data-path="estimación-del-modelo-para-d6.html"><a href="estimación-del-modelo-para-d6.html#mapas-para-el-indicador-d6"><i class="fa fa-check"></i><b>15.6.5</b> Mapas para el indicador D6</a></li>
+</ul></li>
+<li class="chapter" data-level="15.7" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><i class="fa fa-check"></i><b>15.7</b> Estimación del indicador D6m (Uso de métodos anticonceptivos)</a>
+<ul>
+<li class="chapter" data-level="15.7.1" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#validación-del-modelo-3"><i class="fa fa-check"></i><b>15.7.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="15.7.2" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#predicción-en-el-censo-1"><i class="fa fa-check"></i><b>15.7.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="15.7.3" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#metodología-benchmarking"><i class="fa fa-check"></i><b>15.7.3</b> Metodología Benchmarking</a></li>
+<li class="chapter" data-level="15.7.4" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#estimación-y-mapa-del-indicador-d6m."><i class="fa fa-check"></i><b>15.7.4</b> Estimación y mapa del indicador D6m.</a></li>
+<li class="chapter" data-level="15.7.5" data-path="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html"><a href="estimación-del-indicador-d6m-uso-de-métodos-anticonceptivos.html#mapas-para-el-indicador-d6m"><i class="fa fa-check"></i><b>15.7.5</b> Mapas para el indicador D6m</a></li>
+</ul></li>
+<li class="chapter" data-level="15.8" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html"><i class="fa fa-check"></i><b>15.8</b> Estimación del indicador NI (Necesidades Insatisfechas)</a>
+<ul>
+<li class="chapter" data-level="15.8.1" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#validación-del-modelo-4"><i class="fa fa-check"></i><b>15.8.1</b> Validación del modelo</a></li>
+<li class="chapter" data-level="15.8.2" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#predicción-en-el-censo-2"><i class="fa fa-check"></i><b>15.8.2</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="15.8.3" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#metodología-de-benchmarking-3"><i class="fa fa-check"></i><b>15.8.3</b> Metodología de Benchmarking</a></li>
+<li class="chapter" data-level="15.8.4" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#estimación-y-mapa-del-indicador.-1"><i class="fa fa-check"></i><b>15.8.4</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="15.8.5" data-path="estimación-del-indicador-ni-necesidades-insatisfechas.html"><a href="estimación-del-indicador-ni-necesidades-insatisfechas.html#mapas-para-el-indicador-ni"><i class="fa fa-check"></i><b>15.8.5</b> Mapas para el indicador NI</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="día-4---sesión-4--estimación-del-indicador-d7.html"><a href="día-4---sesión-4--estimación-del-indicador-d7.html"><i class="fa fa-check"></i><b>16</b> Día 4 - Sesión 4- Estimación del indicador D7</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="predicción-en-el-censo-3.html"><a href="predicción-en-el-censo-3.html"><i class="fa fa-check"></i><b>16.1</b> Predicción en el censo</a></li>
+<li class="chapter" data-level="16.2" data-path="estimación-y-mapa-del-indicador.-2.html"><a href="estimación-y-mapa-del-indicador.-2.html"><i class="fa fa-check"></i><b>16.2</b> Estimación y mapa del indicador.</a></li>
+<li class="chapter" data-level="16.3" data-path="mapas-para-el-indicador-d7.html"><a href="mapas-para-el-indicador-d7.html"><i class="fa fa-check"></i><b>16.3</b> Mapas para el indicador D7</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a Taller de instalación de capacidades en SAE </a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="preparando-insumos-para-stan-1" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Preparando insumos para <code>STAN</code><a href="preparando-insumos-para-stan-1.html#preparando-insumos-para-stan-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Lectura y adecuación de covariables</li>
+</ol>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="preparando-insumos-para-stan-1.html#cb279-1" aria-hidden="true" tabindex="-1"></a>statelevel_predictors_df <span class="ot">&lt;-</span></span>
+<span id="cb279-2"><a href="preparando-insumos-para-stan-1.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(<span class="st">&#39;Recursos/Día4/Sesion2/Data/statelevel_predictors_df_dam2.rds&#39;</span>) </span>
+<span id="cb279-3"><a href="preparando-insumos-para-stan-1.html#cb279-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Estandarizando las variables para controlar el efecto de la escala. </span></span>
+<span id="cb279-4"><a href="preparando-insumos-para-stan-1.html#cb279-4" aria-hidden="true" tabindex="-1"></a>statelevel_predictors_df <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb279-5"><a href="preparando-insumos-para-stan-1.html#cb279-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="st">&quot;luces_nocturnas&quot;</span>, </span>
+<span id="cb279-6"><a href="preparando-insumos-para-stan-1.html#cb279-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;cubrimiento_cultivo&quot;</span>,</span>
+<span id="cb279-7"><a href="preparando-insumos-para-stan-1.html#cb279-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;cubrimiento_urbano&quot;</span>,</span>
+<span id="cb279-8"><a href="preparando-insumos-para-stan-1.html#cb279-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;modificacion_humana&quot;</span>,</span>
+<span id="cb279-9"><a href="preparando-insumos-para-stan-1.html#cb279-9" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;accesibilidad_hospitales&quot;</span>,</span>
+<span id="cb279-10"><a href="preparando-insumos-para-stan-1.html#cb279-10" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;accesibilidad_hosp_caminado&quot;</span>),</span>
+<span id="cb279-11"><a href="preparando-insumos-para-stan-1.html#cb279-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">function</span>(x)<span class="fu">as.numeric</span>(<span class="fu">scale</span>(x)))</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Seleccionar las variables del modelo y crear matriz de covariables.</li>
+</ol>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="preparando-insumos-para-stan-1.html#cb280-1" aria-hidden="true" tabindex="-1"></a>names_cov <span class="ot">&lt;-</span></span>
+<span id="cb280-2"><a href="preparando-insumos-para-stan-1.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb280-3"><a href="preparando-insumos-para-stan-1.html#cb280-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;dam2&quot;</span>,</span>
+<span id="cb280-4"><a href="preparando-insumos-para-stan-1.html#cb280-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;tasa_desocupacion&quot;</span>,</span>
+<span id="cb280-5"><a href="preparando-insumos-para-stan-1.html#cb280-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hacinamiento&quot;</span>,</span>
+<span id="cb280-6"><a href="preparando-insumos-para-stan-1.html#cb280-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;piso_tierra&quot;</span>,</span>
+<span id="cb280-7"><a href="preparando-insumos-para-stan-1.html#cb280-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;luces_nocturnas&quot;</span>,</span>
+<span id="cb280-8"><a href="preparando-insumos-para-stan-1.html#cb280-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cubrimiento_cultivo&quot;</span>,</span>
+<span id="cb280-9"><a href="preparando-insumos-para-stan-1.html#cb280-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;modificacion_humana&quot;</span></span>
+<span id="cb280-10"><a href="preparando-insumos-para-stan-1.html#cb280-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb280-11"><a href="preparando-insumos-para-stan-1.html#cb280-11" aria-hidden="true" tabindex="-1"></a>X_pred <span class="ot">&lt;-</span></span>
+<span id="cb280-12"><a href="preparando-insumos-para-stan-1.html#cb280-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(statelevel_predictors_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">all_of</span>(names_cov)),</span>
+<span id="cb280-13"><a href="preparando-insumos-para-stan-1.html#cb280-13" aria-hidden="true" tabindex="-1"></a>            indicador_dam1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2))</span></code></pre></div>
+<p>En el bloque de código se identifican que dominios serán los predichos.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="preparando-insumos-para-stan-1.html#cb281-1" aria-hidden="true" tabindex="-1"></a>X_pred <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2) <span class="sc">%&gt;%</span> </span>
+<span id="cb281-2"><a href="preparando-insumos-para-stan-1.html#cb281-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(<span class="at">file =</span> <span class="st">&quot;Recursos/Día4/Sesion2/Data/dam_pred.rds&quot;</span>)</span></code></pre></div>
+<p>Creando la matriz de covariables para los dominios no observados (<code>X_pred</code>) y los observados (<code>X_obs</code>)</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="preparando-insumos-para-stan-1.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Obteniendo la matrix </span></span>
+<span id="cb282-2"><a href="preparando-insumos-para-stan-1.html#cb282-2" aria-hidden="true" tabindex="-1"></a>X_pred <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb282-3"><a href="preparando-insumos-para-stan-1.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb282-4"><a href="preparando-insumos-para-stan-1.html#cb282-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>dam2)  <span class="sc">%&gt;%</span>  <span class="fu">as.matrix</span>()</span>
+<span id="cb282-5"><a href="preparando-insumos-para-stan-1.html#cb282-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-6"><a href="preparando-insumos-para-stan-1.html#cb282-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Identificando los dominios para realizar estimación del modelo</span></span>
+<span id="cb282-7"><a href="preparando-insumos-para-stan-1.html#cb282-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb282-8"><a href="preparando-insumos-para-stan-1.html#cb282-8" aria-hidden="true" tabindex="-1"></a>X_obs <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(indicador_dam1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2, id_orden),</span>
+<span id="cb282-9"><a href="preparando-insumos-para-stan-1.html#cb282-9" aria-hidden="true" tabindex="-1"></a>                    statelevel_predictors_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">all_of</span>(names_cov))) <span class="sc">%&gt;%</span></span>
+<span id="cb282-10"><a href="preparando-insumos-para-stan-1.html#cb282-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(id_orden) <span class="sc">%&gt;%</span></span>
+<span id="cb282-11"><a href="preparando-insumos-para-stan-1.html#cb282-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb282-12"><a href="preparando-insumos-para-stan-1.html#cb282-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>dam2, <span class="sc">-</span>id_orden)  <span class="sc">%&gt;%</span>  <span class="fu">as.matrix</span>()</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Calculando el n_efectivo y el <span class="math inline">\(\tilde{y}\)</span></li>
+</ol>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="preparando-insumos-para-stan-1.html#cb283-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">nrow</span>(indicador_dam1)</span>
+<span id="cb283-2"><a href="preparando-insumos-para-stan-1.html#cb283-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Ocupado, desocupado, inactivo.</span></span>
+<span id="cb283-3"><a href="preparando-insumos-para-stan-1.html#cb283-3" aria-hidden="true" tabindex="-1"></a>Y_tilde <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
+<span id="cb283-4"><a href="preparando-insumos-para-stan-1.html#cb283-4" aria-hidden="true" tabindex="-1"></a>n_tilde <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
+<span id="cb283-5"><a href="preparando-insumos-para-stan-1.html#cb283-5" aria-hidden="true" tabindex="-1"></a>Y_hat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
+<span id="cb283-6"><a href="preparando-insumos-para-stan-1.html#cb283-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-7"><a href="preparando-insumos-para-stan-1.html#cb283-7" aria-hidden="true" tabindex="-1"></a><span class="co"># n efectivos ocupado</span></span>
+<span id="cb283-8"><a href="preparando-insumos-para-stan-1.html#cb283-8" aria-hidden="true" tabindex="-1"></a>n_tilde[,<span class="dv">1</span>] <span class="ot">&lt;-</span> (indicador_dam1<span class="sc">$</span>Ocupado<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> indicador_dam1<span class="sc">$</span>Ocupado))<span class="sc">/</span>indicador_dam1<span class="sc">$</span>Ocupado_var</span>
+<span id="cb283-9"><a href="preparando-insumos-para-stan-1.html#cb283-9" aria-hidden="true" tabindex="-1"></a>Y_tilde[,<span class="dv">1</span>] <span class="ot">&lt;-</span> n_tilde[,<span class="dv">1</span>]<span class="sc">*</span> indicador_dam1<span class="sc">$</span>Ocupado</span>
+<span id="cb283-10"><a href="preparando-insumos-para-stan-1.html#cb283-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-11"><a href="preparando-insumos-para-stan-1.html#cb283-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-12"><a href="preparando-insumos-para-stan-1.html#cb283-12" aria-hidden="true" tabindex="-1"></a><span class="co"># n efectivos desocupado</span></span>
+<span id="cb283-13"><a href="preparando-insumos-para-stan-1.html#cb283-13" aria-hidden="true" tabindex="-1"></a>n_tilde[,<span class="dv">2</span>] <span class="ot">&lt;-</span> (indicador_dam1<span class="sc">$</span>Desocupado<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> indicador_dam1<span class="sc">$</span>Desocupado))<span class="sc">/</span>indicador_dam1<span class="sc">$</span>Desocupado_var</span>
+<span id="cb283-14"><a href="preparando-insumos-para-stan-1.html#cb283-14" aria-hidden="true" tabindex="-1"></a>Y_tilde[,<span class="dv">2</span>] <span class="ot">&lt;-</span> n_tilde[,<span class="dv">2</span>]<span class="sc">*</span> indicador_dam1<span class="sc">$</span>Desocupado</span>
+<span id="cb283-15"><a href="preparando-insumos-para-stan-1.html#cb283-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-16"><a href="preparando-insumos-para-stan-1.html#cb283-16" aria-hidden="true" tabindex="-1"></a><span class="co"># n efectivos Inactivo</span></span>
+<span id="cb283-17"><a href="preparando-insumos-para-stan-1.html#cb283-17" aria-hidden="true" tabindex="-1"></a>n_tilde[,<span class="dv">3</span>] <span class="ot">&lt;-</span> (indicador_dam1<span class="sc">$</span>Inactivo<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> indicador_dam1<span class="sc">$</span>Inactivo))<span class="sc">/</span>indicador_dam1<span class="sc">$</span>Inactivo_var</span>
+<span id="cb283-18"><a href="preparando-insumos-para-stan-1.html#cb283-18" aria-hidden="true" tabindex="-1"></a>Y_tilde[,<span class="dv">3</span>] <span class="ot">&lt;-</span> n_tilde[,<span class="dv">3</span>]<span class="sc">*</span> indicador_dam1<span class="sc">$</span>Inactivo</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Compilando el modelo</li>
+</ol>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="preparando-insumos-para-stan-1.html#cb284-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">D =</span> D,</span>
+<span id="cb284-2"><a href="preparando-insumos-para-stan-1.html#cb284-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">P =</span> P,</span>
+<span id="cb284-3"><a href="preparando-insumos-para-stan-1.html#cb284-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">K =</span> K,</span>
+<span id="cb284-4"><a href="preparando-insumos-para-stan-1.html#cb284-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y_tilde =</span> Y_hat,</span>
+<span id="cb284-5"><a href="preparando-insumos-para-stan-1.html#cb284-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_obs =</span> X1_obs,</span>
+<span id="cb284-6"><a href="preparando-insumos-para-stan-1.html#cb284-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_pred =</span> X1_pred,</span>
+<span id="cb284-7"><a href="preparando-insumos-para-stan-1.html#cb284-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">D1 =</span> D1)</span>
+<span id="cb284-8"><a href="preparando-insumos-para-stan-1.html#cb284-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-9"><a href="preparando-insumos-para-stan-1.html#cb284-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-10"><a href="preparando-insumos-para-stan-1.html#cb284-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb284-11"><a href="preparando-insumos-para-stan-1.html#cb284-11" aria-hidden="true" tabindex="-1"></a>fit_mcmc2 <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb284-12"><a href="preparando-insumos-para-stan-1.html#cb284-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">&quot;Recursos/Día4/Sesion2/Data/modelosStan/01 Multinomial_simple_pred.stan&quot;</span>,  <span class="co"># Stan program</span></span>
+<span id="cb284-13"><a href="preparando-insumos-para-stan-1.html#cb284-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
+<span id="cb284-14"><a href="preparando-insumos-para-stan-1.html#cb284-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb284-15"><a href="preparando-insumos-para-stan-1.html#cb284-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warmup iterations per chain</span></span>
+<span id="cb284-16"><a href="preparando-insumos-para-stan-1.html#cb284-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb284-17"><a href="preparando-insumos-para-stan-1.html#cb284-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb284-18"><a href="preparando-insumos-para-stan-1.html#cb284-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb284-19"><a href="preparando-insumos-para-stan-1.html#cb284-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb284-20"><a href="preparando-insumos-para-stan-1.html#cb284-20" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit_mcmc2,</span>
+<span id="cb284-21"><a href="preparando-insumos-para-stan-1.html#cb284-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Recursos/Día4/Sesion2/Data/fit_multinomial_cor.Rds&quot;</span>)</span></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo-programando-en-stan-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="validación-del-modelo-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/psirusteam/2021ASDA/13-D4S3_Mercado_del_trabajo_Cor.qmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.pdf", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.epub", "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas.mobi"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"tconfig": null
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1063,7 +1063,7 @@ estimaciones <- full_join(indicador_dam1,
                               bind_rows(theta_obs_ordenado, theta_pred_ordenado))
 
 saveRDS(object = estimaciones, file = "Recursos/Día4/Sesion1/Data/estimaciones.rds")
-tba(head(estimaciones_obs,10))
+tba(head(estimaciones,10))
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1444,7 +1444,7 @@ head(conteo_pp_dam) %>% tba()
 </tbody>
 </table>
 
-  2.    Estimación del parámetro `theta` al nivel que la escuenta sea representativa.
+  2.    Estimación del parámetro `theta` al nivel que la encuesta sea representativa.
   
 
 ```r
@@ -1644,7 +1644,7 @@ estimacionesBench %>%
             Desocupado_Bench = sum(wi*Desocupado_Bench),
             Inactivo_Bench = sum(wi*Inactivo_Bench)) %>% tba()
   
-indicador_agregado %>% tba()
+Razon_empleo %>% tba()
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
