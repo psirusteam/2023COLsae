@@ -1,5 +1,5 @@
 
-# Día 1 - Sesión 3- Censo e información satelital
+# Día 1 - Sesión 2- Censo e información satelital
 
 
 
