@@ -1,7 +1,7 @@
 --- 
 title: "Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas"
 author: "Andrés Gutiérrez^[Experto Regional en Estadísticas Sociales - Comisión Económica para América Latina y el Caribe (CEPAL) -  andres.gutierrez@cepal.org], Stalyn Guerrero^[Consultor - Comisión Económica para América Latina y el Caribe (CEPAL), guerrerostalyn@gmail.com]"
-date: "2023-03-24"
+date: "2023-03-26"
 documentclass: book
 # bibliography: [CEPAL.bib]
 biblio-style: apalike
@@ -46,6 +46,6 @@ output:
 
 # Día 1 - Sesión 1- No dejar a nadie atrás - ODS y la Agenda 2030 
 
-[Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1y2/SAE-0%2C-SDGs-and-Surveys.pdf)
+[Ver presentación](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/D%C3%ADa1/Sesion1/SAE-0%2C-SDGs-and-Surveys.pdf)
 
 

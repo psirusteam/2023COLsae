@@ -38,14 +38,14 @@ Sin embargo la mayor parte de estas fuentes están centralizadas en **Google Ear
 
 Crear una cuenta en [link](https://earthengine.google.com/), una vez que se ingrese a la cuenta puede buscarse los conjuntos de datos de interés:
 
-<img src="Recursos/Día1/Sesion3/0Recursos/lights.png" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/lights.png" width="500px" height="250px" style="display: block; margin: auto;" />
 
 
 * Una vez se busque el conjunto de datos se puede abrir un editor de código brindado por google en  Javascript. 
 
 *  Copiar y pegar la sintaxis que brinda el buscador de conjunto de datos para visualizar la imagen raster y disponer de sentencias que GTMmitan la obtención  del conjunto de datos de interés posteriormente en R
 
-<img src="Recursos/Día1/Sesion3/0Recursos/query.png" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/query.png" width="500px" height="250px" style="display: block; margin: auto;" />
 
 ## Instalación de rgee
 
@@ -97,7 +97,7 @@ Sys.setenv(EARTHENGINE_PYTHON = rgee_environment_dir)
 ```r
 rgee::ee_Initialize(drive = T)
 ```
-<img src="Recursos/Día1/Sesion3/0Recursos/Figura1_001.PNG" width="538" />
+<img src="Recursos/Día1/Sesion2/0Recursos/Figura1_001.PNG" width="538" />
 
 
 **Notas:** 
@@ -119,7 +119,7 @@ ee$ImageCollection()$filterDate()  # R
 
 ```r
 # shape <- read_sf("Shape/COL_dam2.shp")
-shape <- read_sf("Recursos/Día1/Sesion3/Shape/COL.shp")
+shape <- read_sf("Recursos/Día1/Sesion2/Shape/COL.shp")
 plot(shape["geometry"])
 ```
 
@@ -166,7 +166,7 @@ Repetir la rutina para:
 
 * **Paso 4**  consolidar la información. 
 
-<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped lightable-classic" style="margin-left: auto; margin-right: auto; font-family: Arial Narrow; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
    <th style="text-align:left;"> dam </th>
@@ -278,41 +278,41 @@ Los resultados se muestran en los siguientes mapas
 
 ### Luces nocturnas 
 
-<img src="Recursos/Día1/Sesion3/0Recursos/luces_nocturnas.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/luces_nocturnas.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-15-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
 
 ### Cubrimiento cultivos 
 
-<img src="Recursos/Día1/Sesion3/0Recursos/suelo_cultivos.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/suelo_cultivos.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-17-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
 
 ### Cubrimiento urbanos
 
-<img src="Recursos/Día1/Sesion3/0Recursos/suelo_urbanos.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/suelo_urbanos.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-19-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
 
 ### Modificación humana 
 
-<img src="Recursos/Día1/Sesion3/0Recursos/modifica_humana.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/modifica_humana.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-21-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
 
 ### Tiempo promedio al hospital 
 
-<img src="Recursos/Día1/Sesion3/0Recursos/tiempo_hospital.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/tiempo_hospital.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-23-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
 
 ### Tiempo promedio al hospital en vehiculo no motorizado
 
-<img src="Recursos/Día1/Sesion3/0Recursos/tiempo_hospital_no_motor.png" width="500px" height="350px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion2/0Recursos/tiempo_hospital_no_motor.png" width="500px" height="350px" style="display: block; margin: auto;" />
 
 
 <img src="01-D1S3_Imagenes_Satelitales_files/figure-html/unnamed-chunk-25-1.svg" width="850px" height="550px" style="display: block; margin: auto;" />
@@ -378,7 +378,7 @@ A partir de la base estandarizada es posible construir algunas covariables para 
 
 
 ```r
-censo_mrp <- readRDS("Recursos/Día1/Sesion3/Data/censo_mrp_dam.rds")
+censo_mrp <- readRDS("Recursos/Día1/Sesion2/Data/censo_mrp_dam.rds")
 tasa_censo <- model.matrix(dam ~ -1 +.,
                            data = censo_mrp %>% select(-n)) %>% 
   data.frame() %>%
@@ -1052,7 +1052,7 @@ El proceso se repite con otras preguntas del censo hasta consolidar la tabla sig
 
 
 ```r
-predictors_censo_dam <- readRDS("Recursos/Día1/Sesion3/Data/predictors_censo_dam.rds")
+predictors_censo_dam <- readRDS("Recursos/Día1/Sesion2/Data/predictors_censo_dam.rds")
 tba(predictors_censo_dam)
 ```
 

@@ -21,6 +21,7 @@ tiempo-promedio-al-hospital-en-vehiculo-no-motorizado
 censos-de-población-y-vivienda
 mapas-de-las-variables-con-información-censal.
 día-1---sesión-3--fundamentos-de-la-inferencia-bayesiana-en-r-y-stan
+día-1---sesión-4--modelos-sintéticos-simples
 regla-de-bayes
 inferencia-bayesiana.
 modelos-uniparamétricos

@@ -6,6 +6,9 @@
 
 [El proyecto Manhattan y la estimación desagregada con encuestas de hogares ](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/Docs/Slides/slides_SAEbayesiano.pdf)
 
+# Día 1 - Sesión 4- Modelos sintéticos simples 
+
+
 ## Regla de Bayes
 
 En términos de inferencia para $\boldsymbol{\theta}$, es necesario encontrar la distribución de los parámetros condicionada a la observación de los datos. Para este fin, es necesario definir la distribución conjunta de la variable de interés con el vector de parámetros.
