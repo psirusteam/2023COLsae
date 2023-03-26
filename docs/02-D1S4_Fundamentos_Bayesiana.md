@@ -1,7 +1,10 @@
 
-# Día 1 - Sesión 4- Fundamentos de la inferencia Bayesiana en R y STAN
+# Día 1 - Sesión 3- Fundamentos de la inferencia Bayesiana en R y STAN
 
 
+
+
+[El proyecto Manhattan y la estimación desagregada con encuestas de hogares ](https://github.com/psirusteam/2023COLsae/blob/main/Recursos/Docs/Slides/slides_SAEbayesiano.pdf)
 
 ## Regla de Bayes
 
@@ -38,7 +41,7 @@ En términos de estimación, inferencia y predicción, el enfoque Bayesiano supo
 
 Los modelos que están definidos en términos de un solo parámetro que pertenece al conjunto de los números reales se definen como modelos *uniparamétricos*.
 
-## Modelo Bernoulli
+### Modelo de unidad: Bernoulli
 
 Suponga que $Y$ es una variable aleatoria con distribución Bernoulli dada por:
 
@@ -71,7 +74,23 @@ $$
 \end{equation*}
 $$
 
-### Práctica en **R**
+#### Obejtivo {-}
+
+Estimar la proporción de personas que están por debajo de la linea pobreza. Es decir, 
+$$
+P = \frac{\sum_{U}y_i}{N}
+$$
+donde $y_i$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario
+
+El estimador de $P$ esta dado por: 
+
+$$
+\hat{P} = \frac{\sum_{s}w_{i}y_{i}}{\sum_{s}{w_{i} }}
+$$
+
+con $w_i$ el factor de expansión para la $i-ésima$ observación. Además, y obtener $\widehat{Var}\left(\hat{P}\right)$.
+
+#### Práctica en **R**
 
 
 
@@ -123,9 +142,11 @@ addmargins(table(datay$y))
 
 Un grupo de estadístico experto decide utilizar una distribución previa Beta, definiendo los parámetros de la distribución previa como $Beta(\alpha=1, \beta=1)$. La distribución posterior del parámetro de interés, que representa la probabilidad de estar por debajo de la linea de pobreza, es $Beta(1.0298\times 10^{4} + 1, 1 - 1.0298\times 10^{4} + 19877)=Beta(1.0299\times 10^{4}, 9580)$
 
-<div class="figure">
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/BernoEj1-1.svg" alt="Distribución previa (línea roja) y distribución posterior (línea negra)" width="672" />
-<p class="caption">(\#fig:BernoEj1)Distribución previa (línea roja) y distribución posterior (línea negra)</p>
+
+
+<div class="figure" style="text-align: center">
+<img src="Recursos/Día1/Sesion4/0Recursos/Bernoulli/Bernoulli1.png" alt="Distribución previa (línea roja) y distribución posterior (línea negra)" width="500px" height="250px" />
+<p class="caption">(\#fig:unnamed-chunk-5)Distribución previa (línea roja) y distribución posterior (línea negra)</p>
 </div>
 
 La estimación del parámetro estaría dado por:
@@ -149,7 +170,7 @@ qbeta(c(0.025, 0.975),
 ## [1] 0.5111369 0.5250285
 ```
 
-### Práctica en **STAN**
+#### Práctica en **STAN**
 
 En `STAN` es posible obtener el mismo tipo de inferencia creando cuatro cadenas cuya distribución de probabilidad coincide con la distribución posterior del ejemplo.
 
@@ -190,7 +211,6 @@ Para ejecutar `STAN` en R tenemos la librería *rstan*
 
 
 ```r
-library(cmdstanr)
 library(rstan)
 Bernoulli <- "Recursos/Día1/Sesion4/Data/modelosStan/1Bernoulli.stan"
 ```
@@ -206,13 +226,19 @@ model_Bernoulli <- stan(
   iter = 1000,            # total number of iterations per chain
   cores = 4,              # number of cores (could use one per chain)
 )
+
+saveRDS(model_Bernoulli,
+        file = "Recursos/Día1/Sesion4/0Recursos/Bernoulli/model_Bernoulli.rds")
+
+model_Bernoulli <- readRDS("Recursos/Día1/Sesion4/0Recursos/Bernoulli/model_Bernoulli.rds")
 ```
 
 La estimación del parámetro $\theta$ es:
 
 
 ```r
-summary(model_Bernoulli, pars = "theta")$summary %>% tba()
+tabla_Ber1 <- summary(model_Bernoulli, pars = "theta")$summary
+tabla_Ber1 %>% tba()
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -234,16 +260,16 @@ summary(model_Bernoulli, pars = "theta")$summary %>% tba()
 <tbody>
   <tr>
    <td style="text-align:left;"> theta </td>
-   <td style="text-align:right;"> 0.5179 </td>
+   <td style="text-align:right;"> 0.5182 </td>
    <td style="text-align:right;"> 1e-04 </td>
-   <td style="text-align:right;"> 0.0035 </td>
-   <td style="text-align:right;"> 0.5109 </td>
-   <td style="text-align:right;"> 0.5155 </td>
-   <td style="text-align:right;"> 0.5178 </td>
-   <td style="text-align:right;"> 0.5201 </td>
-   <td style="text-align:right;"> 0.5246 </td>
-   <td style="text-align:right;"> 799.1369 </td>
-   <td style="text-align:right;"> 1.002 </td>
+   <td style="text-align:right;"> 0.0036 </td>
+   <td style="text-align:right;"> 0.5112 </td>
+   <td style="text-align:right;"> 0.5158 </td>
+   <td style="text-align:right;"> 0.5181 </td>
+   <td style="text-align:right;"> 0.5208 </td>
+   <td style="text-align:right;"> 0.5253 </td>
+   <td style="text-align:right;"> 614.8704 </td>
+   <td style="text-align:right;"> 1.0037 </td>
   </tr>
 </tbody>
 </table>
@@ -256,7 +282,7 @@ library(posterior)
 library(ggplot2)
 temp <- as_draws_df(as.array(model_Bernoulli,pars = "theta"))
 
-ggplot(data = temp, aes(x = theta))+ 
+p1 <- ggplot(data = temp, aes(x = theta))+ 
   geom_density(color = "blue", size = 2) +
   stat_function(fun = posterior1,
                 args = list(y = datay$y),
@@ -264,11 +290,12 @@ ggplot(data = temp, aes(x = theta))+
   theme_bw(base_size = 20) + 
   labs(x = latex2exp::TeX("\\theta"),
        y = latex2exp::TeX("f(\\theta)"))
+p1 
 ```
 
-<div class="figure">
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-11-1.svg" alt="Resultado con STAN (línea azul) y posterior teórica (línea negra)" width="672" />
-<p class="caption">(\#fig:unnamed-chunk-11)Resultado con STAN (línea azul) y posterior teórica (línea negra)</p>
+<div class="figure" style="text-align: center">
+<img src="Recursos/Día1/Sesion4/0Recursos/Bernoulli/Bernoulli2.png" alt="Resultado con STAN (línea azul) y posterior teórica (línea negra)" width="500px" height="250px" />
+<p class="caption">(\#fig:unnamed-chunk-14)Resultado con STAN (línea azul) y posterior teórica (línea negra)</p>
 </div>
 
 Para validar las cadenas
@@ -276,13 +303,16 @@ Para validar las cadenas
 
 ```r
 library(bayesplot)
+library(patchwork)
 posterior_theta <- as.array(model_Bernoulli, pars = "theta")
 (mcmc_dens_chains(posterior_theta) +
     mcmc_areas(posterior_theta) ) / 
   mcmc_trace(posterior_theta)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
+
+<img src="Recursos/Día1/Sesion4/0Recursos/Bernoulli/Bernoulli3.png" width="200%" style="display: block; margin: auto;" />
+
 
 Predicción de $Y$ en cada una de las iteraciones de las cadenas.
 
@@ -296,9 +326,9 @@ y_pred2 <- y_pred_B[rowsrandom, 1:n]
 ppc_dens_overlay(y = datay$y, y_pred2)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-13-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Bernoulli/Bernoulli4.png" width="200%" style="display: block; margin: auto;" />
 
-## Modelo Binomial
+### Modelo de área: Binomial
 
 Cuando se dispone de una muestra aleatoria de variables con distribución Bernoulli $Y_1,\ldots,Y_n$, la inferencia Bayesiana se puede llevar a cabo usando la distribución Binomial, puesto que es bien sabido que la suma de variables aleatorias Bernoulli
 
@@ -333,15 +363,34 @@ $$
 \end{equation*}
 $$
 
-Ahora, cuando se tiene una sucesión de variables aleatorias $S_1,\ldots,S_i, \ldots,S_k$ independientes y con distribución $Binomial(n_i,\theta_i)$ para $i=1,\ldots,k$, entonces la distribución posterior del parámetro de interés $\theta_i$ es
+Ahora, cuando se tiene una sucesión de variables aleatorias $S_1,\ldots,S_d, \ldots,S_D$ independientes y con distribución $Binomial(n_d,\theta_d)$ para $d=1,\ldots,K$, entonces la distribución posterior del parámetro de interés $\theta_d$ es
 
 $$
 \begin{equation*}
-\theta_i \mid s_i \sim Beta\left(s_i+\alpha,\ \beta+ n_i- s_i\right)
+\theta_d \mid s_d \sim Beta\left(s_d+\alpha,\ \beta+ n_d- s_d\right)
 \end{equation*}
 $$
 
-### Práctica en **STAN**
+#### Obejtivo {-}
+
+Estimar la proporción de personas que están por debajo de la linea pobreza en el $d-ésimo$ dominio. Es decir, 
+
+$$
+P_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_i$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
+
+El estimador de $P$ esta dado por: 
+
+$$
+\hat{P_d} = \frac{\sum_{s_d}w_{di}y_{di}}{\sum_{s_d}{w_{di} }}
+$$
+
+con $w_{di}$ el factor de expansión para la $i-ésima$ observación en el $d-ésimo$ dominio. 
+
+
+
+#### Práctica en **STAN**
 
 Sea $S_k$ el conteo de personas en condición de pobreza en el $k-ésimo$ departamento en la muestra.
 
@@ -357,6 +406,7 @@ dataS <- encuesta %>%
             )
 tba(dataS)
 ```
+
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
@@ -550,13 +600,17 @@ model_Binomial2 <- stan(
   iter = 1000,            # total number of iterations per chain
   cores = 4,              # number of cores (could use one per chain)
 )
+
+saveRDS(model_Binomial2, "Recursos/Día1/Sesion4/0Recursos/Binomial/model_Binomial2.rds")
+model_Binomial2 <- readRDS("Recursos/Día1/Sesion4/0Recursos/Binomial/model_Binomial2.rds")
 ```
 
 La estimación del parámetro $\theta$ es:
 
 
 ```r
-summary(model_Binomial2, pars = "theta")$summary %>% tba()
+tabla_Bin1 <-summary(model_Binomial2, pars = "theta")$summary 
+tabla_Bin1 %>% tba()
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -580,53 +634,53 @@ summary(model_Binomial2, pars = "theta")$summary %>% tba()
    <td style="text-align:left;"> theta[1] </td>
    <td style="text-align:right;"> 0.1606 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0018 </td>
-   <td style="text-align:right;"> 0.1572 </td>
-   <td style="text-align:right;"> 0.1593 </td>
+   <td style="text-align:right;"> 0.0017 </td>
+   <td style="text-align:right;"> 0.1574 </td>
+   <td style="text-align:right;"> 0.1594 </td>
    <td style="text-align:right;"> 0.1606 </td>
    <td style="text-align:right;"> 0.1618 </td>
-   <td style="text-align:right;"> 0.1641 </td>
-   <td style="text-align:right;"> 4995.662 </td>
-   <td style="text-align:right;"> 0.9987 </td>
+   <td style="text-align:right;"> 0.1639 </td>
+   <td style="text-align:right;"> 4012.515 </td>
+   <td style="text-align:right;"> 0.9998 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[2] </td>
    <td style="text-align:right;"> 0.2323 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0020 </td>
-   <td style="text-align:right;"> 0.2285 </td>
+   <td style="text-align:right;"> 0.0021 </td>
+   <td style="text-align:right;"> 0.2282 </td>
    <td style="text-align:right;"> 0.2309 </td>
    <td style="text-align:right;"> 0.2323 </td>
    <td style="text-align:right;"> 0.2338 </td>
-   <td style="text-align:right;"> 0.2362 </td>
-   <td style="text-align:right;"> 5068.657 </td>
-   <td style="text-align:right;"> 0.9991 </td>
+   <td style="text-align:right;"> 0.2365 </td>
+   <td style="text-align:right;"> 4627.456 </td>
+   <td style="text-align:right;"> 0.9986 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[3] </td>
-   <td style="text-align:right;"> 0.1281 </td>
+   <td style="text-align:right;"> 0.1282 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0019 </td>
-   <td style="text-align:right;"> 0.1246 </td>
-   <td style="text-align:right;"> 0.1269 </td>
+   <td style="text-align:right;"> 0.0020 </td>
+   <td style="text-align:right;"> 0.1243 </td>
+   <td style="text-align:right;"> 0.1268 </td>
    <td style="text-align:right;"> 0.1281 </td>
-   <td style="text-align:right;"> 0.1294 </td>
-   <td style="text-align:right;"> 0.1318 </td>
-   <td style="text-align:right;"> 4302.302 </td>
-   <td style="text-align:right;"> 0.9989 </td>
+   <td style="text-align:right;"> 0.1296 </td>
+   <td style="text-align:right;"> 0.1320 </td>
+   <td style="text-align:right;"> 3947.185 </td>
+   <td style="text-align:right;"> 1.0016 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[4] </td>
    <td style="text-align:right;"> 0.2965 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0023 </td>
-   <td style="text-align:right;"> 0.2920 </td>
+   <td style="text-align:right;"> 0.0024 </td>
+   <td style="text-align:right;"> 0.2918 </td>
    <td style="text-align:right;"> 0.2949 </td>
    <td style="text-align:right;"> 0.2965 </td>
    <td style="text-align:right;"> 0.2981 </td>
-   <td style="text-align:right;"> 0.3009 </td>
-   <td style="text-align:right;"> 5872.753 </td>
-   <td style="text-align:right;"> 0.9982 </td>
+   <td style="text-align:right;"> 0.3013 </td>
+   <td style="text-align:right;"> 3572.664 </td>
+   <td style="text-align:right;"> 1.0004 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[5] </td>
@@ -635,141 +689,141 @@ summary(model_Binomial2, pars = "theta")$summary %>% tba()
    <td style="text-align:right;"> 0.0026 </td>
    <td style="text-align:right;"> 0.2109 </td>
    <td style="text-align:right;"> 0.2141 </td>
-   <td style="text-align:right;"> 0.2158 </td>
+   <td style="text-align:right;"> 0.2159 </td>
    <td style="text-align:right;"> 0.2176 </td>
-   <td style="text-align:right;"> 0.2210 </td>
-   <td style="text-align:right;"> 4494.272 </td>
-   <td style="text-align:right;"> 0.9993 </td>
+   <td style="text-align:right;"> 0.2211 </td>
+   <td style="text-align:right;"> 4355.297 </td>
+   <td style="text-align:right;"> 0.9994 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[6] </td>
-   <td style="text-align:right;"> 0.1471 </td>
+   <td style="text-align:right;"> 0.1470 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0019 </td>
-   <td style="text-align:right;"> 0.1433 </td>
-   <td style="text-align:right;"> 0.1458 </td>
+   <td style="text-align:right;"> 0.0021 </td>
+   <td style="text-align:right;"> 0.1428 </td>
+   <td style="text-align:right;"> 0.1456 </td>
    <td style="text-align:right;"> 0.1471 </td>
    <td style="text-align:right;"> 0.1484 </td>
-   <td style="text-align:right;"> 0.1509 </td>
-   <td style="text-align:right;"> 6398.598 </td>
-   <td style="text-align:right;"> 0.9992 </td>
+   <td style="text-align:right;"> 0.1512 </td>
+   <td style="text-align:right;"> 3257.260 </td>
+   <td style="text-align:right;"> 0.9982 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[7] </td>
-   <td style="text-align:right;"> 0.3861 </td>
+   <td style="text-align:right;"> 0.3860 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0028 </td>
-   <td style="text-align:right;"> 0.3807 </td>
+   <td style="text-align:right;"> 0.3806 </td>
    <td style="text-align:right;"> 0.3842 </td>
-   <td style="text-align:right;"> 0.3861 </td>
-   <td style="text-align:right;"> 0.3880 </td>
-   <td style="text-align:right;"> 0.3914 </td>
-   <td style="text-align:right;"> 5415.280 </td>
-   <td style="text-align:right;"> 0.9986 </td>
+   <td style="text-align:right;"> 0.3860 </td>
+   <td style="text-align:right;"> 0.3879 </td>
+   <td style="text-align:right;"> 0.3913 </td>
+   <td style="text-align:right;"> 3414.386 </td>
+   <td style="text-align:right;"> 1.0006 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[8] </td>
-   <td style="text-align:right;"> 0.3594 </td>
+   <td style="text-align:right;"> 0.3595 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0025 </td>
-   <td style="text-align:right;"> 0.3547 </td>
+   <td style="text-align:right;"> 0.0026 </td>
+   <td style="text-align:right;"> 0.3543 </td>
    <td style="text-align:right;"> 0.3577 </td>
-   <td style="text-align:right;"> 0.3594 </td>
-   <td style="text-align:right;"> 0.3612 </td>
-   <td style="text-align:right;"> 0.3642 </td>
-   <td style="text-align:right;"> 4735.259 </td>
-   <td style="text-align:right;"> 0.9985 </td>
+   <td style="text-align:right;"> 0.3595 </td>
+   <td style="text-align:right;"> 0.3614 </td>
+   <td style="text-align:right;"> 0.3646 </td>
+   <td style="text-align:right;"> 3837.788 </td>
+   <td style="text-align:right;"> 0.9989 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[9] </td>
    <td style="text-align:right;"> 0.3760 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0027 </td>
-   <td style="text-align:right;"> 0.3708 </td>
-   <td style="text-align:right;"> 0.3741 </td>
+   <td style="text-align:right;"> 0.3707 </td>
+   <td style="text-align:right;"> 0.3742 </td>
    <td style="text-align:right;"> 0.3760 </td>
-   <td style="text-align:right;"> 0.3779 </td>
+   <td style="text-align:right;"> 0.3778 </td>
    <td style="text-align:right;"> 0.3814 </td>
-   <td style="text-align:right;"> 4213.212 </td>
-   <td style="text-align:right;"> 0.9986 </td>
+   <td style="text-align:right;"> 4502.455 </td>
+   <td style="text-align:right;"> 0.9985 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[10] </td>
    <td style="text-align:right;"> 0.3292 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0025 </td>
-   <td style="text-align:right;"> 0.3243 </td>
+   <td style="text-align:right;"> 0.0026 </td>
+   <td style="text-align:right;"> 0.3240 </td>
    <td style="text-align:right;"> 0.3275 </td>
-   <td style="text-align:right;"> 0.3292 </td>
-   <td style="text-align:right;"> 0.3308 </td>
-   <td style="text-align:right;"> 0.3341 </td>
-   <td style="text-align:right;"> 5643.390 </td>
-   <td style="text-align:right;"> 0.9989 </td>
+   <td style="text-align:right;"> 0.3291 </td>
+   <td style="text-align:right;"> 0.3309 </td>
+   <td style="text-align:right;"> 0.3343 </td>
+   <td style="text-align:right;"> 4536.105 </td>
+   <td style="text-align:right;"> 0.9991 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[11] </td>
-   <td style="text-align:right;"> 0.1673 </td>
+   <td style="text-align:right;"> 0.1674 </td>
    <td style="text-align:right;"> 1e-04 </td>
    <td style="text-align:right;"> 0.0039 </td>
-   <td style="text-align:right;"> 0.1600 </td>
+   <td style="text-align:right;"> 0.1599 </td>
    <td style="text-align:right;"> 0.1647 </td>
    <td style="text-align:right;"> 0.1673 </td>
-   <td style="text-align:right;"> 0.1699 </td>
-   <td style="text-align:right;"> 0.1751 </td>
-   <td style="text-align:right;"> 4524.756 </td>
-   <td style="text-align:right;"> 0.9998 </td>
+   <td style="text-align:right;"> 0.1701 </td>
+   <td style="text-align:right;"> 0.1754 </td>
+   <td style="text-align:right;"> 3522.596 </td>
+   <td style="text-align:right;"> 0.9996 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[12] </td>
    <td style="text-align:right;"> 0.4821 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0030 </td>
-   <td style="text-align:right;"> 0.4760 </td>
-   <td style="text-align:right;"> 0.4802 </td>
-   <td style="text-align:right;"> 0.4820 </td>
-   <td style="text-align:right;"> 0.4841 </td>
-   <td style="text-align:right;"> 0.4883 </td>
-   <td style="text-align:right;"> 6602.060 </td>
-   <td style="text-align:right;"> 0.9987 </td>
+   <td style="text-align:right;"> 0.0031 </td>
+   <td style="text-align:right;"> 0.4764 </td>
+   <td style="text-align:right;"> 0.4800 </td>
+   <td style="text-align:right;"> 0.4822 </td>
+   <td style="text-align:right;"> 0.4840 </td>
+   <td style="text-align:right;"> 0.4882 </td>
+   <td style="text-align:right;"> 4379.740 </td>
+   <td style="text-align:right;"> 0.9984 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[13] </td>
    <td style="text-align:right;"> 0.2665 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0025 </td>
-   <td style="text-align:right;"> 0.2615 </td>
+   <td style="text-align:right;"> 0.2616 </td>
    <td style="text-align:right;"> 0.2647 </td>
-   <td style="text-align:right;"> 0.2665 </td>
-   <td style="text-align:right;"> 0.2683 </td>
+   <td style="text-align:right;"> 0.2664 </td>
+   <td style="text-align:right;"> 0.2681 </td>
    <td style="text-align:right;"> 0.2715 </td>
-   <td style="text-align:right;"> 6158.453 </td>
-   <td style="text-align:right;"> 0.9989 </td>
+   <td style="text-align:right;"> 3298.589 </td>
+   <td style="text-align:right;"> 0.9984 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[14] </td>
    <td style="text-align:right;"> 0.4608 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0027 </td>
-   <td style="text-align:right;"> 0.4555 </td>
+   <td style="text-align:right;"> 0.0026 </td>
+   <td style="text-align:right;"> 0.4556 </td>
    <td style="text-align:right;"> 0.4590 </td>
    <td style="text-align:right;"> 0.4608 </td>
    <td style="text-align:right;"> 0.4626 </td>
-   <td style="text-align:right;"> 0.4661 </td>
-   <td style="text-align:right;"> 5894.068 </td>
-   <td style="text-align:right;"> 0.9983 </td>
+   <td style="text-align:right;"> 0.4658 </td>
+   <td style="text-align:right;"> 4771.863 </td>
+   <td style="text-align:right;"> 0.9990 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[15] </td>
-   <td style="text-align:right;"> 0.3587 </td>
+   <td style="text-align:right;"> 0.3588 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0025 </td>
-   <td style="text-align:right;"> 0.3539 </td>
-   <td style="text-align:right;"> 0.3570 </td>
-   <td style="text-align:right;"> 0.3587 </td>
-   <td style="text-align:right;"> 0.3605 </td>
-   <td style="text-align:right;"> 0.3637 </td>
-   <td style="text-align:right;"> 5052.024 </td>
-   <td style="text-align:right;"> 0.9988 </td>
+   <td style="text-align:right;"> 0.0024 </td>
+   <td style="text-align:right;"> 0.3540 </td>
+   <td style="text-align:right;"> 0.3571 </td>
+   <td style="text-align:right;"> 0.3588 </td>
+   <td style="text-align:right;"> 0.3604 </td>
+   <td style="text-align:right;"> 0.3635 </td>
+   <td style="text-align:right;"> 4528.519 </td>
+   <td style="text-align:right;"> 0.9995 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[16] </td>
@@ -778,62 +832,62 @@ summary(model_Binomial2, pars = "theta")$summary %>% tba()
    <td style="text-align:right;"> 0.0025 </td>
    <td style="text-align:right;"> 0.2221 </td>
    <td style="text-align:right;"> 0.2253 </td>
-   <td style="text-align:right;"> 0.2271 </td>
-   <td style="text-align:right;"> 0.2287 </td>
-   <td style="text-align:right;"> 0.2317 </td>
-   <td style="text-align:right;"> 4553.205 </td>
-   <td style="text-align:right;"> 0.9985 </td>
+   <td style="text-align:right;"> 0.2270 </td>
+   <td style="text-align:right;"> 0.2286 </td>
+   <td style="text-align:right;"> 0.2318 </td>
+   <td style="text-align:right;"> 4064.560 </td>
+   <td style="text-align:right;"> 0.9993 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[17] </td>
-   <td style="text-align:right;"> 0.3094 </td>
+   <td style="text-align:right;"> 0.3093 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0028 </td>
-   <td style="text-align:right;"> 0.3040 </td>
+   <td style="text-align:right;"> 0.0027 </td>
+   <td style="text-align:right;"> 0.3042 </td>
    <td style="text-align:right;"> 0.3075 </td>
    <td style="text-align:right;"> 0.3093 </td>
-   <td style="text-align:right;"> 0.3113 </td>
-   <td style="text-align:right;"> 0.3148 </td>
-   <td style="text-align:right;"> 5761.156 </td>
-   <td style="text-align:right;"> 0.9983 </td>
+   <td style="text-align:right;"> 0.3111 </td>
+   <td style="text-align:right;"> 0.3145 </td>
+   <td style="text-align:right;"> 4047.983 </td>
+   <td style="text-align:right;"> 0.9984 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[18] </td>
    <td style="text-align:right;"> 0.4035 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0028 </td>
-   <td style="text-align:right;"> 0.3978 </td>
-   <td style="text-align:right;"> 0.4015 </td>
+   <td style="text-align:right;"> 0.3984 </td>
+   <td style="text-align:right;"> 0.4016 </td>
    <td style="text-align:right;"> 0.4035 </td>
    <td style="text-align:right;"> 0.4055 </td>
-   <td style="text-align:right;"> 0.4091 </td>
-   <td style="text-align:right;"> 4766.386 </td>
-   <td style="text-align:right;"> 0.9999 </td>
+   <td style="text-align:right;"> 0.4089 </td>
+   <td style="text-align:right;"> 4893.024 </td>
+   <td style="text-align:right;"> 0.9982 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[19] </td>
    <td style="text-align:right;"> 0.2191 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0024 </td>
-   <td style="text-align:right;"> 0.2144 </td>
+   <td style="text-align:right;"> 0.2143 </td>
    <td style="text-align:right;"> 0.2174 </td>
-   <td style="text-align:right;"> 0.2190 </td>
-   <td style="text-align:right;"> 0.2207 </td>
-   <td style="text-align:right;"> 0.2240 </td>
-   <td style="text-align:right;"> 5580.557 </td>
-   <td style="text-align:right;"> 0.9987 </td>
+   <td style="text-align:right;"> 0.2191 </td>
+   <td style="text-align:right;"> 0.2208 </td>
+   <td style="text-align:right;"> 0.2238 </td>
+   <td style="text-align:right;"> 3673.232 </td>
+   <td style="text-align:right;"> 0.9982 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[20] </td>
-   <td style="text-align:right;"> 0.1597 </td>
+   <td style="text-align:right;"> 0.1598 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0022 </td>
-   <td style="text-align:right;"> 0.1553 </td>
+   <td style="text-align:right;"> 0.0021 </td>
+   <td style="text-align:right;"> 0.1558 </td>
    <td style="text-align:right;"> 0.1583 </td>
    <td style="text-align:right;"> 0.1598 </td>
    <td style="text-align:right;"> 0.1612 </td>
-   <td style="text-align:right;"> 0.1640 </td>
-   <td style="text-align:right;"> 4125.715 </td>
+   <td style="text-align:right;"> 0.1636 </td>
+   <td style="text-align:right;"> 4330.463 </td>
    <td style="text-align:right;"> 0.9988 </td>
   </tr>
   <tr>
@@ -845,51 +899,52 @@ summary(model_Binomial2, pars = "theta")$summary %>% tba()
    <td style="text-align:right;"> 0.1601 </td>
    <td style="text-align:right;"> 0.1614 </td>
    <td style="text-align:right;"> 0.1627 </td>
-   <td style="text-align:right;"> 0.1653 </td>
-   <td style="text-align:right;"> 5438.808 </td>
-   <td style="text-align:right;"> 0.9990 </td>
+   <td style="text-align:right;"> 0.1651 </td>
+   <td style="text-align:right;"> 4369.052 </td>
+   <td style="text-align:right;"> 0.9984 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[22] </td>
    <td style="text-align:right;"> 0.3345 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0024 </td>
+   <td style="text-align:right;"> 0.0025 </td>
    <td style="text-align:right;"> 0.3297 </td>
-   <td style="text-align:right;"> 0.3329 </td>
+   <td style="text-align:right;"> 0.3328 </td>
    <td style="text-align:right;"> 0.3344 </td>
    <td style="text-align:right;"> 0.3361 </td>
-   <td style="text-align:right;"> 0.3395 </td>
-   <td style="text-align:right;"> 4989.644 </td>
-   <td style="text-align:right;"> 0.9994 </td>
+   <td style="text-align:right;"> 0.3393 </td>
+   <td style="text-align:right;"> 4186.075 </td>
+   <td style="text-align:right;"> 0.9996 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[23] </td>
    <td style="text-align:right;"> 0.2216 </td>
    <td style="text-align:right;"> 0e+00 </td>
-   <td style="text-align:right;"> 0.0024 </td>
-   <td style="text-align:right;"> 0.2168 </td>
-   <td style="text-align:right;"> 0.2200 </td>
+   <td style="text-align:right;"> 0.0025 </td>
+   <td style="text-align:right;"> 0.2167 </td>
+   <td style="text-align:right;"> 0.2198 </td>
    <td style="text-align:right;"> 0.2216 </td>
-   <td style="text-align:right;"> 0.2232 </td>
-   <td style="text-align:right;"> 0.2263 </td>
-   <td style="text-align:right;"> 4874.975 </td>
-   <td style="text-align:right;"> 0.9993 </td>
+   <td style="text-align:right;"> 0.2233 </td>
+   <td style="text-align:right;"> 0.2264 </td>
+   <td style="text-align:right;"> 4368.263 </td>
+   <td style="text-align:right;"> 0.9984 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[24] </td>
    <td style="text-align:right;"> 0.1883 </td>
    <td style="text-align:right;"> 0e+00 </td>
    <td style="text-align:right;"> 0.0020 </td>
-   <td style="text-align:right;"> 0.1844 </td>
+   <td style="text-align:right;"> 0.1843 </td>
    <td style="text-align:right;"> 0.1870 </td>
    <td style="text-align:right;"> 0.1883 </td>
-   <td style="text-align:right;"> 0.1896 </td>
+   <td style="text-align:right;"> 0.1897 </td>
    <td style="text-align:right;"> 0.1922 </td>
-   <td style="text-align:right;"> 4294.990 </td>
-   <td style="text-align:right;"> 0.9984 </td>
+   <td style="text-align:right;"> 3784.119 </td>
+   <td style="text-align:right;"> 0.9990 </td>
   </tr>
 </tbody>
 </table>
+
 
 Para validar las cadenas
 
@@ -898,14 +953,15 @@ Para validar las cadenas
 mcmc_areas(as.array(model_Binomial2, pars = "theta"))
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-20-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Binomial/Binomial1.png" width="200%" />
 
 
 ```r
 mcmc_trace(as.array(model_Binomial2, pars = "theta"))
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-21-1.svg" width="200%" />
+
+<img src="Recursos/Día1/Sesion4/0Recursos/Binomial/Binomial2.png" width="200%" />
 
 
 ```r
@@ -923,10 +979,10 @@ g2 <- ppc_dens_overlay(y = dataS$Sd, y_pred2)
 g1/g2
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-22-1.svg" width="672" />
 
+<img src="Recursos/Día1/Sesion4/0Recursos/Binomial/Binomial3.png" width="200%" />
 
-## Modelo Normal con media desconocida
+### Modelo de unidad: Normal con media desconocida
 
 Suponga que $Y_1,\cdots,Y_n$ son variables independientes e idénticamente distribuidos con distribución $Normal(\theta,\sigma^2)$ con $\theta$ desconocido pero $\sigma^2$ conocido. De esta forma, la función de verosimilitud de los datos está dada por
 
@@ -958,7 +1014,20 @@ $$
 \end{equation}
 $$
 
-### Práctica en **STAN**
+#### Obejtivo {-}
+
+Estimar el ingreso medio de la población, es decir, 
+
+$$
+\bar{Y} = \frac{\sum_Uy_i}{N}
+$$
+donde, $y_i$ es el ingreso de las personas. El estimador de $\bar{Y}$ esta dado por 
+$$
+\hat{\bar{Y}} = \frac{\sum_{s}w_{i}y_{i}}{\sum_s{w_i}}
+$$
+y obtener $\widehat{Var}\left(\hat{\bar{Y}}\right)$.
+
+#### Práctica en **STAN**
 
 Sea $Y$ el logaritmo del ingreso
 
@@ -987,10 +1056,8 @@ g2 <- ggplot(dataNormal, aes(sample = logIngreso)) +
 g1|g2
 ```
 
-<div class="figure">
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-23-1.svg" alt="Resultado en la muestra (línea azul) y distribución teórica (línea negra)" width="672" />
-<p class="caption">(\#fig:unnamed-chunk-23)Resultado en la muestra (línea azul) y distribución teórica (línea negra)</p>
-</div>
+
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal1.png" width="200%" />
 
 Creando código de `STAN`
 
@@ -1045,13 +1112,17 @@ model_NormalMedia <- stan(
   iter = 1000,            
   cores = 4              
 )
+saveRDS(model_NormalMedia, "Recursos/Día1/Sesion4/0Recursos/Normal/model_NormalMedia.rds")
+model_NormalMedia <- 
+  readRDS("Recursos/Día1/Sesion4/0Recursos/Normal/model_NormalMedia.rds")
 ```
 
 La estimación del parámetro $\theta$ es:
 
 
 ```r
-summary(model_NormalMedia, pars = "theta")$summary %>% tba()
+tabla_Nor1 <- summary(model_NormalMedia, pars = "theta")$summary
+tabla_Nor1 %>% tba()  
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1073,19 +1144,20 @@ summary(model_NormalMedia, pars = "theta")$summary %>% tba()
 <tbody>
   <tr>
    <td style="text-align:left;"> theta </td>
-   <td style="text-align:right;"> 13.1148 </td>
+   <td style="text-align:right;"> 13.1146 </td>
    <td style="text-align:right;"> 1e-04 </td>
-   <td style="text-align:right;"> 0.0039 </td>
-   <td style="text-align:right;"> 13.1071 </td>
-   <td style="text-align:right;"> 13.1122 </td>
-   <td style="text-align:right;"> 13.1147 </td>
-   <td style="text-align:right;"> 13.1175 </td>
-   <td style="text-align:right;"> 13.1224 </td>
-   <td style="text-align:right;"> 694.8215 </td>
-   <td style="text-align:right;"> 1.0002 </td>
+   <td style="text-align:right;"> 0.004 </td>
+   <td style="text-align:right;"> 13.1065 </td>
+   <td style="text-align:right;"> 13.1118 </td>
+   <td style="text-align:right;"> 13.1145 </td>
+   <td style="text-align:right;"> 13.1173 </td>
+   <td style="text-align:right;"> 13.1223 </td>
+   <td style="text-align:right;"> 734.8095 </td>
+   <td style="text-align:right;"> 1.0068 </td>
   </tr>
 </tbody>
 </table>
+
 
 
 ```r
@@ -1095,7 +1167,8 @@ posterior_theta <- as.array(model_NormalMedia, pars = "theta")
   mcmc_trace(posterior_theta)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-29-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal2.png" width="200%" />
+
 
 
 ```r
@@ -1108,14 +1181,15 @@ ppc_dens_overlay(y = as.numeric(dataNormal$logIngreso), y_pred2)/
 ppc_dens_overlay(y = exp(as.numeric(dataNormal$logIngreso))-1, exp(y_pred2)-1) + xlim(0,5000000)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-30-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal3.png" width="200%" />
+
 
 ## Modelos multiparamétricos
 
 -   La distribución normal univariada que tiene dos parámetros: la media $\theta$ y la varianza $\sigma^2$.
 -   La distribución multinomial cuyo parámetro es un vector de probabilidades $\boldsymbol{\theta}$.
 
-## Modelo Normal con media y varianza desconocida
+### Modelo de unidad: Normal con media y varianza desconocida
 
 Supongamos que se dispone de realizaciones de un conjunto de variables independientes e idénticamente distribuidas $Y_1,\cdots,Y_n\sim N(\theta,\sigma^2)$. Cuando se desconoce tanto la media como la varianza de la distribución es necesario plantear diversos enfoques y situarse en el más conveniente, según el contexto del problema. En términos de la asignación de las distribuciones previas para $\theta$ y $\sigma^2$ es posible:
 
@@ -1123,13 +1197,12 @@ Supongamos que se dispone de realizaciones de un conjunto de variables independi
 -   Suponer que la distribución previa $p(\theta)$ es independiente de la distribución previa $p(\sigma^2)$ y que ambas distribuciones son no informativas.
 -   Suponer que la distribución previa para $\theta$ depende de $\sigma^2$ y escribirla como $p(\theta \mid \sigma^2)$, mientras que la distribución previa de $\sigma^2$ no depende de $\theta$ y se puede escribir como $p(\sigma^2)$.
 
-## Parámetros independientes
 
 La distribución previa para el parámetro $\theta$ será
 
 $$
 \begin{equation*}
-\theta \sim Normal(\mu,\tau^2)
+\theta \sim Normal(0,10000)
 \end{equation*}
 $$
 
@@ -1137,27 +1210,8 @@ Y la distribución previa para el parámetro $\sigma^2$ será
 
 $$
 \begin{equation*}
-\sigma^2 \sim Inversa-Gamma(n_0/2,n_0\sigma^2_0/2)
+\sigma^2 \sim IG(0.0001,0.0001)
 \end{equation*}
-$$
-
-Asumiendo independencia previa, la distribución previa conjunta estará dada por
-
-$$
-\begin{equation}
-p(\theta,\sigma^2)\propto (\sigma^2)^{-n_0/2-1}\exp\left\{-\dfrac{n_0\sigma^2_0}{2\sigma^2}\right\}
-\exp\left\{-\frac{1}{2\tau^2}(\theta-\mu)^2\right\}
-\end{equation}
-$$
-
-La distribución posterior conjunta de los parámetros de interés está dada por
-
-$$
-\begin{align}
-p(\theta,\sigma^2 \mid \mathbf{Y})&\propto (\sigma^2)^{-(n+n_0)/2-1} \notag \\
-&\times
-\exp\left\{-\frac{1}{2\sigma^2}\left[n_0\sigma^2_0+(n-1)S^2+n(\bar{y}-\theta)^2\right]-\frac{1}{2\tau^2}(\theta-\mu)^2\right\}
-\end{align}
 $$
 
 La distribución posterior condicional de $\theta$ es
@@ -1168,17 +1222,24 @@ $$
 \end{equation}
 $$
 
-En donde las expresiones para $\mu_n$ y $\tau_n^2$ están dados previamente. Por otro lado, la distribución posterior condicional de $\sigma^2$ es
+En donde las expresiones para $\mu_n$ y $\tau_n^2$ están dados previamente. 
+
+En el siguiente enlace enconará el libro:  [Modelos Bayesianos con R y STAN](https://psirusteam.github.io/bookdownBayesiano/) donde puede profundizar en el desarrollo matemático de los resultados anteriores. 
+
+#### Obejtivo {-}
+
+Estimar el ingreso medio de las personas, es decir, 
 
 $$
-\begin{equation}
-\sigma^2  \mid  \theta,\mathbf{Y} \sim Inversa-Gamma\left(\dfrac{n_0+n}{2},\dfrac{v_0}{2}\right)
-\end{equation}
+\bar{Y} = \frac{\sum_Uy_i}{N}
 $$
+donde, $y_i$ es el ingreso de las personas. El estimador de $\bar{Y}$ esta dado por 
+$$
+\hat{\bar{Y}} = \frac{\sum_{s}w_{i}y_{i}}{\sum_s{w_i}}
+$$
+y obtener $\widehat{Var}\left(\hat{\bar{Y}}\right)$.
 
-con $v_0=n_0\sigma^2_0+(n-1)S^2+n(\bar{y}-\theta)^2$.
-
-### Práctica en **STAN**
+#### Práctica en **STAN**
 
 Sea $Y$ el logaritmo del ingreso
 
@@ -1248,15 +1309,20 @@ model_NormalMedia <- stan(
   iter = 1000,            
   cores = 4              
 )
+
+saveRDS(model_NormalMedia,"Recursos/Día1/Sesion4/0Recursos/Normal/model_NormalMedia2.rds")
+model_NormalMedia <- 
+  readRDS("Recursos/Día1/Sesion4/0Recursos/Normal/model_NormalMedia2.rds")
 ```
 
 La estimación del parámetro $\theta$ y $\sigma^2$ es:
 
 
 ```r
-summary(model_NormalMedia, 
-        pars = c("theta", "sigma2", "sigma"))$summary %>%
-  tba()
+tabla_Nor2 <- summary(model_NormalMedia, 
+        pars = c("theta", "sigma2", "sigma"))$summary
+
+tabla_Nor2 %>% tba()
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1280,43 +1346,44 @@ summary(model_NormalMedia,
    <td style="text-align:left;"> theta </td>
    <td style="text-align:right;"> 13.1147 </td>
    <td style="text-align:right;"> 1e-04 </td>
-   <td style="text-align:right;"> 0.0041 </td>
-   <td style="text-align:right;"> 13.1067 </td>
-   <td style="text-align:right;"> 13.1119 </td>
+   <td style="text-align:right;"> 0.0039 </td>
+   <td style="text-align:right;"> 13.1068 </td>
+   <td style="text-align:right;"> 13.1120 </td>
    <td style="text-align:right;"> 13.1148 </td>
-   <td style="text-align:right;"> 13.1175 </td>
-   <td style="text-align:right;"> 13.1226 </td>
-   <td style="text-align:right;"> 1127.412 </td>
-   <td style="text-align:right;"> 1.0010 </td>
+   <td style="text-align:right;"> 13.1172 </td>
+   <td style="text-align:right;"> 13.1224 </td>
+   <td style="text-align:right;"> 1220.610 </td>
+   <td style="text-align:right;"> 0.9996 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> sigma2 </td>
-   <td style="text-align:right;"> 0.6987 </td>
+   <td style="text-align:right;"> 0.6986 </td>
    <td style="text-align:right;"> 1e-04 </td>
-   <td style="text-align:right;"> 0.0046 </td>
-   <td style="text-align:right;"> 0.6898 </td>
+   <td style="text-align:right;"> 0.0047 </td>
+   <td style="text-align:right;"> 0.6894 </td>
    <td style="text-align:right;"> 0.6955 </td>
-   <td style="text-align:right;"> 0.6987 </td>
+   <td style="text-align:right;"> 0.6986 </td>
    <td style="text-align:right;"> 0.7016 </td>
-   <td style="text-align:right;"> 0.7078 </td>
-   <td style="text-align:right;"> 1612.814 </td>
-   <td style="text-align:right;"> 1.0017 </td>
+   <td style="text-align:right;"> 0.7080 </td>
+   <td style="text-align:right;"> 1930.907 </td>
+   <td style="text-align:right;"> 1.0001 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> sigma </td>
-   <td style="text-align:right;"> 0.8359 </td>
+   <td style="text-align:right;"> 0.8358 </td>
    <td style="text-align:right;"> 1e-04 </td>
    <td style="text-align:right;"> 0.0028 </td>
-   <td style="text-align:right;"> 0.8305 </td>
+   <td style="text-align:right;"> 0.8303 </td>
    <td style="text-align:right;"> 0.8340 </td>
-   <td style="text-align:right;"> 0.8359 </td>
+   <td style="text-align:right;"> 0.8358 </td>
    <td style="text-align:right;"> 0.8376 </td>
-   <td style="text-align:right;"> 0.8413 </td>
-   <td style="text-align:right;"> 1613.833 </td>
-   <td style="text-align:right;"> 1.0017 </td>
+   <td style="text-align:right;"> 0.8415 </td>
+   <td style="text-align:right;"> 1930.526 </td>
+   <td style="text-align:right;"> 1.0001 </td>
   </tr>
 </tbody>
 </table>
+
 
 
 ```r
@@ -1326,7 +1393,7 @@ posterior_theta <- as.array(model_NormalMedia, pars = "theta")
   mcmc_trace(posterior_theta)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-37-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal4.png" width="200%" />
 
 
 
@@ -1337,7 +1404,8 @@ posterior_sigma2 <- as.array(model_NormalMedia, pars = "sigma2")
   mcmc_trace(posterior_sigma2)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-38-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal5.png" width="200%" />
+
 
 
 ```r
@@ -1347,7 +1415,7 @@ posterior_sigma <- as.array(model_NormalMedia, pars = "sigma")
   mcmc_trace(posterior_sigma)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-39-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal6.png" width="200%" />
 
 
 
@@ -1359,9 +1427,10 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(exp(dataNormal$logIngreso)-1), y_pred2) +   xlim(0,5000000)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-40-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal7.png" width="200%" />
 
-## Modelo Multinomial
+
+### Modelo Multinomial
 
 En esta sección discutimos el modelamiento bayesiano de datos provenientes de una distribución multinomial que corresponde a una extensión multivariada de la distribución binomial. Suponga que $\textbf{Y}=(Y_1,\ldots,Y_p)'$ es un vector aleatorio con distribución multinomial, así, su distribución está parametrizada por el vector $\boldsymbol{\theta}=(\theta_1,\ldots,\theta_p)'$ y está dada por la siguiente expresión
 
@@ -1388,7 +1457,24 @@ $$
 
 La distribución posterior del parámetro $\boldsymbol{\theta}$ sigue una distribución $Dirichlet(y_1+\alpha_1,\ldots,y_p+\alpha_p)$
 
-### Práctica en **STAN**
+#### Obejtivo {-}
+
+Sea $N_1$ el número de personas ocupadas, $N_2$ Número de personas desocupadas,  $N_3$ es el número de personas inactivas en la población y $N = N_1 +N_2 + N_3$. Entonces el objetivo es estimar el vector de parámetros $\boldsymbol{P}=\left(P_{1},P_{2},P_{3}\right)$, con $P_{k}=\frac{N_{k}}{N}$, para $k=1,2,3$,  
+
+El estimador de $\boldsymbol{P}$ esta dado por 
+$$
+\hat{\boldsymbol{P}} =\left(\hat{P}_{1},\hat{P}_{2},\hat{P}_{3}\right)
+$$
+donde,
+$$
+\hat{P}_{k} = \frac{\sum_{s}w_{i}y_{ik}}{\sum_s{w_i}} = \frac{\hat{N}_k}{\hat{N}}
+$$
+y $y_{ik}$ toma el valor 1 cuando la $i-ésima$ persona responde la $k-ésima$ categoría (**Ocupado** o **Desocupado** o **Inactivo**). Además, obtener $\widehat{Var}\left(\hat{P}_{k}\right)$.
+
+
+
+
+#### Práctica en **STAN**
 
 Sea $Y$ condición de actividad laboral
 
@@ -1486,6 +1572,8 @@ model_Multinom <- stan(
   iter = 1000,            
   cores = 4              
 )
+saveRDS(model_Multinom, "Recursos/Día1/Sesion4/0Recursos/Multinomial/model_Multinom.rds")
+model_Multinom <- readRDS("Recursos/Día1/Sesion4/0Recursos/Multinomial/model_Multinom.rds")
 ```
 
 
@@ -1493,7 +1581,8 @@ La estimación del parámetro $\theta$ y $\delta$ es:
 
 
 ```r
-summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
+tabla_Mul1 <- summary(model_Multinom, pars = c("delta", "theta"))$summary 
+tabla_Mul1 %>% tba()
 ```
 
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1519,12 +1608,12 @@ summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 5e-04 </td>
    <td style="text-align:right;"> 0.1068 </td>
-   <td style="text-align:right;"> 0.1075 </td>
+   <td style="text-align:right;"> 0.1074 </td>
    <td style="text-align:right;"> 0.1078 </td>
-   <td style="text-align:right;"> 0.1082 </td>
+   <td style="text-align:right;"> 0.1081 </td>
    <td style="text-align:right;"> 0.1088 </td>
-   <td style="text-align:right;"> 1097.4077 </td>
-   <td style="text-align:right;"> 1.0019 </td>
+   <td style="text-align:right;"> 877.7587 </td>
+   <td style="text-align:right;"> 1.0041 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[1] </td>
@@ -1536,8 +1625,8 @@ summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
    <td style="text-align:right;"> 0.5537 </td>
    <td style="text-align:right;"> 0.5542 </td>
    <td style="text-align:right;"> 0.5549 </td>
-   <td style="text-align:right;"> 1978.4575 </td>
-   <td style="text-align:right;"> 1.0006 </td>
+   <td style="text-align:right;"> 1863.1393 </td>
+   <td style="text-align:right;"> 0.9995 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[2] </td>
@@ -1549,8 +1638,8 @@ summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
    <td style="text-align:right;"> 0.0669 </td>
    <td style="text-align:right;"> 0.0671 </td>
    <td style="text-align:right;"> 0.0675 </td>
-   <td style="text-align:right;"> 993.4809 </td>
-   <td style="text-align:right;"> 1.0020 </td>
+   <td style="text-align:right;"> 806.8953 </td>
+   <td style="text-align:right;"> 1.0046 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> theta[3] </td>
@@ -1558,15 +1647,16 @@ summary(model_Multinom, pars = c("delta", "theta"))$summary %>% tba()
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 6e-04 </td>
    <td style="text-align:right;"> 0.3782 </td>
-   <td style="text-align:right;"> 0.3789 </td>
+   <td style="text-align:right;"> 0.3790 </td>
    <td style="text-align:right;"> 0.3794 </td>
    <td style="text-align:right;"> 0.3798 </td>
-   <td style="text-align:right;"> 0.3806 </td>
-   <td style="text-align:right;"> 1556.6998 </td>
-   <td style="text-align:right;"> 1.0007 </td>
+   <td style="text-align:right;"> 0.3805 </td>
+   <td style="text-align:right;"> 1551.7830 </td>
+   <td style="text-align:right;"> 0.9997 </td>
   </tr>
 </tbody>
 </table>
+        
 
 
 ```r
@@ -1576,7 +1666,8 @@ posterior_theta1 <- as.array(model_Multinom, pars = "theta[1]")
   mcmc_trace(posterior_theta1)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-47-1.svg" width="672" />
+
+<img src="Recursos/Día1/Sesion4/0Recursos/Multinomial/Multinomial1.png" width="200%" />
 
 
 ```r
@@ -1586,7 +1677,8 @@ posterior_theta2 <- as.array(model_Multinom, pars = "theta[2]")
   mcmc_trace(posterior_theta2)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-48-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Multinomial/Multinomial2.png" width="200%" />
+
 
 
 ```r
@@ -1596,7 +1688,7 @@ posterior_theta3 <- as.array(model_Multinom, pars = "theta[3]")
   mcmc_trace(posterior_theta3)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-49-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Multinomial/Multinomial3.png" width="200%" />
 
 
 ```r
@@ -1606,7 +1698,7 @@ posterior_delta <- as.array(model_Multinom, pars = "delta")
   mcmc_trace(posterior_delta)
 ```
 
-<img src="02-D1S4_Fundamentos_Bayesiana_files/figure-html/unnamed-chunk-50-1.svg" width="672" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Multinomial/Multinomial4.png" width="200%" />
 
 La imagen es muy pesada no se carga al repositorio. 
 
@@ -1621,4 +1713,4 @@ y_pred2 <- y_pred_B[, 1:n]
 ppc_dens_overlay(y = as.numeric(dataMult$n), y_pred2)
 ```
 
-<img src="Recursos/Día1/Sesion4/0Recursos/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día1/Sesion4/0Recursos/Multinomial/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
