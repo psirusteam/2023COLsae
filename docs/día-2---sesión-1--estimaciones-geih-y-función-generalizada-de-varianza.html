@@ -390,38 +390,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 varianza del estimador directo, a nivel de dominio, la cual no puede calcularse de ningún modo. En correspondencia, este valor debe estimarse desde los datos recolectados en cada dominio. Sin embargo,
 en dominios en las que se cuenta con un tamaño de muestra muy pequeño, estas estimaciones no tendrán un buen comportamiento. Por ende, es muy útil utilizar un modelo de <strong>suavizamiento</strong> de las varianzas para
 eliminar el ruido y la volatilidad de estas estimaciones y extraer la verdadera señal del proceso</p>
-<p>Hidiroglou (2019) afirma que <span class="math inline">\(E_{mp}\left(\hat{\theta}^{dir}_d\right)=\boldsymbol{x}_{d}\boldsymbol{\beta}\)</span> y <span class="math inline">\(V_{mp}\left(\hat{\theta}^{dir}_d\right)=\sigma_{u}^2+\tilde{\psi}^2_{d}\)</span>, en donde el subíndice <span class="math inline">\(mp\)</span> hace referencia a la inferencia doble que se debe tener en cuenta en este tipo de ajustes y define la medida de probabilidad conjunta entre el modelo y el diseño de muestreo.</p>
+<p>Hidiroglou (2019) afirma que <span class="math inline">\(E_{\mathscr{MP}}\left(\hat{\theta}^{dir}_d\right)=\boldsymbol{x}^{T}_{d}\boldsymbol{\beta}\)</span> y <span class="math inline">\(V_{\mathscr{MP}}\left(\hat{\theta}^{dir}_d\right)=\sigma_{u}^2+\tilde{\sigma}^2_{d}\)</span>, en donde el subíndice <span class="math inline">\(\mathscr{MP}\)</span> hace referencia a la inferencia doble que se debe tener en cuenta en este tipo de ajustes y define la medida de probabilidad conjunta entre el modelo y el diseño de muestreo.</p>
 <ul>
-<li><p><span class="math inline">\(m\)</span> hace referencia a la medida de probabilidad inducida por el modelamiento y la inclusión de las covariables auxiliares (<span class="math inline">\(\boldsymbol{x}_{d}\)</span>).</p></li>
-<li><p><span class="math inline">\(p\)</span> hacer referencia a la medida de probabilidad inducida por el diseño de muestreo complejo que
+<li><p><span class="math inline">\(\mathscr{M}\)</span> hace referencia a la medida de probabilidad inducida por el modelamiento y la inclusión de las covariables auxiliares (<span class="math inline">\(\boldsymbol{x}_{d}\)</span>).</p></li>
+<li><p><span class="math inline">\(\mathscr{MP}\)</span> hace referencia a la medida de probabilidad inducida por el diseño de muestreo complejo que
 induce las estimaciones directas.</p></li>
 </ul>
 <p>La solución que acá se plantea se conoce con el nombre de Función Generalizada de Varianza, la cual consiste en ajustar un modelo log-lineal a la varianza directa estimada. Partiendo del hecho de que
-se tiene acceso a un estimador insesgado de <span class="math inline">\(\psi^2\)</span>, denotado por <span class="math inline">\(\hat{\psi}^2\)</span> se tiene que:
+se tiene acceso a un estimador insesgado de <span class="math inline">\(\sigma^2\)</span>, denotado por <span class="math inline">\(\hat{\sigma}^2\)</span> se tiene que:
 <span class="math display">\[
-E_{mp}\left(\hat{\psi}_{d}^{2}\right)=E_{m}\left(E_{p}\left(\psi_{d}^{2}\right)\right)=E_{m}\left(\psi_{d}^{2}\right)=\tilde{\psi}_{d}^{2}
+E_{\mathscr{MP}}\left(\hat{\sigma}_{d}^{2}\right)=E_{\mathscr{M}}\left(E_{\mathscr{P}}\left(\hat{\sigma}_{d}^{2}\right)\right)=E_{\mathscr{M}}\left(\sigma_{d}^{2}\right)=\tilde{\sigma}_{d}^{2}
 \]</span></p>
-<p>La anterior igualdad puede interpretarse como que un estimador insesgado y simple de <span class="math inline">\(\tilde{\psi}_{d}^{2}\)</span> puede ser <span class="math inline">\(\hat{\psi}_{d}^{2}\)</span>. Sin embargo, este estimador de muestreo es inestable cuando el tamaño de muestra es pequeño, que es justo el paradigma dominante en la estimación de áreas pequeñas. Rivest and Belmonte (2000) consideran modelos de suavizamiento para la estimación de las varianzas directas definidos de la siguiente manera:</p>
+<p>La anterior igualdad puede interpretarse como que un estimador insesgado y simple de <span class="math inline">\(\tilde{\sigma}_{d}^{2}\)</span> puede ser <span class="math inline">\(\hat{\sigma}_{d}^{2}\)</span>. Sin embargo, este estimador de muestreo es inestable cuando el tamaño de muestra es pequeño, que es justo el paradigma dominante en la estimación de áreas pequeñas. Rivest and Belmonte (2000) consideran modelos de suavizamiento para la estimación de las varianzas directas definidos de la siguiente manera:</p>
 <p><span class="math display">\[
-\log\left(\hat{\psi}_{d}^{2}\right)=\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}+\boldsymbol{\varepsilon}_{d}
+\log\left(\hat{\sigma}_{d}^{2}\right)=\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}+\boldsymbol{\varepsilon}_{d}
 \]</span></p>
 <p>En donde <span class="math inline">\(\boldsymbol{z}_{d}\)</span> es un vector de covariables explicativas que son funciones de <span class="math inline">\(\boldsymbol{x}_{d}\)</span>, <span class="math inline">\(\boldsymbol{\alpha}\)</span> es un vector de parámetros que deben ser estimados, <span class="math inline">\(\boldsymbol{\varepsilon}_{d}\)</span> son errores aleatorios con media cero y varianza constante, que se asumen idénticamente distribuidos condicionalmente sobre <span class="math inline">\(\boldsymbol{z}_{d}\)</span>. Del anterior modelo, la
 estimación suavizada de la varianza de muestreo está dada por:
 <span class="math display">\[
-\tilde{\psi}_{d}^{2}=E_{mp}\left(\psi_{d}^{2}\right)=\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)\times\Delta
+\tilde{\sigma}_{d}^{2}=E_{\mathscr{MP}}\left(\sigma_{d}^{2}\right)=\exp\left(\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}\right)\times\Delta
 \]</span></p>
-<p>En donde, <span class="math inline">\(E_{mp}\left(\varepsilon_{d}\right)=\Delta\)</span>. No hay necesidad de especificar una distribución paramétrica para los
+<p>En donde, <span class="math inline">\(E_{\mathscr{MP}}\left(\varepsilon_{d}\right)=\Delta\)</span>. No hay necesidad de especificar una distribución paramétrica para los
 errores de este modelo. Al utilizar el método de los momentos, se tiene el siguiente estimador insesgado para <span class="math inline">\(\Delta\)</span>:
 <span class="math display">\[
-\hat{\Delta}=\frac{\sum_{d=1}^{D}\hat{\psi}_{d}^{2}}{\sum_{d=1}^{D}\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)}
+\hat{\Delta}=\frac{\sum_{d=1}^{D}\hat{\sigma}_{d}^{2}}{\sum_{d=1}^{D}\exp\left(\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}\right)}
 \]</span></p>
 <p>De la misma forma, al utilizar los procedimientos estándar en una regresión lineal, la estimación del coeficiente de parámetros de regresión está dada por la siguiente expresión:</p>
 <p><span class="math display">\[
-\hat{\boldsymbol{\alpha}}=\left(\sum_{d=1}^{D}\boldsymbol{z}_{d}\boldsymbol{z}_{d}^{t}\right)^{-1}\sum_{d=1}^{D}\boldsymbol{z}_{d}\log\left(\hat{\psi}_{d}^{2}\right)
+\hat{\boldsymbol{\alpha}}=\left(\sum_{d=1}^{D}\boldsymbol{z}_{d}\boldsymbol{z}_{d}^{T}\right)^{-1}\sum_{d=1}^{D}\boldsymbol{z}_{d}\log\left(\hat{\sigma}_{d}^{2}\right)
 \]</span></p>
 <p>Por último, el estimador suavizado de la varianza muestral está definido por:</p>
 <p><span class="math display">\[
-\hat{\tilde{\psi}}_{d}^{2}=\exp\left(\boldsymbol{z}_{d}^{t}\hat{\boldsymbol{\alpha}}\right)\hat{\Delta}
+\hat{\tilde{\sigma}}_{d}^{2}=\exp\left(\boldsymbol{z}_{d}^{T}\hat{\boldsymbol{\alpha}}\right)\hat{\Delta}
 \]</span></p>
 </div>
             </section>

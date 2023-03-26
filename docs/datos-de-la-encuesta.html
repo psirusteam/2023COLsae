@@ -637,7 +637,7 @@ pobreza
 </tr>
 </tbody>
 </table>
-<p>Definir el diseño muestral haciendo uso de las librerías <code>srvyr</code> y <code>survey</code></p>
+<p>En el siguiente bloque de código utiliza las librerías <code>survey</code> y <code>srvyr</code> para crear un diseño de muestreo a partir de una base de datos de encuestas. El diseño de muestreo incluye información sobre las unidades primarias de muestreo (UPM), los pesos de muestreo (wkx), y las estratas (estrato) utilizadas en el muestreo. Además, se utiliza la opción “survey.lonely.psu” para ajustar los tamaños de muestra en los grupos de unidades primarias de muestreo que no tienen otras unidades primarias de muestreo en el mismo grupo.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="datos-de-la-encuesta.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
 <span id="cb66-2"><a href="datos-de-la-encuesta.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(srvyr)</span>
 <span id="cb66-3"><a href="datos-de-la-encuesta.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">survey.lonely.psu =</span> <span class="st">&quot;adjust&quot;</span>)</span>

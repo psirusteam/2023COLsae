@@ -8,47 +8,47 @@ varianza del estimador directo, a nivel de dominio, la cual no puede calcularse 
 en dominios en las que se cuenta con un tamaño de muestra muy pequeño, estas estimaciones no tendrán un buen comportamiento. Por ende, es muy útil utilizar un modelo de **suavizamiento** de las varianzas para 
 eliminar el ruido y la volatilidad de estas estimaciones y extraer la verdadera señal del proceso
 
-Hidiroglou (2019) afirma que $E_{mp}\left(\hat{\theta}^{dir}_d\right)=\boldsymbol{x}_{d}\boldsymbol{\beta}$ y $V_{mp}\left(\hat{\theta}^{dir}_d\right)=\sigma_{u}^2+\tilde{\psi}^2_{d}$, en donde el subíndice  $mp$ hace referencia a la inferencia doble que se debe tener en cuenta en este tipo de ajustes y define la medida de probabilidad conjunta entre el modelo y el diseño de muestreo.  
+Hidiroglou (2019) afirma que $E_{\mathscr{MP}}\left(\hat{\theta}^{dir}_d\right)=\boldsymbol{x}^{T}_{d}\boldsymbol{\beta}$ y $V_{\mathscr{MP}}\left(\hat{\theta}^{dir}_d\right)=\sigma_{u}^2+\tilde{\sigma}^2_{d}$, en donde el subíndice  $\mathscr{MP}$ hace referencia a la inferencia doble que se debe tener en cuenta en este tipo de ajustes y define la medida de probabilidad conjunta entre el modelo y el diseño de muestreo.  
 
--   $m$ hace referencia a la medida de probabilidad inducida por el modelamiento y la inclusión de las covariables auxiliares ($\boldsymbol{x}_{d}$).
+-   $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento y la inclusión de las covariables auxiliares ($\boldsymbol{x}_{d}$).
 
--   $p$ hacer referencia a la medida de probabilidad inducida por el diseño de muestreo complejo que 
+-   $\mathscr{MP}$ hace referencia a la medida de probabilidad inducida por el diseño de muestreo complejo que 
 induce las estimaciones directas. 
 
 La solución que acá se plantea se conoce con el nombre de Función Generalizada de Varianza, la cual consiste en ajustar un modelo log-lineal a la varianza directa estimada. Partiendo del hecho de que
-se tiene acceso a un estimador insesgado de $\psi^2$, denotado por $\hat{\psi}^2$ se tiene que:
+se tiene acceso a un estimador insesgado de $\sigma^2$, denotado por $\hat{\sigma}^2$ se tiene que:
 $$
-E_{mp}\left(\hat{\psi}_{d}^{2}\right)=E_{m}\left(E_{p}\left(\psi_{d}^{2}\right)\right)=E_{m}\left(\psi_{d}^{2}\right)=\tilde{\psi}_{d}^{2}
+E_{\mathscr{MP}}\left(\hat{\sigma}_{d}^{2}\right)=E_{\mathscr{M}}\left(E_{\mathscr{P}}\left(\hat{\sigma}_{d}^{2}\right)\right)=E_{\mathscr{M}}\left(\sigma_{d}^{2}\right)=\tilde{\sigma}_{d}^{2}
 $$
 
-La anterior igualdad puede interpretarse como que un estimador insesgado y simple de $\tilde{\psi}_{d}^{2}$ puede ser $\hat{\psi}_{d}^{2}$. Sin embargo, este estimador de muestreo es inestable cuando el tamaño de muestra es pequeño, que es justo el paradigma dominante en la estimación de áreas pequeñas. Rivest and Belmonte (2000) consideran modelos de suavizamiento para la estimación de las varianzas directas definidos de la siguiente manera:
+La anterior igualdad puede interpretarse como que un estimador insesgado y simple de $\tilde{\sigma}_{d}^{2}$ puede ser $\hat{\sigma}_{d}^{2}$. Sin embargo, este estimador de muestreo es inestable cuando el tamaño de muestra es pequeño, que es justo el paradigma dominante en la estimación de áreas pequeñas. Rivest and Belmonte (2000) consideran modelos de suavizamiento para la estimación de las varianzas directas definidos de la siguiente manera:
 
 $$
-\log\left(\hat{\psi}_{d}^{2}\right)=\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}+\boldsymbol{\varepsilon}_{d}
+\log\left(\hat{\sigma}_{d}^{2}\right)=\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}+\boldsymbol{\varepsilon}_{d}
 $$
 
 En donde $\boldsymbol{z}_{d}$ es un vector de covariables explicativas que son funciones de $\boldsymbol{x}_{d}$, $\boldsymbol{\alpha}$ es un vector de parámetros que deben ser estimados, $\boldsymbol{\varepsilon}_{d}$ son errores aleatorios con media cero y varianza constante, que se asumen idénticamente distribuidos condicionalmente sobre $\boldsymbol{z}_{d}$. Del anterior modelo, la
 estimación suavizada de la varianza de muestreo está dada por:
 $$
-\tilde{\psi}_{d}^{2}=E_{mp}\left(\psi_{d}^{2}\right)=\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)\times\Delta
+\tilde{\sigma}_{d}^{2}=E_{\mathscr{MP}}\left(\sigma_{d}^{2}\right)=\exp\left(\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}\right)\times\Delta
 $$
 
-En donde, $E_{mp}\left(\varepsilon_{d}\right)=\Delta$. No hay necesidad de especificar una distribución paramétrica para los
+En donde, $E_{\mathscr{MP}}\left(\varepsilon_{d}\right)=\Delta$. No hay necesidad de especificar una distribución paramétrica para los
 errores de este modelo. Al utilizar el método de los momentos, se tiene el siguiente estimador insesgado para $\Delta$: 
 $$
-\hat{\Delta}=\frac{\sum_{d=1}^{D}\hat{\psi}_{d}^{2}}{\sum_{d=1}^{D}\exp\left(\boldsymbol{z}_{d}^{t}\boldsymbol{\alpha}\right)}
+\hat{\Delta}=\frac{\sum_{d=1}^{D}\hat{\sigma}_{d}^{2}}{\sum_{d=1}^{D}\exp\left(\boldsymbol{z}_{d}^{T}\boldsymbol{\alpha}\right)}
 $$
 
 De la misma forma, al utilizar los procedimientos estándar en una regresión lineal, la estimación del coeficiente de parámetros de regresión está dada por la siguiente expresión:
 
 $$
-\hat{\boldsymbol{\alpha}}=\left(\sum_{d=1}^{D}\boldsymbol{z}_{d}\boldsymbol{z}_{d}^{t}\right)^{-1}\sum_{d=1}^{D}\boldsymbol{z}_{d}\log\left(\hat{\psi}_{d}^{2}\right)
+\hat{\boldsymbol{\alpha}}=\left(\sum_{d=1}^{D}\boldsymbol{z}_{d}\boldsymbol{z}_{d}^{T}\right)^{-1}\sum_{d=1}^{D}\boldsymbol{z}_{d}\log\left(\hat{\sigma}_{d}^{2}\right)
 $$
 
 Por último, el estimador suavizado de la varianza muestral está definido por:
 
 $$
-\hat{\tilde{\psi}}_{d}^{2}=\exp\left(\boldsymbol{z}_{d}^{t}\hat{\boldsymbol{\alpha}}\right)\hat{\Delta}
+\hat{\tilde{\sigma}}_{d}^{2}=\exp\left(\boldsymbol{z}_{d}^{T}\hat{\boldsymbol{\alpha}}\right)\hat{\Delta}
 $$
 
 ## Datos de la encuesta
@@ -183,7 +183,7 @@ encuesta <- readRDS("Recursos/Día2/Sesion1/Data/encuestaCOL18N1.rds") %>%
 </tbody>
 </table>
 
-Definir el diseño muestral haciendo uso de las librerías `srvyr` y `survey`
+En el siguiente bloque de código  utiliza las librerías `survey` y `srvyr` para crear un diseño de muestreo a partir de una base de datos de encuestas. El diseño de muestreo incluye información sobre las unidades primarias de muestreo (UPM), los pesos de muestreo (wkx), y las estratas (estrato) utilizadas en el muestreo. Además, se utiliza la opción "survey.lonely.psu" para ajustar los tamaños de muestra en los grupos de unidades primarias de muestreo que no tienen otras unidades primarias de muestreo en el mismo grupo.
 
 
 ```r
@@ -272,6 +272,7 @@ directodam2 %>%
   </tr>
 </tbody>
 </table>
+
 
 Para los dominios que no son excluidos se hace la transformación arcoseno, calculo del *DEFF* y varianza 
 
@@ -439,7 +440,7 @@ library(patchwork)
 (p1 | p2) / (p3 | p4)
 ```
 
-<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-7-1.svg" width="672" />
+<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-8-1.svg" width="672" />
 
 ## Modelo para la varianza
 
@@ -456,12 +457,12 @@ tbl_regression(FGV1) %>%
 ```
 
 ```{=html}
-<div id="srxmuctavx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="iuphkgyuap" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#srxmuctavx .gt_table {
+#iuphkgyuap .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -486,7 +487,7 @@ tbl_regression(FGV1) %>%
   border-left-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_heading {
+#iuphkgyuap .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -498,12 +499,12 @@ tbl_regression(FGV1) %>%
   border-right-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_caption {
+#iuphkgyuap .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#srxmuctavx .gt_title {
+#iuphkgyuap .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -515,7 +516,7 @@ tbl_regression(FGV1) %>%
   border-bottom-width: 0;
 }
 
-#srxmuctavx .gt_subtitle {
+#iuphkgyuap .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -527,13 +528,13 @@ tbl_regression(FGV1) %>%
   border-top-width: 0;
 }
 
-#srxmuctavx .gt_bottom_border {
+#iuphkgyuap .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_col_headings {
+#iuphkgyuap .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -548,7 +549,7 @@ tbl_regression(FGV1) %>%
   border-right-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_col_heading {
+#iuphkgyuap .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -568,7 +569,7 @@ tbl_regression(FGV1) %>%
   overflow-x: hidden;
 }
 
-#srxmuctavx .gt_column_spanner_outer {
+#iuphkgyuap .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -580,15 +581,15 @@ tbl_regression(FGV1) %>%
   padding-right: 4px;
 }
 
-#srxmuctavx .gt_column_spanner_outer:first-child {
+#iuphkgyuap .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#srxmuctavx .gt_column_spanner_outer:last-child {
+#iuphkgyuap .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#srxmuctavx .gt_column_spanner {
+#iuphkgyuap .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -600,7 +601,7 @@ tbl_regression(FGV1) %>%
   width: 100%;
 }
 
-#srxmuctavx .gt_group_heading {
+#iuphkgyuap .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -626,7 +627,7 @@ tbl_regression(FGV1) %>%
   text-align: left;
 }
 
-#srxmuctavx .gt_empty_group_heading {
+#iuphkgyuap .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -641,15 +642,15 @@ tbl_regression(FGV1) %>%
   vertical-align: middle;
 }
 
-#srxmuctavx .gt_from_md > :first-child {
+#iuphkgyuap .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#srxmuctavx .gt_from_md > :last-child {
+#iuphkgyuap .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#srxmuctavx .gt_row {
+#iuphkgyuap .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -668,7 +669,7 @@ tbl_regression(FGV1) %>%
   overflow-x: hidden;
 }
 
-#srxmuctavx .gt_stub {
+#iuphkgyuap .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -681,7 +682,7 @@ tbl_regression(FGV1) %>%
   padding-right: 5px;
 }
 
-#srxmuctavx .gt_stub_row_group {
+#iuphkgyuap .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -695,11 +696,11 @@ tbl_regression(FGV1) %>%
   vertical-align: top;
 }
 
-#srxmuctavx .gt_row_group_first td {
+#iuphkgyuap .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#srxmuctavx .gt_summary_row {
+#iuphkgyuap .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -709,16 +710,16 @@ tbl_regression(FGV1) %>%
   padding-right: 5px;
 }
 
-#srxmuctavx .gt_first_summary_row {
+#iuphkgyuap .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_first_summary_row.thick {
+#iuphkgyuap .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#srxmuctavx .gt_last_summary_row {
+#iuphkgyuap .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -728,7 +729,7 @@ tbl_regression(FGV1) %>%
   border-bottom-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_grand_summary_row {
+#iuphkgyuap .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -738,7 +739,7 @@ tbl_regression(FGV1) %>%
   padding-right: 5px;
 }
 
-#srxmuctavx .gt_first_grand_summary_row {
+#iuphkgyuap .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -748,11 +749,11 @@ tbl_regression(FGV1) %>%
   border-top-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_striped {
+#iuphkgyuap .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#srxmuctavx .gt_table_body {
+#iuphkgyuap .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -761,7 +762,7 @@ tbl_regression(FGV1) %>%
   border-bottom-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_footnotes {
+#iuphkgyuap .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -775,7 +776,7 @@ tbl_regression(FGV1) %>%
   border-right-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_footnote {
+#iuphkgyuap .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -784,7 +785,7 @@ tbl_regression(FGV1) %>%
   padding-right: 5px;
 }
 
-#srxmuctavx .gt_sourcenotes {
+#iuphkgyuap .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -798,7 +799,7 @@ tbl_regression(FGV1) %>%
   border-right-color: #D3D3D3;
 }
 
-#srxmuctavx .gt_sourcenote {
+#iuphkgyuap .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -806,64 +807,64 @@ tbl_regression(FGV1) %>%
   padding-right: 5px;
 }
 
-#srxmuctavx .gt_left {
+#iuphkgyuap .gt_left {
   text-align: left;
 }
 
-#srxmuctavx .gt_center {
+#iuphkgyuap .gt_center {
   text-align: center;
 }
 
-#srxmuctavx .gt_right {
+#iuphkgyuap .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#srxmuctavx .gt_font_normal {
+#iuphkgyuap .gt_font_normal {
   font-weight: normal;
 }
 
-#srxmuctavx .gt_font_bold {
+#iuphkgyuap .gt_font_bold {
   font-weight: bold;
 }
 
-#srxmuctavx .gt_font_italic {
+#iuphkgyuap .gt_font_italic {
   font-style: italic;
 }
 
-#srxmuctavx .gt_super {
+#iuphkgyuap .gt_super {
   font-size: 65%;
 }
 
-#srxmuctavx .gt_footnote_marks {
+#iuphkgyuap .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#srxmuctavx .gt_asterisk {
+#iuphkgyuap .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#srxmuctavx .gt_indent_1 {
+#iuphkgyuap .gt_indent_1 {
   text-indent: 5px;
 }
 
-#srxmuctavx .gt_indent_2 {
+#iuphkgyuap .gt_indent_2 {
   text-indent: 10px;
 }
 
-#srxmuctavx .gt_indent_3 {
+#iuphkgyuap .gt_indent_3 {
   text-indent: 15px;
 }
 
-#srxmuctavx .gt_indent_4 {
+#iuphkgyuap .gt_indent_4 {
   text-indent: 20px;
 }
 
-#srxmuctavx .gt_indent_5 {
+#iuphkgyuap .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1032,7 +1033,7 @@ par(mfrow = c(2, 2))
 plot(FGV1)
 ```
 
-<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
+<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
 
  Comparación entre la varianza estimada versus la pronosticada por la FGV
 
@@ -1046,7 +1047,7 @@ ggplot(baseFGV ,
   ylab("Varianza del Estimador Directo")
 ```
 
-<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
+<img src="03-D2S1_FGV_files/figure-html/unnamed-chunk-13-1.svg" width="672" />
 
 Predicción de la varianza suavizada
 
