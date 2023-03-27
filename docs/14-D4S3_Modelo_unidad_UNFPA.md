@@ -883,18 +883,18 @@ tba(statelevel_predictors_df %>% head(10))
 
 ##	Modelo MRP
 
-De acuerdo con este modelo, como lo expone Gutiérrez y otros (2022), la probabilidad de hacer uso de métodos de planificación para la $i$-ésima persona en el $j$-ésimo post-estrato, puede ser definido para cada unidad de la encuesta. El modelo pretende establecer la relación entre la expectativa $\rho_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de usar algún método anticonceptivo a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el conjunto de covariables a nivel departamental, $Z_d$
+De acuerdo con este modelo, como lo expone Gutiérrez y otros (2022), la probabilidad de hacer uso de métodos de planificación para la $i$-ésima persona en el $j$-ésimo post-estrato, puede ser definido para cada unidad de la encuesta. El modelo pretende establecer la relación entre la expectativa $\rho_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de usar algún método anticonceptivo a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y los efectos aleatorios $u_d$
 
 $$
-\ln(\frac{ρ_{ji}}{1-ρ_{ji}} ) = x_{ji}^t \beta + z_d \gamma.
+\ln(\frac{ρ_{ji}}{1-ρ_{ji}} ) = x_{ji}^t \beta + u_d.
 $$
 
-Los coeficientes $\beta$ hacen referencia a los efectos aleatorios de las variables $x_{ji}^t$  sobre las probabilidades de que la $i$-ésima persona haga uso de métodos anticonceptivos; por otro lado, los coeficientes $\gamma$ expresan los efectos fijos sobre las covariables a nivel departamental, $z_d$. Ahora, es posible asumir distribuciones no informativas para $\beta$ y $\gamma$. 
+Los coeficientes $\beta$ hacen referencia a los efectos fijos de las variables $x_{ji}^T$  sobre las probabilidades de que la $i$-ésima persona haga uso de métodos anticonceptivos. Ahora, es posible asumir distribuciones no informativas para $\beta$ y $\sigma_u^2$. 
 
 $$
 \begin{eqnarray*}
-\beta  & \sim & N(0,\sigma^2_1) \\
-\gamma & \sim & N(0,\sigma^2_2) 
+\beta  & \sim & N(0,1000) \\
+\sigma_u^2 & \sim & IG(0.001,0.001) 
 \end{eqnarray*}
 $$
 
@@ -1806,7 +1806,7 @@ plot_uni$area$Plot$plot1+ plot_uni$etnia$Plot$plot1)
 ```
 
 
-<img src="Recursos/Día4/Sesion3/0Recursos/D6/plot_uni.PNG" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/0Recursos/D6/plot_uni.PNG" width="400%" style="display: block; margin: auto;" />
 
 ### Estimación y mapa del indicador. 
 
@@ -1969,7 +1969,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día4/Sesion3/UNFPA/D6/Estados2.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/UNFPA/D6/Estados2.jpeg" width="400%" style="display: block; margin: auto;" />
 
 ## Estimación del indicador D6m (Uso de métodos anticonceptivos) 
 
@@ -2474,7 +2474,7 @@ plot_uni$area$Plot$plot1+ plot_uni$etnia$Plot$plot1)
 ```
 
 
-<img src="Recursos/Día4/Sesion3/0Recursos/D6m/plot_uni.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/0Recursos/D6m/plot_uni.PNG" width="400%" style="display: block; margin: auto;" />
 
 ### Estimación y mapa del indicador D6m. 
 
@@ -2616,7 +2616,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día4/Sesion3/UNFPA/D6m/Estados2.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/UNFPA/D6m/Estados2.jpeg" width="400%" style="display: block; margin: auto;" />
 
 ## Estimación del indicador NI (Necesidades Insatisfechas) 
 
@@ -3114,7 +3114,7 @@ plot_uni$area$Plot$plot1+ plot_uni$etnia$Plot$plot1)
 ```
 
 
-<img src="Recursos/Día4/Sesion3/0Recursos/NI/plot_uni.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/0Recursos/NI/plot_uni.PNG" width="400%" style="display: block; margin: auto;" />
 
 ### Estimación y mapa del indicador. 
 
@@ -3254,7 +3254,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día4/Sesion3/UNFPA/NI/Estados2.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/UNFPA/NI/Estados2.jpeg" width="400%" style="display: block; margin: auto;" />
 
 # Día 4 - Sesión 4- Estimación del indicador D7  
 
@@ -3429,5 +3429,5 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día4/Sesion3/UNFPA/D7/Estados2.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día4/Sesion3/UNFPA/D7/Estados2.jpeg" width="400%" style="display: block; margin: auto;" />
 
