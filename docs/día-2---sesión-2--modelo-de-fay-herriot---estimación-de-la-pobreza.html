@@ -386,12 +386,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Capítulo 6</span> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza<a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>El modelo de Fay Herriot FH, propuesto por Fay y Herriot (1979), es un modelo estadístico de área y es el más comúnmente utilizado, cabe tener en cuenta, que dentro de la metodología de estimación en áreas pequeñas, los modelos de área son los de mayor aplicación, ya que lo más factible es no contar con la información a nivel de individuo, pero si encontrar no solo los datos a nivel de área, sino también información auxiliar asociada a estos datos. Este modelo lineal mixto, fue el primero en incluir efectos aleatorios a nivel de área, lo que implica que la mayoría de la información que se introduce al modelo corresponde a agregaciaciones usualmente, departamentos, regiones, provincias, municipios entre otros, donde las estimaciones que se logran con el modelo se obtienen sobre estas agregaciones o subpoblaciones.</p>
+<p>El modelo de Fay Herriot, propuesto por Fay y Herriot (1979), es un modelo estadístico de área y es el más comúnmente utilizado, cabe tener en cuenta, que dentro de la metodología de estimación en áreas pequeñas, los modelos de área son los de mayor aplicación, ya que lo más factible es no contar con la información a nivel de individuo, pero si encontrar no solo los datos a nivel de área, sino también información auxiliar asociada a estos datos. Este modelo lineal mixto, fue el primero en incluir efectos aleatorios a nivel de área, lo que implica que la mayoría de la información que se introduce al modelo corresponde a agregaciaciones usualmente, departamentos, regiones, provincias, municipios entre otros, donde las estimaciones que se logran con el modelo se obtienen sobre estas agregaciones o subpoblaciones.</p>
 <ul>
-<li>El modelo FH enlaza indicadores de las áreas <span class="math inline">\(\delta_d\)</span>, <span class="math inline">\(d = 1, \cdots , D\)</span>, asumiendo que varían respeto a un vector de <span class="math inline">\(p\)</span> covariables, <span class="math inline">\(\boldsymbol{x}_d\)</span> , de forma constante. El modelo esta dado por la ecuación</li>
+<li>El modelo FH enlaza indicadores de las áreas <span class="math inline">\(\theta_d\)</span>, <span class="math inline">\(d = 1, \cdots , D\)</span>, asumiendo que varían respeto a un vector de <span class="math inline">\(p\)</span> covariables, <span class="math inline">\(\boldsymbol{x}_d\)</span> , de forma constante. El modelo esta dado por la ecuación</li>
 </ul>
 <p><span class="math display">\[
-\delta_d = \boldsymbol{x^T}_d\boldsymbol{\beta} + u_d ,\ \ \ \ \  d = 1, \cdots , D
+\theta_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d ,\ \ \ \ \  d = 1, \cdots , D
 \]</span></p>
 <ul>
 <li><span class="math inline">\(u_d\)</span> es el término de error, o el efecto aleatorio, diferente para cada área dado por</li>
@@ -402,54 +402,54 @@ u_{d} &amp; \stackrel{iid}{\sim} &amp; \left(0,\sigma_{u}^{2}\right)
 \end{eqnarray*}
 \]</span></p>
 <ul>
-<li><p>Sin embargo, los verdaderos valores de los indicadores <span class="math inline">\(\delta_d\)</span> no son observables. Entonces, usamos el estimador directo <span class="math inline">\(\hat{\delta}^{DIR}_d\)</span> para <span class="math inline">\(\delta_d\)</span> , lo que conlleva un error debido al muestro.</p></li>
-<li><p><span class="math inline">\(\hat{\delta}^{DIR}_d\)</span> todavía se considera insesgado bajo el diseño muestral.</p></li>
+<li><p>Sin embargo, los verdaderos valores de los indicadores <span class="math inline">\(\theta_d\)</span> no son observables. Entonces, usamos el estimador directo <span class="math inline">\(\hat{\theta}^{DIR}_d\)</span> para <span class="math inline">\(\theta_d\)</span> , lo que conlleva un error debido al muestro.</p></li>
+<li><p><span class="math inline">\(\hat{\theta}^{DIR}_d\)</span> todavía se considera insesgado bajo el diseño muestral.</p></li>
 <li><p>Podemos definir, entonces,</p></li>
 </ul>
 <p><span class="math display">\[
-\hat{\delta}^{DIR}_d = \delta_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
+\hat{\theta}^{DIR}_d = \theta_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
 \]</span></p>
-<p>donde <span class="math inline">\(e_d\)</span> es el error debido al muestreo, <span class="math inline">\(e_{d} \stackrel{ind}{\sim} \left(0,\psi\right)\)</span></p>
+<p>donde <span class="math inline">\(e_d\)</span> es el error debido al muestreo, <span class="math inline">\(e_{d} \stackrel{ind}{\sim} \left(0,\sigma^2\right)\)</span></p>
 <ul>
-<li><p>Dichas varianzas <span class="math inline">\(\psi_d = var_{\pi}\left(\hat{\delta}^{DIR}_d\mid\delta_d\right)\)</span>, <span class="math inline">\(d = 1,\cdots,D\)</span> se estiman con los microdatos de la encuesta.</p></li>
+<li><p>Dichas varianzas <span class="math inline">\(\sigma^2_d = var_{\mathscr{P}}\left(\hat{\theta}^{DIR}_d\mid\theta_d\right)\)</span>, <span class="math inline">\(d = 1,\cdots,D\)</span> se estiman con los microdatos de la encuesta.</p></li>
 <li><p>Por tanto, el modelo se hace, <span class="math display">\[
-\hat{\delta}^{DIR}_d = \boldsymbol{x^T}_d\boldsymbol{\beta} + u_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
+\hat{\theta}^{DIR}_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
 \]</span></p></li>
-<li><p>El BLUP (best linear unbiased predictor) bajo el modelo FH de <span class="math inline">\(\delta_d\)</span> viene dado por</p></li>
+<li><p>El BLUP (best linear unbiased predictor) bajo el modelo FH de <span class="math inline">\(\theta_d\)</span> viene dado por</p></li>
 </ul>
 <p><span class="math display">\[
     \begin{eqnarray*}
-    \tilde{\delta}_{d}^{FH} &amp; = &amp; \boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
+    \tilde{\theta}_{d}^{FH} &amp; = &amp; \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
     \end{eqnarray*}
 \]</span></p>
 <ul>
-<li><p>Si sustituimos <span class="math inline">\(\tilde{u}_d = \gamma_d\left(\hat{\delta}^{DIR}_d - \boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}} \right)\)</span> en el BLUP bajo el modelo FH, obtenemos <span class="math display">\[
+<li><p>Si sustituimos <span class="math inline">\(\tilde{u}_d = \gamma_d\left(\hat{\theta}^{DIR}_d - \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}} \right)\)</span> en el BLUP bajo el modelo FH, obtenemos <span class="math display">\[
 \begin{eqnarray*}
-\tilde{\delta}_{d}^{FH} &amp; = &amp; \gamma_d\hat{\delta}^{DIR}_{d}+(1-\gamma_d)\boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}}
+\tilde{\theta}_{d}^{FH} &amp; = &amp; \gamma_d\hat{\theta}^{DIR}_{d}+(1-\gamma_d)\boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}
 \end{eqnarray*}
-\]</span> siendo <span class="math inline">\(\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \psi_d}\)</span>.</p></li>
+\]</span> siendo <span class="math inline">\(\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \sigma^2_d}\)</span>.</p></li>
 <li><p>Habitualmente, no sabemos el verdadero valor de <span class="math inline">\(\sigma^2_u\)</span> efectos aleatorios <span class="math inline">\(u_d\)</span>.</p></li>
-<li><p>Sea <span class="math inline">\(\hat{\sigma}^2_u\)</span> un estimador consistente para <span class="math inline">\(\sigma^2_u\)</span>. Entonces, obtenemos el BLUP empírico (empirical BLUP, EBLUP) de <span class="math inline">\(\delta_d\)</span> ,</p></li>
+<li><p>Sea <span class="math inline">\(\hat{\sigma}^2_u\)</span> un estimador consistente para <span class="math inline">\(\sigma^2_u\)</span>. Entonces, obtenemos el BLUP empírico (empirical BLUP, EBLUP) de <span class="math inline">\(\theta_d\)</span> ,</p></li>
 </ul>
 <p><span class="math display">\[
     \begin{eqnarray*}
-    \tilde{\delta}_{d}^{FH} &amp; = &amp; \hat{\gamma_d}\hat{\delta}^{DIR}_{d}+(1-\hat{\gamma_d})\boldsymbol{x_d}^{T}\hat{\boldsymbol{\beta}}
+    \tilde{\theta}_{d}^{FH} &amp; = &amp; \hat{\gamma_d}\hat{\theta}^{DIR}_{d}+(1-\hat{\gamma_d})\boldsymbol{x}^{T}_{d}\hat{\boldsymbol{\beta}}
     \end{eqnarray*}
 \]</span></p>
-<p>donde <span class="math inline">\(\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \psi_d}\)</span>.</p>
+<p>donde <span class="math inline">\(\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}\)</span>.</p>
 <ul>
 <li><span class="math display">\[
 \begin{eqnarray*}
-Y\mid\mu,\sigma_{e} &amp; \sim &amp; N\left(\mu,\sigma_{e}\right)\\
-\mu &amp; = &amp; \boldsymbol{X\beta}+V
+Y_d\mid\theta_d,\sigma^2 &amp; \sim &amp; N\left(\theta,\sigma^2\right)\\
+\theta_d &amp; = &amp; \boldsymbol{x}^{T}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
 \]</span></li>
 </ul>
-<p>donde <span class="math inline">\(V \sim N(0 , \sigma_v)\)</span>.</p>
+<p>donde <span class="math inline">\(u_d \sim N(0 , \sigma^2_u)\)</span>.</p>
 <p>Las distribuciones previas para <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma^2_v\)</span></p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-\beta_k &amp; \sim   &amp; N(0, 10000)\\
+\beta_p &amp; \sim   &amp; N(0, 10000)\\
 \sigma^2_v &amp;\sim &amp; IG(0.0001, 0.0001)
 \end{eqnarray*}
 \]</span></p>

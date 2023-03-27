@@ -703,7 +703,7 @@ dam_pp
 <p>Luego, se crea una variable <code>wkx</code> que corresponde al peso de la observación en la encuesta, y una variable <code>upm</code> que corresponde al identificador del segmento muestral en la encuesta.</p>
 <p>La variable <code>estrato</code> se crea utilizando la función <code>paste0()</code>, que concatena los valores de <code>dam</code> y <code>area_ee</code> (una variable que indica el área geográfica en la que se encuentra la vivienda de la encuesta).</p>
 <p>Finalmente, se crea una variable <code>pobreza</code> que toma el valor 1 si el ingreso de la vivienda es menor que un umbral lp, y 0 en caso contrario.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="proceso-de-benchmark.html#cb97-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Data/encuestaCOL18N1.rds&quot;</span>)<span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="proceso-de-benchmark.html#cb97-1" aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion2/Data/encuestaCOL18N1.rds&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb97-2"><a href="proceso-de-benchmark.html#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
 <span id="cb97-3"><a href="proceso-de-benchmark.html#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dam =</span> dam_ee,</span>
 <span id="cb97-4"><a href="proceso-de-benchmark.html#cb97-4" aria-hidden="true" tabindex="-1"></a>    dam2,</span>
@@ -805,7 +805,7 @@ theta_dir
 05001
 </td>
 <td style="text-align:right;">
-0.1596
+0.1593
 </td>
 <td style="text-align:right;">
 2372330
@@ -825,7 +825,7 @@ theta_dir
 05002
 </td>
 <td style="text-align:right;">
-0.4158
+0.4130
 </td>
 <td style="text-align:right;">
 17599
@@ -845,7 +845,7 @@ theta_dir
 05031
 </td>
 <td style="text-align:right;">
-0.4132
+0.4121
 </td>
 <td style="text-align:right;">
 20265
@@ -865,7 +865,7 @@ theta_dir
 05034
 </td>
 <td style="text-align:right;">
-0.4428
+0.4406
 </td>
 <td style="text-align:right;">
 38144
@@ -885,7 +885,7 @@ theta_dir
 05045
 </td>
 <td style="text-align:right;">
-0.3107
+0.3118
 </td>
 <td style="text-align:right;">
 113469
@@ -905,7 +905,7 @@ theta_dir
 05079
 </td>
 <td style="text-align:right;">
-0.3465
+0.3475
 </td>
 <td style="text-align:right;">
 44757
@@ -925,7 +925,7 @@ theta_dir
 05088
 </td>
 <td style="text-align:right;">
-0.1331
+0.1317
 </td>
 <td style="text-align:right;">
 481901
@@ -945,7 +945,7 @@ theta_dir
 05093
 </td>
 <td style="text-align:right;">
-0.3910
+0.3891
 </td>
 <td style="text-align:right;">
 15097
@@ -965,7 +965,7 @@ theta_dir
 05120
 </td>
 <td style="text-align:right;">
-0.6753
+0.6760
 </td>
 <td style="text-align:right;">
 26460
@@ -985,7 +985,7 @@ theta_dir
 05129
 </td>
 <td style="text-align:right;">
-0.1181
+0.1189
 </td>
 <td style="text-align:right;">
 76260
@@ -1004,29 +1004,22 @@ theta_dir
 </ol>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="proceso-de-benchmark.html#cb100-1" aria-hidden="true" tabindex="-1"></a>R_dam2 <span class="ot">&lt;-</span> temp <span class="sc">%&gt;%</span> </span>
 <span id="cb100-2"><a href="proceso-de-benchmark.html#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb100-3"><a href="proceso-de-benchmark.html#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_dam_RB =</span> <span class="fu">unique</span>(theta_dir) <span class="sc">/</span> <span class="fu">sum</span>((total_pp  <span class="sc">/</span> dam_pp) <span class="sc">*</span> theta_pred),</span>
-<span id="cb100-4"><a href="proceso-de-benchmark.html#cb100-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_dam_DB =</span> <span class="fu">unique</span>(theta_dir) <span class="sc">-</span> <span class="fu">sum</span>((total_pp  <span class="sc">/</span> dam_pp) <span class="sc">*</span> theta_pred)</span>
-<span id="cb100-5"><a href="proceso-de-benchmark.html#cb100-5" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb100-6"><a href="proceso-de-benchmark.html#cb100-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb100-7"><a href="proceso-de-benchmark.html#cb100-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(R_dam2)</span></code></pre></div>
+<span id="cb100-3"><a href="proceso-de-benchmark.html#cb100-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_dam_RB =</span> <span class="fu">unique</span>(theta_dir) <span class="sc">/</span> <span class="fu">sum</span>((total_pp  <span class="sc">/</span> dam_pp) <span class="sc">*</span> theta_pred)</span>
+<span id="cb100-4"><a href="proceso-de-benchmark.html#cb100-4" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb100-5"><a href="proceso-de-benchmark.html#cb100-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-6"><a href="proceso-de-benchmark.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(R_dam2)</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
 R_dam_RB
 </th>
-<th style="text-align:right;">
-R_dam_DB
-</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:right;">
-1.0148
-</td>
-<td style="text-align:right;">
-0.0044
+1.0156
 </td>
 </tr>
 </tbody>
@@ -1173,10 +1166,10 @@ theta_pred_RBench
 0.0537
 </td>
 <td style="text-align:right;">
-0.1596
+0.1593
 </td>
 <td style="text-align:right;">
-0.1619
+0.1618
 </td>
 </tr>
 <tr>
@@ -1190,10 +1183,10 @@ theta_pred_RBench
 0.0004
 </td>
 <td style="text-align:right;">
-0.4158
+0.4130
 </td>
 <td style="text-align:right;">
-0.4220
+0.4194
 </td>
 </tr>
 <tr>
@@ -1207,10 +1200,10 @@ theta_pred_RBench
 0.0005
 </td>
 <td style="text-align:right;">
-0.4132
+0.4121
 </td>
 <td style="text-align:right;">
-0.4193
+0.4185
 </td>
 </tr>
 <tr>
@@ -1224,10 +1217,10 @@ theta_pred_RBench
 0.0009
 </td>
 <td style="text-align:right;">
-0.4428
+0.4406
 </td>
 <td style="text-align:right;">
-0.4494
+0.4474
 </td>
 </tr>
 <tr>
@@ -1241,10 +1234,10 @@ theta_pred_RBench
 0.0026
 </td>
 <td style="text-align:right;">
-0.3107
+0.3118
 </td>
 <td style="text-align:right;">
-0.3153
+0.3166
 </td>
 </tr>
 <tr>
@@ -1258,10 +1251,10 @@ theta_pred_RBench
 0.0010
 </td>
 <td style="text-align:right;">
-0.3465
+0.3475
 </td>
 <td style="text-align:right;">
-0.3516
+0.3529
 </td>
 </tr>
 <tr>
@@ -1275,10 +1268,10 @@ theta_pred_RBench
 0.0109
 </td>
 <td style="text-align:right;">
-0.1331
+0.1317
 </td>
 <td style="text-align:right;">
-0.1351
+0.1337
 </td>
 </tr>
 <tr>
@@ -1292,10 +1285,10 @@ theta_pred_RBench
 0.0003
 </td>
 <td style="text-align:right;">
-0.3910
+0.3891
 </td>
 <td style="text-align:right;">
-0.3968
+0.3952
 </td>
 </tr>
 <tr>
@@ -1309,10 +1302,10 @@ theta_pred_RBench
 0.0006
 </td>
 <td style="text-align:right;">
-0.6753
+0.6760
 </td>
 <td style="text-align:right;">
-0.6853
+0.6866
 </td>
 </tr>
 <tr>
@@ -1326,10 +1319,10 @@ theta_pred_RBench
 0.0017
 </td>
 <td style="text-align:right;">
-0.1181
+0.1189
 </td>
 <td style="text-align:right;">
-0.1199
+0.1207
 </td>
 </tr>
 </tbody>

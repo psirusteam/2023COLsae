@@ -3,13 +3,13 @@
 
 
 
-El modelo de Fay Herriot FH, propuesto por Fay y Herriot (1979), es un modelo estadístico de área y es el más comúnmente utilizado, cabe tener en cuenta, que dentro de la metodología de estimación en áreas pequeñas, los modelos de área son los de mayor aplicación, ya que lo más factible es no contar con la información a nivel de individuo, pero si encontrar no solo los datos a nivel de área, sino también información auxiliar asociada a estos datos. Este modelo lineal mixto, fue el primero en incluir efectos aleatorios a nivel de área, lo que implica que la mayoría de la información que se introduce al modelo corresponde a agregaciaciones usualmente, departamentos, regiones, provincias, municipios entre otros, donde las estimaciones que se logran con el modelo se obtienen sobre estas agregaciones o subpoblaciones.
+El modelo de Fay Herriot, propuesto por Fay y Herriot (1979), es un modelo estadístico de área y es el más comúnmente utilizado, cabe tener en cuenta, que dentro de la metodología de estimación en áreas pequeñas, los modelos de área son los de mayor aplicación, ya que lo más factible es no contar con la información a nivel de individuo, pero si encontrar no solo los datos a nivel de área, sino también información auxiliar asociada a estos datos. Este modelo lineal mixto, fue el primero en incluir efectos aleatorios a nivel de área, lo que implica que la mayoría de la información que se introduce al modelo corresponde a agregaciaciones usualmente, departamentos, regiones, provincias, municipios entre otros, donde las estimaciones que se logran con el modelo se obtienen sobre estas agregaciones o subpoblaciones.
 
 
--   El modelo FH enlaza indicadores de las áreas $\delta_d$, $d = 1, \cdots , D$, asumiendo que varían respeto a un vector de $p$ covariables, $\boldsymbol{x}_d$ , de forma constante. El modelo esta dado por la ecuación
+-   El modelo FH enlaza indicadores de las áreas $\theta_d$, $d = 1, \cdots , D$, asumiendo que varían respeto a un vector de $p$ covariables, $\boldsymbol{x}_d$ , de forma constante. El modelo esta dado por la ecuación
 
 $$
-\delta_d = \boldsymbol{x^T}_d\boldsymbol{\beta} + u_d ,\ \ \ \ \  d = 1, \cdots , D
+\theta_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d ,\ \ \ \ \  d = 1, \cdots , D
 $$ 
 
 - $u_d$ es el término de error, o el efecto aleatorio, diferente para cada área dado por
@@ -20,65 +20,65 @@ u_{d} & \stackrel{iid}{\sim} & \left(0,\sigma_{u}^{2}\right)
 \end{eqnarray*}
 $$
 
--   Sin embargo, los verdaderos valores de los indicadores $\delta_d$ no son observables. Entonces, usamos el estimador directo $\hat{\delta}^{DIR}_d$ para $\delta_d$ , lo que conlleva un error debido al muestro.
+-   Sin embargo, los verdaderos valores de los indicadores $\theta_d$ no son observables. Entonces, usamos el estimador directo $\hat{\theta}^{DIR}_d$ para $\theta_d$ , lo que conlleva un error debido al muestro.
 
--   $\hat{\delta}^{DIR}_d$ todavía se considera insesgado bajo el diseño muestral.
+-   $\hat{\theta}^{DIR}_d$ todavía se considera insesgado bajo el diseño muestral.
 
 -   Podemos definir, entonces, 
 
 $$
-\hat{\delta}^{DIR}_d = \delta_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D 
+\hat{\theta}^{DIR}_d = \theta_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D 
 $$ 
     
-donde $e_d$ es el error debido al muestreo, $e_{d} \stackrel{ind}{\sim} \left(0,\psi\right)$
+donde $e_d$ es el error debido al muestreo, $e_{d} \stackrel{ind}{\sim} \left(0,\sigma^2\right)$
 
--   Dichas varianzas $\psi_d = var_{\pi}\left(\hat{\delta}^{DIR}_d\mid\delta_d\right)$, $d = 1,\cdots,D$ se estiman con los microdatos de la encuesta.
+-   Dichas varianzas $\sigma^2_d = var_{\mathscr{P}}\left(\hat{\theta}^{DIR}_d\mid\theta_d\right)$, $d = 1,\cdots,D$ se estiman con los microdatos de la encuesta.
 
 -   Por tanto, el modelo se hace, $$
-    \hat{\delta}^{DIR}_d = \boldsymbol{x^T}_d\boldsymbol{\beta} + u_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
+    \hat{\theta}^{DIR}_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
     $$
 
--   El BLUP (best linear unbiased predictor) bajo el modelo FH de $\delta_d$ viene dado por
+-   El BLUP (best linear unbiased predictor) bajo el modelo FH de $\theta_d$ viene dado por
 
 $$
     \begin{eqnarray*}
-    \tilde{\delta}_{d}^{FH} & = & \boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
+    \tilde{\theta}_{d}^{FH} & = & \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
     \end{eqnarray*}
 $$
 
--   Si sustituimos $\tilde{u}_d = \gamma_d\left(\hat{\delta}^{DIR}_d - \boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}} \right)$ en el BLUP bajo el modelo FH, obtenemos $$
+-   Si sustituimos $\tilde{u}_d = \gamma_d\left(\hat{\theta}^{DIR}_d - \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}} \right)$ en el BLUP bajo el modelo FH, obtenemos $$
     \begin{eqnarray*}
-    \tilde{\delta}_{d}^{FH} & = & \gamma_d\hat{\delta}^{DIR}_{d}+(1-\gamma_d)\boldsymbol{x_d}^{T}\tilde{\boldsymbol{\beta}}
+    \tilde{\theta}_{d}^{FH} & = & \gamma_d\hat{\theta}^{DIR}_{d}+(1-\gamma_d)\boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}
     \end{eqnarray*}
-    $$ siendo $\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \psi_d}$.
+    $$ siendo $\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \sigma^2_d}$.
 
 -   Habitualmente, no sabemos el verdadero valor de $\sigma^2_u$ efectos aleatorios $u_d$.
 
--   Sea $\hat{\sigma}^2_u$ un estimador consistente para $\sigma^2_u$. Entonces, obtenemos el BLUP empírico (empirical BLUP, EBLUP) de $\delta_d$ ,
+-   Sea $\hat{\sigma}^2_u$ un estimador consistente para $\sigma^2_u$. Entonces, obtenemos el BLUP empírico (empirical BLUP, EBLUP) de $\theta_d$ ,
 
 $$
     \begin{eqnarray*}
-    \tilde{\delta}_{d}^{FH} & = & \hat{\gamma_d}\hat{\delta}^{DIR}_{d}+(1-\hat{\gamma_d})\boldsymbol{x_d}^{T}\hat{\boldsymbol{\beta}}
+    \tilde{\theta}_{d}^{FH} & = & \hat{\gamma_d}\hat{\theta}^{DIR}_{d}+(1-\hat{\gamma_d})\boldsymbol{x}^{T}_{d}\hat{\boldsymbol{\beta}}
     \end{eqnarray*}
 $$
 
-donde $\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \psi_d}$.
+donde $\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}$.
 
 -  
 $$
 \begin{eqnarray*}
-Y\mid\mu,\sigma_{e} & \sim & N\left(\mu,\sigma_{e}\right)\\
-\mu & = & \boldsymbol{X\beta}+V
+Y_d\mid\theta_d,\sigma^2 & \sim & N\left(\theta,\sigma^2\right)\\
+\theta_d & = & \boldsymbol{x}^{T}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
 $$
 
-donde $V \sim N(0 , \sigma_v)$.
+donde $u_d \sim N(0 , \sigma^2_u)$.
 
 Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_v$
 
 $$
 \begin{eqnarray*}
-\beta_k & \sim   & N(0, 10000)\\
+\beta_p & \sim   & N(0, 10000)\\
 \sigma^2_v &\sim & IG(0.0001, 0.0001)
 \end{eqnarray*}
 $$
@@ -460,27 +460,22 @@ data {
   vector[N1] sigma_e; // known variances
 }
 
-// The parameters accepted by the model. Our model
-// accepts two parameters 'mu' and 'sigma'.
 parameters {
   vector[p] beta;       // coefficients for predictors
-  real<lower=0> sigma2_v;
-  vector[N1] v;
+  real<lower=0> sigma2_u;
+  vector[N1] u;
 }
 
 transformed parameters{
-  vector[N1] theta;         
+  vector[N1] theta;
   vector[N1] thetaSyn;
   vector[N1] thetaFH;
   vector[N1] gammaj;
-  
-  real<lower=0> sigma_v;
+  real<lower=0> sigma_u;
   thetaSyn = X * beta;
-  theta = thetaSyn + v;
-  sigma_v = sqrt(sigma2_v);
-  
-  gammaj =  to_vector(sigma_v ./ (sigma_v + sigma_e));
-  
+  theta = thetaSyn + u;
+  sigma_u = sqrt(sigma2_u);
+  gammaj =  to_vector(sigma_u ./ (sigma_u + sigma_e));
   thetaFH = (gammaj) .* y + (1-gammaj).*thetaSyn; 
 }
 
@@ -489,14 +484,14 @@ model {
   y ~ normal(theta, sigma_e); 
   // priors
   beta ~ normal(0, 100);
-  v ~ normal(0, sigma_v);
-  sigma2_v ~ inv_gamma(0.0001, 0.0001);
+  u ~ normal(0, sigma_u);
+  sigma2_u ~ inv_gamma(0.0001, 0.0001);
 }
 
 generated quantities{
   vector[N2] y_pred;
   for(j in 1:N2) {
-    y_pred[j] = normal_rng(Xs[j] * beta, sigma_v);
+    y_pred[j] = normal_rng(Xs[j] * beta, sigma_u);
   }
 }
 ```
@@ -555,19 +550,21 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(data_dir$pobreza), y_pred2)
 ```
 
-<img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
+
+<img src="Recursos/Día2/Sesion2/0Recursos/FH1.png" width="200%" />
 
 Análisis gráfico de la convergencia de las cadenas de $\sigma^2_V$. 
 
 
 ```r
-posterior_sigma2_v <- as.array(model_FH_normal, pars = "sigma2_v")
-(mcmc_dens_chains(posterior_sigma2_v) +
-    mcmc_areas(posterior_sigma2_v) ) / 
-  mcmc_trace(posterior_sigma2_v)
+posterior_sigma2_u <- as.array(model_FH_normal, pars = "sigma2_u")
+(mcmc_dens_chains(posterior_sigma2_u) +
+    mcmc_areas(posterior_sigma2_u) ) / 
+  mcmc_trace(posterior_sigma2_u)
 ```
 
-<img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-13-1.svg" width="672" />
+
+<img src="Recursos/Día2/Sesion2/0Recursos/FH2.png" width="200%" />
 
 Como método de validación se comparan las diferentes elementos de la estimación del modelo de FH obtenidos en `STAN`
 
@@ -617,7 +614,8 @@ p22 <- ggplot(data_dir, aes(x = thetadir, y = thetaSyn)) +
 (p11+p12)/(p21+p22)
 ```
 
-<img src="04-D2S2_Fay_Herriot_normal_files/figure-html/unnamed-chunk-14-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion2/0Recursos/FH3.png" width="200%" />
+
 
 Estimación del FH de la pobreza en los dominios NO observados. 
 
@@ -660,11 +658,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.3515 </td>
-   <td style="text-align:right;"> 0.3515 </td>
-   <td style="text-align:right;"> 0.3515 </td>
-   <td style="text-align:right;"> 0.1055 </td>
-   <td style="text-align:right;"> 0.3002 </td>
+   <td style="text-align:right;"> 0.3469 </td>
+   <td style="text-align:right;"> 0.3469 </td>
+   <td style="text-align:right;"> 0.3469 </td>
+   <td style="text-align:right;"> 0.1030 </td>
+   <td style="text-align:right;"> 0.2970 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05021 </td>
@@ -672,11 +670,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.4323 </td>
-   <td style="text-align:right;"> 0.4323 </td>
-   <td style="text-align:right;"> 0.4323 </td>
-   <td style="text-align:right;"> 0.1045 </td>
-   <td style="text-align:right;"> 0.2419 </td>
+   <td style="text-align:right;"> 0.4319 </td>
+   <td style="text-align:right;"> 0.4319 </td>
+   <td style="text-align:right;"> 0.4319 </td>
+   <td style="text-align:right;"> 0.1053 </td>
+   <td style="text-align:right;"> 0.2439 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05030 </td>
@@ -684,11 +682,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.2837 </td>
-   <td style="text-align:right;"> 0.2837 </td>
-   <td style="text-align:right;"> 0.2837 </td>
-   <td style="text-align:right;"> 0.1027 </td>
-   <td style="text-align:right;"> 0.3620 </td>
+   <td style="text-align:right;"> 0.2832 </td>
+   <td style="text-align:right;"> 0.2832 </td>
+   <td style="text-align:right;"> 0.2832 </td>
+   <td style="text-align:right;"> 0.1082 </td>
+   <td style="text-align:right;"> 0.3822 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05036 </td>
@@ -696,11 +694,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.3843 </td>
-   <td style="text-align:right;"> 0.3843 </td>
-   <td style="text-align:right;"> 0.3843 </td>
-   <td style="text-align:right;"> 0.1013 </td>
-   <td style="text-align:right;"> 0.2636 </td>
+   <td style="text-align:right;"> 0.3834 </td>
+   <td style="text-align:right;"> 0.3834 </td>
+   <td style="text-align:right;"> 0.3834 </td>
+   <td style="text-align:right;"> 0.1054 </td>
+   <td style="text-align:right;"> 0.2750 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05038 </td>
@@ -708,11 +706,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.5248 </td>
-   <td style="text-align:right;"> 0.5248 </td>
-   <td style="text-align:right;"> 0.5248 </td>
-   <td style="text-align:right;"> 0.1028 </td>
-   <td style="text-align:right;"> 0.1959 </td>
+   <td style="text-align:right;"> 0.5236 </td>
+   <td style="text-align:right;"> 0.5236 </td>
+   <td style="text-align:right;"> 0.5236 </td>
+   <td style="text-align:right;"> 0.1077 </td>
+   <td style="text-align:right;"> 0.2057 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05040 </td>
@@ -720,11 +718,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.5419 </td>
-   <td style="text-align:right;"> 0.5419 </td>
-   <td style="text-align:right;"> 0.5419 </td>
-   <td style="text-align:right;"> 0.1037 </td>
-   <td style="text-align:right;"> 0.1913 </td>
+   <td style="text-align:right;"> 0.5465 </td>
+   <td style="text-align:right;"> 0.5465 </td>
+   <td style="text-align:right;"> 0.5465 </td>
+   <td style="text-align:right;"> 0.1027 </td>
+   <td style="text-align:right;"> 0.1880 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05042 </td>
@@ -732,11 +730,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.3892 </td>
-   <td style="text-align:right;"> 0.3892 </td>
-   <td style="text-align:right;"> 0.3892 </td>
-   <td style="text-align:right;"> 0.1054 </td>
-   <td style="text-align:right;"> 0.2708 </td>
+   <td style="text-align:right;"> 0.3832 </td>
+   <td style="text-align:right;"> 0.3832 </td>
+   <td style="text-align:right;"> 0.3832 </td>
+   <td style="text-align:right;"> 0.1058 </td>
+   <td style="text-align:right;"> 0.2761 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05044 </td>
@@ -744,11 +742,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.5291 </td>
-   <td style="text-align:right;"> 0.5291 </td>
-   <td style="text-align:right;"> 0.5291 </td>
-   <td style="text-align:right;"> 0.1084 </td>
-   <td style="text-align:right;"> 0.2048 </td>
+   <td style="text-align:right;"> 0.5298 </td>
+   <td style="text-align:right;"> 0.5298 </td>
+   <td style="text-align:right;"> 0.5298 </td>
+   <td style="text-align:right;"> 0.1029 </td>
+   <td style="text-align:right;"> 0.1942 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05051 </td>
@@ -756,11 +754,11 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.5071 </td>
-   <td style="text-align:right;"> 0.5071 </td>
-   <td style="text-align:right;"> 0.5071 </td>
-   <td style="text-align:right;"> 0.1041 </td>
-   <td style="text-align:right;"> 0.2052 </td>
+   <td style="text-align:right;"> 0.5076 </td>
+   <td style="text-align:right;"> 0.5076 </td>
+   <td style="text-align:right;"> 0.5076 </td>
+   <td style="text-align:right;"> 0.1033 </td>
+   <td style="text-align:right;"> 0.2036 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05055 </td>
@@ -768,14 +766,16 @@ tba(data_syn %>% slice(1:10) %>%
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
    <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> 0.4901 </td>
-   <td style="text-align:right;"> 0.4901 </td>
-   <td style="text-align:right;"> 0.4901 </td>
-   <td style="text-align:right;"> 0.1019 </td>
-   <td style="text-align:right;"> 0.2078 </td>
+   <td style="text-align:right;"> 0.4925 </td>
+   <td style="text-align:right;"> 0.4925 </td>
+   <td style="text-align:right;"> 0.4925 </td>
+   <td style="text-align:right;"> 0.0993 </td>
+   <td style="text-align:right;"> 0.2016 </td>
   </tr>
 </tbody>
 </table>
+
+
 
 consolidando las bases de estimaciones para dominios observados y NO observados. 
 
@@ -948,7 +948,7 @@ Finalmente, se crea una variable `pobreza` que toma el valor 1 si el ingreso de 
 
 
 ```r
-encuesta <- readRDS("Recursos/Día2/Sesion2/Data/encuestaCOL18N1.rds")%>% 
+encuesta <- readRDS("Recursos/Día2/Sesion2/Data/encuestaCOL18N1.rds") %>% 
   transmute(
     dam = dam_ee,
     dam2,
@@ -1029,7 +1029,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05001 </td>
-   <td style="text-align:right;"> 0.1596 </td>
+   <td style="text-align:right;"> 0.1593 </td>
    <td style="text-align:right;"> 2372330 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1037,7 +1037,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05002 </td>
-   <td style="text-align:right;"> 0.4158 </td>
+   <td style="text-align:right;"> 0.4130 </td>
    <td style="text-align:right;"> 17599 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1045,7 +1045,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05031 </td>
-   <td style="text-align:right;"> 0.4132 </td>
+   <td style="text-align:right;"> 0.4121 </td>
    <td style="text-align:right;"> 20265 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1053,7 +1053,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05034 </td>
-   <td style="text-align:right;"> 0.4428 </td>
+   <td style="text-align:right;"> 0.4406 </td>
    <td style="text-align:right;"> 38144 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1061,7 +1061,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05045 </td>
-   <td style="text-align:right;"> 0.3107 </td>
+   <td style="text-align:right;"> 0.3118 </td>
    <td style="text-align:right;"> 113469 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1069,7 +1069,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05079 </td>
-   <td style="text-align:right;"> 0.3465 </td>
+   <td style="text-align:right;"> 0.3475 </td>
    <td style="text-align:right;"> 44757 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1077,7 +1077,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05088 </td>
-   <td style="text-align:right;"> 0.1331 </td>
+   <td style="text-align:right;"> 0.1317 </td>
    <td style="text-align:right;"> 481901 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1085,7 +1085,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05093 </td>
-   <td style="text-align:right;"> 0.3910 </td>
+   <td style="text-align:right;"> 0.3891 </td>
    <td style="text-align:right;"> 15097 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1093,7 +1093,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05120 </td>
-   <td style="text-align:right;"> 0.6753 </td>
+   <td style="text-align:right;"> 0.6760 </td>
    <td style="text-align:right;"> 26460 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1101,7 +1101,7 @@ tba(temp %>% slice(1:10))
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05129 </td>
-   <td style="text-align:right;"> 0.1181 </td>
+   <td style="text-align:right;"> 0.1189 </td>
    <td style="text-align:right;"> 76260 </td>
    <td style="text-align:right;"> 44164417 </td>
    <td style="text-align:right;"> 0.2986 </td>
@@ -1115,8 +1115,7 @@ tba(temp %>% slice(1:10))
 ```r
 R_dam2 <- temp %>% 
   summarise(
-  R_dam_RB = unique(theta_dir) / sum((total_pp  / dam_pp) * theta_pred),
-  R_dam_DB = unique(theta_dir) - sum((total_pp  / dam_pp) * theta_pred)
+  R_dam_RB = unique(theta_dir) / sum((total_pp  / dam_pp) * theta_pred)
 ) 
 
 tba(R_dam2)
@@ -1126,13 +1125,11 @@ tba(R_dam2)
  <thead>
   <tr>
    <th style="text-align:right;"> R_dam_RB </th>
-   <th style="text-align:right;"> R_dam_DB </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:right;"> 1.0148 </td>
-   <td style="text-align:right;"> 0.0044 </td>
+   <td style="text-align:right;"> 1.0156 </td>
   </tr>
 </tbody>
 </table>
@@ -1228,71 +1225,71 @@ estimacionesBench <- estimacionesPre %>%
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05001 </td>
    <td style="text-align:right;"> 0.0537 </td>
-   <td style="text-align:right;"> 0.1596 </td>
-   <td style="text-align:right;"> 0.1619 </td>
+   <td style="text-align:right;"> 0.1593 </td>
+   <td style="text-align:right;"> 0.1618 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05002 </td>
    <td style="text-align:right;"> 0.0004 </td>
-   <td style="text-align:right;"> 0.4158 </td>
-   <td style="text-align:right;"> 0.4220 </td>
+   <td style="text-align:right;"> 0.4130 </td>
+   <td style="text-align:right;"> 0.4194 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05031 </td>
    <td style="text-align:right;"> 0.0005 </td>
-   <td style="text-align:right;"> 0.4132 </td>
-   <td style="text-align:right;"> 0.4193 </td>
+   <td style="text-align:right;"> 0.4121 </td>
+   <td style="text-align:right;"> 0.4185 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05034 </td>
    <td style="text-align:right;"> 0.0009 </td>
-   <td style="text-align:right;"> 0.4428 </td>
-   <td style="text-align:right;"> 0.4494 </td>
+   <td style="text-align:right;"> 0.4406 </td>
+   <td style="text-align:right;"> 0.4474 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05045 </td>
    <td style="text-align:right;"> 0.0026 </td>
-   <td style="text-align:right;"> 0.3107 </td>
-   <td style="text-align:right;"> 0.3153 </td>
+   <td style="text-align:right;"> 0.3118 </td>
+   <td style="text-align:right;"> 0.3166 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05079 </td>
    <td style="text-align:right;"> 0.0010 </td>
-   <td style="text-align:right;"> 0.3465 </td>
-   <td style="text-align:right;"> 0.3516 </td>
+   <td style="text-align:right;"> 0.3475 </td>
+   <td style="text-align:right;"> 0.3529 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05088 </td>
    <td style="text-align:right;"> 0.0109 </td>
-   <td style="text-align:right;"> 0.1331 </td>
-   <td style="text-align:right;"> 0.1351 </td>
+   <td style="text-align:right;"> 0.1317 </td>
+   <td style="text-align:right;"> 0.1337 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05093 </td>
    <td style="text-align:right;"> 0.0003 </td>
-   <td style="text-align:right;"> 0.3910 </td>
-   <td style="text-align:right;"> 0.3968 </td>
+   <td style="text-align:right;"> 0.3891 </td>
+   <td style="text-align:right;"> 0.3952 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05120 </td>
    <td style="text-align:right;"> 0.0006 </td>
-   <td style="text-align:right;"> 0.6753 </td>
-   <td style="text-align:right;"> 0.6853 </td>
+   <td style="text-align:right;"> 0.6760 </td>
+   <td style="text-align:right;"> 0.6866 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05 </td>
    <td style="text-align:left;"> 05129 </td>
    <td style="text-align:right;"> 0.0017 </td>
-   <td style="text-align:right;"> 0.1181 </td>
-   <td style="text-align:right;"> 0.1199 </td>
+   <td style="text-align:right;"> 0.1189 </td>
+   <td style="text-align:right;"> 0.1207 </td>
   </tr>
 </tbody>
 </table>
@@ -1359,13 +1356,13 @@ tba(temp)
    <td style="text-align:right;"> 0.2935 </td>
    <td style="text-align:right;"> 0.3038 </td>
    <td style="text-align:left;"> thetaSyn </td>
-   <td style="text-align:right;"> 0.2965 </td>
+   <td style="text-align:right;"> 0.2955 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 0.2935 </td>
    <td style="text-align:right;"> 0.3038 </td>
    <td style="text-align:left;"> thetaFH </td>
-   <td style="text-align:right;"> 0.2943 </td>
+   <td style="text-align:right;"> 0.2941 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 0.2935 </td>

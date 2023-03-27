@@ -655,28 +655,28 @@ sigma
 </div>
 <div id="modelo-multinomial" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Modelo Multinomial<a href="modelos-multiparamétricos.html#modelo-multinomial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>En esta sección discutimos el modelamiento bayesiano de datos provenientes de una distribución multinomial que corresponde a una extensión multivariada de la distribución binomial. Suponga que <span class="math inline">\(\textbf{Y}=(Y_1,\ldots,Y_p)&#39;\)</span> es un vector aleatorio con distribución multinomial, así, su distribución está parametrizada por el vector <span class="math inline">\(\boldsymbol{\theta}=(\theta_1,\ldots,\theta_p)&#39;\)</span> y está dada por la siguiente expresión</p>
+<p>En esta sección discutimos el modelamiento bayesiano de datos provenientes de una distribución multinomial que corresponde a una extensión multivariada de la distribución binomial. Suponga que <span class="math inline">\(\textbf{Y}=(Y_1,\ldots,Y_K)^{T}\)</span> es un vector aleatorio con distribución multinomial, así, su distribución está parametrizada por el vector <span class="math inline">\(\boldsymbol{\theta}=(\theta_1,\ldots,\theta_K)^{T}\)</span> y está dada por la siguiente expresión</p>
 <p><span class="math display">\[
 \begin{equation}
-p(\mathbf{Y} \mid \boldsymbol{\theta})=\binom{n}{y_1,\ldots,y_p}\prod_{i=1}^p\theta_i^{y_i} \ \ \ \ \ \theta_i&gt;0 \texttt{ , }  \sum_{i=1}^py_i=n \texttt{ y } \sum_{i=1}^p\theta_i=1
+p(\mathbf{Y} \mid \boldsymbol{\theta})=\binom{n}{y_1,\ldots,y_K}\prod_{k=1}^K\theta_k^{y_k} \ \ \ \ \ \theta_k&gt;0 \texttt{ , }  \sum_{k=1}^{K}y_k=n \texttt{ y } \sum_{k=1}^K\theta_k=1
 \end{equation}
 \]</span> Donde</p>
 <p><span class="math display">\[
 \begin{equation*}
-\binom{n}{y_1,\ldots,y_p}=\frac{n!}{y_1!\cdots y_p!}.
+\binom{n}{y_1,\ldots,y_K}=\frac{n!}{y_1!\cdots y_K!}.
 \end{equation*}
 \]</span></p>
-<p>Como cada parámetro <span class="math inline">\(\theta_i\)</span> está restringido al espacio <span class="math inline">\(\Theta=[0,1]\)</span>, entonces es posible asignar a la distribución de Dirichlet como la distribución previa del vector de parámetros. Por lo tanto la distribución previa del vector de parámetros <span class="math inline">\(\boldsymbol{\theta}\)</span>, parametrizada por el vector de hiperparámetros <span class="math inline">\(\boldsymbol{\alpha}=(\alpha_1,\ldots,\alpha_p)&#39;\)</span>, está dada por</p>
+<p>Como cada parámetro <span class="math inline">\(\theta_k\)</span> está restringido al espacio <span class="math inline">\(\Theta=[0,1]\)</span>, entonces es posible asignar a la distribución de Dirichlet como la distribución previa del vector de parámetros. Por lo tanto la distribución previa del vector de parámetros <span class="math inline">\(\boldsymbol{\theta}\)</span>, parametrizada por el vector de hiperparámetros <span class="math inline">\(\boldsymbol{\alpha}=(\alpha_1,\ldots,\alpha_K)^{T}\)</span>, está dada por</p>
 <p><span class="math display">\[
 \begin{equation}
-p(\boldsymbol{\theta} \mid \boldsymbol{\alpha})=\frac{\Gamma(\alpha_1+\cdots+\alpha_p)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_p)}
-  \prod_{i=1}^p\theta_i^{\alpha_i-1} \ \ \ \ \ \alpha_i&gt;0 \texttt{ y } \sum_{i=1}^p\theta_i=1
+p(\boldsymbol{\theta} \mid \boldsymbol{\alpha})=\frac{\Gamma(\alpha_1+\cdots+\alpha_K)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_K)}
+  \prod_{k=1}^K\theta_k^{\alpha_k-1} \ \ \ \ \ \alpha_k&gt;0 \texttt{ y } \sum_{k=1}^K\theta_k=1
 \end{equation}
 \]</span></p>
-<p>La distribución posterior del parámetro <span class="math inline">\(\boldsymbol{\theta}\)</span> sigue una distribución <span class="math inline">\(Dirichlet(y_1+\alpha_1,\ldots,y_p+\alpha_p)\)</span></p>
+<p>La distribución posterior del parámetro <span class="math inline">\(\boldsymbol{\theta}\)</span> sigue una distribución <span class="math inline">\(Dirichlet(y_1+\alpha_1,\ldots,y_K+\alpha_K)\)</span></p>
 <div id="obejtivo-4" class="section level4 unnumbered hasAnchor">
 <h4>Obejtivo<a href="modelos-multiparamétricos.html#obejtivo-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Sea <span class="math inline">\(N_1\)</span> el número de personas ocupadas, <span class="math inline">\(N_2\)</span> Número de personas desocupadas, <span class="math inline">\(N_3\)</span> es el número de personas inactivas en la población y <span class="math inline">\(N = N_1 +N_2 + N_3\)</span>. Entonces el objetivo es estimar el vector de parámetros <span class="math inline">\(\boldsymbol{P}=\left(P_{1},P_{2},P_{3}\right)\)</span>, con <span class="math inline">\(P_{k}=\frac{N_{k}}{N}\)</span>, para <span class="math inline">\(k=1,2,3\)</span>,</p>
+<p>Sea <span class="math inline">\(N_1\)</span> el número de personas ocupadas, <span class="math inline">\(N_2\)</span> Número de personas desocupadas, <span class="math inline">\(N_3\)</span> es el número de personas inactivas en la población y <span class="math inline">\(N = N_1 +N_2 + N_3\)</span> el número de personas en la población. Entonces el objetivo es estimar el vector de parámetros <span class="math inline">\(\boldsymbol{P}=\left(P_{1},P_{2},P_{3}\right)\)</span>, con <span class="math inline">\(P_{k}=\frac{N_{k}}{N}\)</span>, para <span class="math inline">\(k=1,2,3\)</span>,</p>
 <p>El estimador de <span class="math inline">\(\boldsymbol{P}\)</span> esta dado por
 <span class="math display">\[
 \hat{\boldsymbol{P}} =\left(\hat{P}_{1},\hat{P}_{2},\hat{P}_{3}\right)
@@ -997,7 +997,7 @@ theta[3]
 <span id="cb64-5"><a href="modelos-multiparamétricos.html#cb64-5" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">50</span>)</span>
 <span id="cb64-6"><a href="modelos-multiparamétricos.html#cb64-6" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[, <span class="dv">1</span><span class="sc">:</span>n]</span>
 <span id="cb64-7"><a href="modelos-multiparamétricos.html#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(dataMult<span class="sc">$</span>n), y_pred2)</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa1/Sesion4/0Recursos/Multinomial/ppc_multinomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa1/Sesion4/0Recursos/Multinomial/ppc_multinomial.PNG" width="200%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
