@@ -387,18 +387,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="definición-del-modelo" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> Definición del modelo<a href="definición-del-modelo.html#definición-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En muchas aplicaciones, la variable de interés en áreas pequeñas puede ser binaria, esto es <span class="math inline">\(y_{dj} = 0\)</span> o <span class="math inline">\(1\)</span> que representa la ausencia (o no) de una característica específica. Para este caso, la estimación objetivo en cada dominio <span class="math inline">\(d = 1,\cdots , D\)</span> es la proporción <span class="math inline">\(\bar{Y}_d = \pi_d =\frac{1}{N_d}\sum_{j=1}^{N_d}y_{dj}\)</span> de la población que tiene esta característica, siendo <span class="math inline">\(\pi_{dj}\)</span> la probabilidad de que una determinada unidad <span class="math inline">\(j\)</span> en el dominio <span class="math inline">\(d\)</span> obtenga el valor <span class="math inline">\(1\)</span>. Bajo este escenario, el <span class="math inline">\(\pi_{dj}\)</span> con una función de enlace logit se define como:</p>
+<p>En muchas aplicaciones, la variable de interés en áreas pequeñas puede ser binaria, esto es <span class="math inline">\(y_{dj} = 0\)</span> o <span class="math inline">\(1\)</span> que representa la ausencia (o no) de una característica específica. Para este caso, la estimación objetivo en cada dominio <span class="math inline">\(d = 1,\cdots , D\)</span> es la proporción <span class="math inline">\(\theta_d =\frac{1}{N_d}\sum_{i=1}^{N_d}y_{di}\)</span> de la población que tiene esta característica, siendo <span class="math inline">\(\theta_{di}\)</span> la probabilidad de que una determinada unidad <span class="math inline">\(i\)</span> en el dominio <span class="math inline">\(d\)</span> obtenga el valor <span class="math inline">\(1\)</span>. Bajo este escenario, el <span class="math inline">\(\theta_{di}\)</span> con una función de enlace logit se define como:</p>
 <p><span class="math display">\[
-logit(\pi_{dj}) = \log \left(\frac{\pi_{dj}}{1-\pi_{dj}}\right) = \eta_{dj}=\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d}
+logit(\theta_{di}) = \log \left(\frac{\theta_{di}}{1-\theta_{di}}\right) = \boldsymbol{x}_{di}^{T}\boldsymbol{\beta} + u_{d}
 \]</span>
-con <span class="math inline">\(j=1,\cdots,N_d\)</span>, <span class="math inline">\(d=1,\cdots,D\)</span>, <span class="math inline">\(\boldsymbol{\beta}\)</span> un vector de parámetros de efecto fijo, y <span class="math inline">\(u_d\)</span> el efecto aleatorio especifico del área para el dominio <span class="math inline">\(d\)</span> con <span class="math inline">\(u_d \sim N\left(0,\sigma^2_u \right)\)</span>. <span class="math inline">\(u_d\)</span> son independiente y <span class="math inline">\(y_{dj}\mid u_d \sim Bernoulli(\pi_{dj})\)</span> con <span class="math inline">\(E(y_{dj}\mid u_d)=\pi_{dj}\)</span> y <span class="math inline">\(Var(y_{dj}\mid u_d)=\sigma_{dj}^2=\pi_{dj}(1-\pi_{dj})\)</span>.Además, <span class="math inline">\(\boldsymbol{x^T}_{dj}\)</span> representa el vector <span class="math inline">\(p\times 1\)</span> de valores de <span class="math inline">\(p\)</span> variables auxiliares. Entonces, <span class="math inline">\(\pi_{dj}\)</span> se puede escribir como</p>
+con <span class="math inline">\(i=1,\cdots,N_d\)</span>, <span class="math inline">\(d=1,\cdots,D\)</span>, <span class="math inline">\(\boldsymbol{\beta}\)</span> un vector de parámetros de efecto fijo, y <span class="math inline">\(u_d\)</span> el efecto aleatorio especifico del área para el dominio <span class="math inline">\(d\)</span> con <span class="math inline">\(u_d \sim N\left(0,\sigma^2_u \right)\)</span>. <span class="math inline">\(u_d\)</span> son independiente y <span class="math inline">\(y_{di}\mid u_d \sim Bernoulli(\theta_{di})\)</span> con <span class="math inline">\(E(y_{di}\mid u_d)=\theta_{di}\)</span> y <span class="math inline">\(Var(y_{di}\mid u_d)=\sigma_{di}^2=\theta_{di}(1-\theta_{di})\)</span>. Además, <span class="math inline">\(\boldsymbol{x}_{di}^T\)</span> representa el vector <span class="math inline">\(p\times 1\)</span> de valores de <span class="math inline">\(p\)</span> variables auxiliares. Entonces, <span class="math inline">\(\theta_{di}\)</span> se puede escribir como</p>
 <p><span class="math display">\[
-\pi_{dj} = \frac{\exp(\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d})}{1+ \exp(\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d})}
+\theta_{di} = \frac{\exp(\boldsymbol{x}_{di}^T\boldsymbol{\beta} + u_{d})}{1+ \exp(\boldsymbol{x}_{di}^T\boldsymbol{\beta} + u_{d})}
 \]</span>
 De está forma podemos definir distribuciones previas</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-\beta_k &amp; \sim   &amp; N(\mu_0, \tau^2_0)\\
+\beta_k &amp; \sim   &amp; N(0, 10000)\\
 \sigma^2_u &amp;\sim &amp; IG(0.0001,0.0001)
 \end{eqnarray*}
 \]</span>
@@ -2539,7 +2539,7 @@ mrp_estimate_se
 <span id="cb243-20"><a href="definición-del-modelo.html#cb243-20" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb243-21"><a href="definición-del-modelo.html#cb243-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb243-22"><a href="definición-del-modelo.html#cb243-22" aria-hidden="true" tabindex="-1"></a>Mapa_ing3</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM.jpeg" width="800px" height="200px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="definición-del-modelo.html#cb244-1" aria-hidden="true" tabindex="-1"></a>temp_shape <span class="ot">&lt;-</span> ShapeSAE <span class="sc">%&gt;%</span> <span class="fu">filter</span>(depto <span class="sc">==</span> <span class="st">&quot;44&quot;</span>)</span>
 <span id="cb244-2"><a href="definición-del-modelo.html#cb244-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-3"><a href="definición-del-modelo.html#cb244-3" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(temp_shape <span class="sc">%&gt;%</span></span>
@@ -2565,7 +2565,7 @@ mrp_estimate_se
 <span id="cb244-23"><a href="definición-del-modelo.html#cb244-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-24"><a href="definición-del-modelo.html#cb244-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-25"><a href="definición-del-modelo.html#cb244-25" aria-hidden="true" tabindex="-1"></a>Mapa_ing</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM_44.jpeg" width="800px" height="200px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM_44.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
 <p>Los resultado para cada componente puede ser mapeado de forma similar.</p>
 <p>Para obtener el resultado por municipio procedemos así:</p>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -2695,7 +2695,7 @@ Material
 </tr>
 </tbody>
 </table>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_todos_ipm.jpeg" width="800px" height="200px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_todos_ipm.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

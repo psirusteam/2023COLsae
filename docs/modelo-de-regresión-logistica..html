@@ -390,25 +390,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Sea
 <span class="math display">\[
 y_{ji}=\begin{cases}
-1 &amp; w_{ji}\le lp\\
+1 &amp; ingreso_{di}\le lp\\
 0 &amp; e.o.c.
 \end{cases}
 \]</span>
-donde <span class="math inline">\(w_{ji}\)</span> representa el ingreso de la <span class="math inline">\(i\)</span>-ésima persona en el <span class="math inline">\(j\)</span>-ésimo post-estrato y <span class="math inline">\(lp\)</span> es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa <span class="math inline">\(\rho_{di}\)</span> de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza a su complemento en relación al conjunto de covariables a nivel de unidad, <span class="math inline">\(x_{ji}\)</span>, y el conjunto de covariables a nivel de dam2cia, <span class="math inline">\(z_d\)</span>.</p>
+donde <span class="math inline">\(ingreso_{ji}\)</span> representa el ingreso de la <span class="math inline">\(i\)</span>-ésima persona en el <span class="math inline">\(j\)</span>-ésimo post-estrato y <span class="math inline">\(lp\)</span> es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa <span class="math inline">\(\theta_{di}\)</span> de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza a su complemento en relación al conjunto de covariables a nivel de unidad, <span class="math inline">\(x_{ji}\)</span>, y el efecto aleatorio <span class="math inline">\(u_d\)</span>.</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-\ln\left(\frac{\rho_{ji}}{1-\rho_{ji}}\right)=\boldsymbol{x}_{ji}^{t}\boldsymbol{\beta}+\boldsymbol{z}_{d}\boldsymbol{\gamma}
+\ln\left(\frac{\theta_{ji}}{1-\theta_{ji}}\right)=\boldsymbol{x}_{ji}^{T}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
 \]</span></p>
-<p>Donde los coeficientes <span class="math inline">\(\boldsymbol{\beta}\)</span> hacen referencia a los efectos aleatorios de las variables <span class="math inline">\(x_{ji}^t\)</span> sobre las probabilidades de que la <span class="math inline">\(i\)</span>-ésima persona este por debajo de la linea de pobreza; por otro lado, los coeficientes <span class="math inline">\(\boldsymbol{\gamma}\)</span> expresan los efectos fijos sobre las covariables a nivel dam2ncia, <span class="math inline">\(z_d\)</span>.</p>
+<p>Donde los coeficientes <span class="math inline">\(\boldsymbol{\beta}\)</span> hacen referencia a los efectos fijos de las variables <span class="math inline">\(x_{ji}^T\)</span> sobre las probabilidades de que la <span class="math inline">\(i\)</span>-ésima persona este por debajo de la linea de pobreza; por otro lado, <span class="math inline">\(u_d\)</span> son los efectos fijos aleatorios, donde <span class="math inline">\(u_{d}\sim N\left(0,\sigma^2_{u}\right)\)</span>.</p>
 <p>Para este caso se asumen las distribuciones previas</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-\beta_k &amp; \sim   &amp; N(0, \tau^2_0)\\
-\gamma_d &amp;\sim &amp; N(0,\tau^2_1)
+\beta_k &amp; \sim   &amp; N(0, 1000)\\
+\sigma^2_u &amp;\sim &amp; IG(0.0001,0.0001)
 \end{eqnarray*}
 \]</span> las cuales se toman no informativas.</p>
-<p>A continuación se muestra el proceso realizado para la obtención de la predicción de la tasa de pobreza por dam2ncia.</p>
+<p>A continuación se muestra el proceso realizado para la obtención de la predicción de la tasa de pobreza.</p>
 </div>
             </section>
 

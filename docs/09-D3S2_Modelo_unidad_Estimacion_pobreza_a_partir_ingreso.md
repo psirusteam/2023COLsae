@@ -1039,5 +1039,5 @@ El mapa resultante es el siguiente
 
 
 
-<img src="Recursos/Día3/Sesion2/0Recursos/Mapa_COL_Pobreza.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion2/0Recursos/Mapa_COL_Pobreza.PNG" width="400%" style="display: block; margin: auto;" />
 

@@ -391,27 +391,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>El IPM propuesto por CEPAL es una herramienta comparable entre los países de la región, para estudiar los fenómenos de la pobreza considerando varios aspectos o dimensiones. <strong>En ningún caso el IPM busca reemplazar los indicadores pobreza unidimensional o multidimensional que hayan definido los países u organismos internacionales</strong></p></li>
 <li><p>A continuación se describen las dimensiones que conforma el IPM.</p>
 <p><img src="www/Imagenes/Dimension%20IPM.bmp" style="width:15cm;height:10cm" /></p></li>
-<li><p>El índice requiere la información para cada individuo <span class="math inline">\(j = 1,\cdots,N_d\)</span> en <span class="math inline">\(d = 1, \cdots, D\)</span> dominios, donde <span class="math inline">\(N_d\)</span> denota el tamaño de la población del dominio <span class="math inline">\(d\)</span>. El índice para el dominio <span class="math inline">\(d\)</span> se calcula como:</p>
+<li><p>El índice requiere la información para cada individuo <span class="math inline">\(i = 1,\cdots,N_d\)</span> en <span class="math inline">\(d = 1, \cdots, D\)</span> dominios, donde <span class="math inline">\(N_d\)</span> denota el tamaño de la población del dominio <span class="math inline">\(d\)</span>. El índice para el dominio <span class="math inline">\(d\)</span> se calcula como:</p>
 <p><span class="math display">\[
-IPM_d = \frac{1}{N_d}\sum_{j=1}^{N_d}I\left(q_{dj} &gt; 0.4  \right).
+IPM_d = \frac{1}{N_d}\sum_{i=1}^{N_d}I\left(q_{di} &gt; 0.4  \right).
 \]</span></p>
-<p>La función del índicador <span class="math inline">\(I\left( \cdot \right)\)</span> es igual a 1 cuando la condición <span class="math inline">\(q_{dj} &gt; 0.4\)</span>.</p></li>
-<li><p><span class="math inline">\(q_{dj}\)</span> es una cantidad ponderada de la siguiente forma:</p>
+<p>La función del índicador <span class="math inline">\(I\left( \cdot \right)\)</span> es igual a 1 cuando la condición <span class="math inline">\(q_{di} &gt; 0.4\)</span>.</p></li>
+<li><p><span class="math inline">\(q_{di}\)</span> es una cantidad ponderada de la siguiente forma:</p>
 <p><span class="math display">\[
-q_{dj} = 0.1\sum_{k=1}^{6}y_{dj}^{k} +  0.2\sum_{k=7}^{8}y_{dj}^{k}
+q_{di} = 0.1\sum_{k=1}^{6}y_{di}^{k} +  0.2(y_{di}^{7} + y_{di}^{8})
 \]</span></p>
 <p>Donde:</p>
 <ol style="list-style-type: lower-alpha">
-<li><p><span class="math inline">\(y_{dj}^{1}\)</span> = Privación en material de construcción de la vivienda</p></li>
-<li><p><span class="math inline">\(y_{dj}^{2}\)</span> = Hacinamiento en el hogar.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{3}\)</span> = Privación de acceso al agua potable.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{4}\)</span> = Privación en saneamiento.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{5}\)</span> = Acceso al servicio energía eléctrica.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{6}\)</span> = Acceso al servicio de internet.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{7}\)</span> = Privación de la educación.</p></li>
-<li><p><span class="math inline">\(y_{dj}^{8}\)</span> = Privación del empleo y la protección social.</p></li>
+<li><p><span class="math inline">\(y_{di}^{1}\)</span> = Privación en material de construcción de la vivienda</p></li>
+<li><p><span class="math inline">\(y_{di}^{2}\)</span> = Hacinamiento en el hogar.</p></li>
+<li><p><span class="math inline">\(y_{di}^{3}\)</span> = Privación de acceso al agua potable.</p></li>
+<li><p><span class="math inline">\(y_{di}^{4}\)</span> = Privación en saneamiento.</p></li>
+<li><p><span class="math inline">\(y_{di}^{5}\)</span> = Acceso al servicio energía eléctrica.</p></li>
+<li><p><span class="math inline">\(y_{di}^{6}\)</span> = Acceso al servicio de internet.</p></li>
+<li><p><span class="math inline">\(y_{di}^{7}\)</span> = Privación de la educación.</p></li>
+<li><p><span class="math inline">\(y_{di}^{8}\)</span> = Privación del empleo y la protección social.</p></li>
 </ol>
-<p>Note que, la primera parte de la suma considera los indicadores de las dimensiones de vivienda, agua y saneamiento, energía y conectividad. La segunda parte, los indicadores de las dimensiones de educación y empleo y protección social. Además, <span class="math inline">\(y_{dj}^{k}\)</span> es igual a <strong>1</strong> si la persona tiene privación en la <span class="math inline">\(k-ésima\)</span> dimesión y <strong>0</strong> en el caso que de no tener la privación.</p></li>
+<p>Note que, la primera parte de la suma considera los indicadores de las dimensiones de vivienda, agua y saneamiento, energía y conectividad. La segunda parte, los indicadores de las dimensiones de educación y empleo y protección social. Además, <span class="math inline">\(y_{di}^{k}\)</span> es igual a <strong>1</strong> si la persona tiene privación en la <span class="math inline">\(k-ésima\)</span> dimesión y <strong>0</strong> en el caso que de no tener la privación.</p></li>
 </ul>
 </div>
             </section>

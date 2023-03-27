@@ -16,8 +16,8 @@ Para realizar la predicción del ingreso medio en dam2s no observadas se asume q
 
 $$
 \begin{eqnarray*}
-Y_{di} &\sim & N\left(\mu_{di},\sigma_y^{2}\right)\\
-\mu_{di}&=&\boldsymbol{X}_{di}^{T}\boldsymbol{\beta}+u_{d}+e_{di} 
+Y_{di} &\sim & N\left(\mu_{di},\sigma_e^{2}\right)\\
+\mu_{di}&=&\boldsymbol{x}_{di}^{T}\boldsymbol{\beta}+u_{d}+e_{di} 
 \end{eqnarray*}
 $$
 
@@ -26,14 +26,14 @@ $$
 
 Donde $Y_{di}$ representa el ingreso medio de la $i-ésima$ persona en el $d-ésimo$ domino, $\boldsymbol{X}$ es la información disponible para la $i-ésima$ persona del $d-ésimo$ domino, $\boldsymbol{\beta}$ es el vector de parámetros $u_d$ es el efecto introducido por el $d-ésimo$ dominio y $e_{di}$ es el error de estimación para la $i-ésima$ personas del $d-ésimo$ dominio.
 
-Note, que $u_{d}\sim N\left(0,\sigma_{u}\right)$ y $e_{di}\sim N\left(0,\sigma_{e}^{2}\right)$.
+Note, que $u_{d}\sim N\left(0,\sigma^2_{u}\right)$ y $e_{di}\sim N\left(0,\sigma_{e}^{2}\right)$.
 
 Para este caso se asumen las distribuciones previas
 
 $$
 \begin{eqnarray*}
-\beta_k & \sim   & N(\mu_0, \tau^2_0)\\
-\sigma^2_y &\sim & Inversa-Gamma(\alpha_1,\alpha_2)
+\beta_k & \sim   & N(0, 1000)\\
+\sigma^2_y &\sim & IG(0.0001,0.0001)
 \end{eqnarray*}
 $$ las cuales se toman no informativas.
 
@@ -1732,4 +1732,4 @@ El mapa resultante es el siguiente
 
 
 
-<img src="Recursos/Día3/Sesion1/0Recursos/Map_COL.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion1/0Recursos/Map_COL.PNG" width="400%" style="display: block; margin: auto;" />

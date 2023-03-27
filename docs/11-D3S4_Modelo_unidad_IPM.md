@@ -21,57 +21,57 @@
 
     ![](www/imagenes/Dimension IPM.bmp){width="15cm" height="10cm"}
 
--   El índice requiere la información para cada individuo $j = 1,\cdots,N_d$ en $d = 1, \cdots, D$ dominios, donde $N_d$ denota el tamaño de la población del dominio $d$. El índice para el dominio $d$ se calcula como:
+-   El índice requiere la información para cada individuo $i = 1,\cdots,N_d$ en $d = 1, \cdots, D$ dominios, donde $N_d$ denota el tamaño de la población del dominio $d$. El índice para el dominio $d$ se calcula como:
 
     $$
-    IPM_d = \frac{1}{N_d}\sum_{j=1}^{N_d}I\left(q_{dj} > 0.4  \right).
+    IPM_d = \frac{1}{N_d}\sum_{i=1}^{N_d}I\left(q_{di} > 0.4  \right).
     $$
     
-    La función del índicador  $I\left( \cdot \right)$ es igual a 1 cuando la condición $q_{dj} > 0.4$. 
+    La función del índicador  $I\left( \cdot \right)$ es igual a 1 cuando la condición $q_{di} > 0.4$. 
 
--   $q_{dj}$ es una cantidad ponderada de la siguiente forma: 
+-   $q_{di}$ es una cantidad ponderada de la siguiente forma: 
 
     $$
-    q_{dj} = 0.1\sum_{k=1}^{6}y_{dj}^{k} +  0.2\sum_{k=7}^{8}y_{dj}^{k}
+    q_{di} = 0.1\sum_{k=1}^{6}y_{di}^{k} +  0.2(y_{di}^{7} + y_{di}^{8})
     $$
 
     Donde: 
-    a. $y_{dj}^{1}$ = Privación en material de construcción de la vivienda
+    a. $y_{di}^{1}$ = Privación en material de construcción de la vivienda
     
-    b. $y_{dj}^{2}$ = Hacinamiento en el hogar. 
+    b. $y_{di}^{2}$ = Hacinamiento en el hogar. 
     
-    c. $y_{dj}^{3}$ = Privación de acceso al agua potable. 
+    c. $y_{di}^{3}$ = Privación de acceso al agua potable. 
     
-    d. $y_{dj}^{4}$ = Privación en saneamiento.
+    d. $y_{di}^{4}$ = Privación en saneamiento.
     
-    e. $y_{dj}^{5}$ = Acceso al servicio energía eléctrica. 
+    e. $y_{di}^{5}$ = Acceso al servicio energía eléctrica. 
     
-    f. $y_{dj}^{6}$ = Acceso al servicio de internet.
+    f. $y_{di}^{6}$ = Acceso al servicio de internet.
     
-    g. $y_{dj}^{7}$ = Privación de la educación. 
+    g. $y_{di}^{7}$ = Privación de la educación. 
     
-    h. $y_{dj}^{8}$ = Privación del empleo y la protección social.  
+    h. $y_{di}^{8}$ = Privación del empleo y la protección social.  
 
-    Note que, la primera parte de la suma considera los indicadores de las dimensiones de vivienda, agua y saneamiento, energía y conectividad. La segunda parte, los indicadores de las dimensiones de educación y empleo y protección social. Además, $y_{dj}^{k}$ es igual a **1** si la persona tiene privación en la $k-ésima$ dimesión y **0** en el caso que de no tener la privación. 
+    Note que, la primera parte de la suma considera los indicadores de las dimensiones de vivienda, agua y saneamiento, energía y conectividad. La segunda parte, los indicadores de las dimensiones de educación y empleo y protección social. Además, $y_{di}^{k}$ es igual a **1** si la persona tiene privación en la $k-ésima$ dimesión y **0** en el caso que de no tener la privación. 
     
     
 ## Definición del modelo 
 
-En muchas aplicaciones, la variable de interés en áreas pequeñas puede ser binaria, esto es $y_{dj} = 0$ o $1$ que representa la ausencia (o no) de una característica específica. Para este caso, la estimación objetivo en cada dominio $d = 1,\cdots , D$ es la proporción $\bar{Y}_d = \pi_d =\frac{1}{N_d}\sum_{j=1}^{N_d}y_{dj}$ de la población que tiene esta característica, siendo $\pi_{dj}$ la probabilidad de que una determinada unidad $j$ en el dominio $d$ obtenga el valor $1$. Bajo este escenario, el $\pi_{dj}$ con una función de enlace logit se define como: 
+En muchas aplicaciones, la variable de interés en áreas pequeñas puede ser binaria, esto es $y_{dj} = 0$ o $1$ que representa la ausencia (o no) de una característica específica. Para este caso, la estimación objetivo en cada dominio $d = 1,\cdots , D$ es la proporción $\theta_d =\frac{1}{N_d}\sum_{i=1}^{N_d}y_{di}$ de la población que tiene esta característica, siendo $\theta_{di}$ la probabilidad de que una determinada unidad $i$ en el dominio $d$ obtenga el valor $1$. Bajo este escenario, el $\theta_{di}$ con una función de enlace logit se define como: 
 
 $$
-logit(\pi_{dj}) = \log \left(\frac{\pi_{dj}}{1-\pi_{dj}}\right) = \eta_{dj}=\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d}
+logit(\theta_{di}) = \log \left(\frac{\theta_{di}}{1-\theta_{di}}\right) = \boldsymbol{x}_{di}^{T}\boldsymbol{\beta} + u_{d}
 $$
-con $j=1,\cdots,N_d$, $d=1,\cdots,D$, $\boldsymbol{\beta}$  un vector de parámetros de efecto fijo, y $u_d$ el efecto aleatorio especifico del área para el dominio $d$ con $u_d \sim N\left(0,\sigma^2_u \right)$. $u_d$ son independiente y $y_{dj}\mid u_d \sim Bernoulli(\pi_{dj})$ con $E(y_{dj}\mid u_d)=\pi_{dj}$ y $Var(y_{dj}\mid u_d)=\sigma_{dj}^2=\pi_{dj}(1-\pi_{dj})$.Además,  $\boldsymbol{x^T}_{dj}$ representa el vector $p\times 1$ de valores de $p$ variables auxiliares. Entonces, $\pi_{dj}$ se puede escribir como 
+con $i=1,\cdots,N_d$, $d=1,\cdots,D$, $\boldsymbol{\beta}$  un vector de parámetros de efecto fijo, y $u_d$ el efecto aleatorio especifico del área para el dominio $d$ con $u_d \sim N\left(0,\sigma^2_u \right)$.  $u_d$ son independiente y $y_{di}\mid u_d \sim Bernoulli(\theta_{di})$ con $E(y_{di}\mid u_d)=\theta_{di}$ y $Var(y_{di}\mid u_d)=\sigma_{di}^2=\theta_{di}(1-\theta_{di})$. Además,  $\boldsymbol{x}_{di}^T$ representa el vector $p\times 1$ de valores de $p$ variables auxiliares. Entonces, $\theta_{di}$ se puede escribir como 
 
 $$
-\pi_{dj} = \frac{\exp(\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d})}{1+ \exp(\boldsymbol{x^T}_{dj}\boldsymbol{\beta} + u_{d})}
+\theta_{di} = \frac{\exp(\boldsymbol{x}_{di}^T\boldsymbol{\beta} + u_{d})}{1+ \exp(\boldsymbol{x}_{di}^T\boldsymbol{\beta} + u_{d})}
 $$
 De está forma podemos definir distribuciones previas 
 
 $$
 \begin{eqnarray*}
-\beta_k & \sim   & N(\mu_0, \tau^2_0)\\
+\beta_k & \sim   & N(0, 10000)\\
 \sigma^2_u &\sim & IG(0.0001,0.0001)
 \end{eqnarray*}
 $$
@@ -1226,7 +1226,7 @@ Mapa_ing3
 ```
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_IPM.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_IPM.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />
 
 
 
@@ -1259,7 +1259,7 @@ Mapa_ing
 ```
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_IPM_44.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_IPM_44.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />
 
 Los resultado para cada componente puede ser mapeado de forma similar. 
 
@@ -1332,4 +1332,4 @@ Para obtener el resultado por municipio procedemos así:
 
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_todos_ipm.jpeg" width="800px" height="200px" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_todos_ipm.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />

@@ -5,39 +5,39 @@
 Lo primero a tener en cuenta, es que no se debe usar una regresión lineal cuando se tiene una variable de tipo  binario como variable dependiente, ya que no es posible estimar la probabilidad del evento estudiado de manera directa, por esta razón se emplea una regresión logística, en la que para obtener las estimaciones          de la probabilidad del evento estudiado se debe realizar una transformación (logit), lo cual consiste en          tomar el logaritmo de la probabilidad de éxito entre la probabilidad de fracaso, de la siguiente manera:  
 
 $$
-\ln \frac{p}{1-p}
+\ln \frac{\theta}{1-\theta}
 $$
-donde $p$ representa la probabilidad de éxito del evento.  
+donde $\theta$ representa la probabilidad de éxito del evento.  
 
 ## Modelo de regresión logistica. 
 
 Sea 
 $$
 y_{ji}=\begin{cases}
-1 & w_{ji}\le lp\\
+1 & ingreso_{di}\le lp\\
 0 & e.o.c.
 \end{cases}
 $$ 
-donde $w_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\rho_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el conjunto de covariables a nivel de dam2cia, $z_d$.     
+donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\theta_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el efecto aleatorio $u_d$.     
 
 $$
 \begin{eqnarray*}
-\ln\left(\frac{\rho_{ji}}{1-\rho_{ji}}\right)=\boldsymbol{x}_{ji}^{t}\boldsymbol{\beta}+\boldsymbol{z}_{d}\boldsymbol{\gamma}
+\ln\left(\frac{\theta_{ji}}{1-\theta_{ji}}\right)=\boldsymbol{x}_{ji}^{T}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
 $$
 
-Donde los coeficientes $\boldsymbol{\beta}$ hacen referencia a los efectos aleatorios de las variables $x_{ji}^t$  sobre las probabilidades de que la $i$-ésima persona este por debajo de la linea de pobreza; por otro lado, los coeficientes $\boldsymbol{\gamma}$ expresan los efectos fijos sobre las covariables a nivel dam2ncia, $z_d$. 
+Donde los coeficientes $\boldsymbol{\beta}$ hacen referencia a los efectos fijos de las variables $x_{ji}^T$  sobre las probabilidades de que la $i$-ésima persona este por debajo de la linea de pobreza; por otro lado, $u_d$ son los efectos fijos aleatorios, donde $u_{d}\sim N\left(0,\sigma^2_{u}\right)$. 
 
 Para este caso se asumen las distribuciones previas
 
 $$
 \begin{eqnarray*}
-\beta_k & \sim   & N(0, \tau^2_0)\\
-\gamma_d &\sim & N(0,\tau^2_1)
+\beta_k & \sim   & N(0, 1000)\\
+\sigma^2_u &\sim & IG(0.0001,0.0001)
 \end{eqnarray*}
 $$ las cuales se toman no informativas.
 
-A continuación se muestra el proceso realizado para la obtención de la predicción de la tasa de pobreza por dam2ncia.
+A continuación se muestra el proceso realizado para la obtención de la predicción de la tasa de pobreza.
 
 ## Proceso de estimación en `R`
 
@@ -1670,6 +1670,6 @@ El mapa resultante es el siguiente
 
 
 <div class="figure" style="text-align: center">
-<img src="Recursos/Día3/Sesion3/0Recursos/Map_COL.PNG" alt="Tasa de pobreza por dam2" width="500px" height="250px" />
+<img src="Recursos/Día3/Sesion3/0Recursos/Map_COL.PNG" alt="Tasa de pobreza por dam2" width="400%" />
 <p class="caption">(\#fig:unnamed-chunk-33)Tasa de pobreza por dam2</p>
 </div>

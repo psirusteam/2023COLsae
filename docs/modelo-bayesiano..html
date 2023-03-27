@@ -390,17 +390,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Para realizar la predicción del ingreso medio en dam2s no observadas se asume que:</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-Y_{di} &amp;\sim &amp; N\left(\mu_{di},\sigma_y^{2}\right)\\
-\mu_{di}&amp;=&amp;\boldsymbol{X}_{di}^{T}\boldsymbol{\beta}+u_{d}+e_{di}
+Y_{di} &amp;\sim &amp; N\left(\mu_{di},\sigma_e^{2}\right)\\
+\mu_{di}&amp;=&amp;\boldsymbol{x}_{di}^{T}\boldsymbol{\beta}+u_{d}+e_{di}
 \end{eqnarray*}
 \]</span></p>
 <p>Donde <span class="math inline">\(Y_{di}\)</span> representa el ingreso medio de la <span class="math inline">\(i-ésima\)</span> persona en el <span class="math inline">\(d-ésimo\)</span> domino, <span class="math inline">\(\boldsymbol{X}\)</span> es la información disponible para la <span class="math inline">\(i-ésima\)</span> persona del <span class="math inline">\(d-ésimo\)</span> domino, <span class="math inline">\(\boldsymbol{\beta}\)</span> es el vector de parámetros <span class="math inline">\(u_d\)</span> es el efecto introducido por el <span class="math inline">\(d-ésimo\)</span> dominio y <span class="math inline">\(e_{di}\)</span> es el error de estimación para la <span class="math inline">\(i-ésima\)</span> personas del <span class="math inline">\(d-ésimo\)</span> dominio.</p>
-<p>Note, que <span class="math inline">\(u_{d}\sim N\left(0,\sigma_{u}\right)\)</span> y <span class="math inline">\(e_{di}\sim N\left(0,\sigma_{e}^{2}\right)\)</span>.</p>
+<p>Note, que <span class="math inline">\(u_{d}\sim N\left(0,\sigma^2_{u}\right)\)</span> y <span class="math inline">\(e_{di}\sim N\left(0,\sigma_{e}^{2}\right)\)</span>.</p>
 <p>Para este caso se asumen las distribuciones previas</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-\beta_k &amp; \sim   &amp; N(\mu_0, \tau^2_0)\\
-\sigma^2_y &amp;\sim &amp; Inversa-Gamma(\alpha_1,\alpha_2)
+\beta_k &amp; \sim   &amp; N(0, 1000)\\
+\sigma^2_y &amp;\sim &amp; IG(0.0001,0.0001)
 \end{eqnarray*}
 \]</span> las cuales se toman no informativas.</p>
 <p>A continuación se muestra el proceso realizado para la obtención de la predicción del ingreso medio en dominios no observados.</p>
