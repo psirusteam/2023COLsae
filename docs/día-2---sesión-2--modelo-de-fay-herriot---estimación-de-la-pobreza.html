@@ -190,6 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
 <ul>
+<li class="chapter" data-level="" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i>Modelo de área para la estimación de la pobreza</a></li>
 <li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
 <ul>
@@ -437,22 +438,24 @@ u_{d} &amp; \stackrel{iid}{\sim} &amp; \left(0,\sigma_{u}^{2}\right)
     \end{eqnarray*}
 \]</span></p>
 <p>donde <span class="math inline">\(\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}\)</span>.</p>
-<ul>
-<li><span class="math display">\[
+<div id="modelo-de-área-para-la-estimación-de-la-pobreza" class="section level3 unnumbered hasAnchor">
+<h3>Modelo de área para la estimación de la pobreza<a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El modelo bayesiano estaría definido como:</p>
+<p><span class="math display">\[
 \begin{eqnarray*}
-Y_d\mid\theta_d,\sigma^2 &amp; \sim &amp; N\left(\theta,\sigma^2\right)\\
-\theta_d &amp; = &amp; \boldsymbol{x}^{T}\boldsymbol{\beta}+u_d
+Y_d\mid\theta_d,\sigma_d^2 &amp; \sim &amp; N\left(\theta_d,\sigma_d^2\right)\\
+\theta_d &amp; = &amp; \boldsymbol{x}^{T}_{d}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
-\]</span></li>
-</ul>
-<p>donde <span class="math inline">\(u_d \sim N(0 , \sigma^2_u)\)</span>.</p>
-<p>Las distribuciones previas para <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma^2_v\)</span></p>
+\]</span></p>
+<p>donde <span class="math inline">\(u_d \sim N(0 , \sigma^2_u)\)</span> y <span class="math inline">\(Y_d\)</span> es la estimación directa de la pobreza en el <span class="math inline">\(d-ésimo\)</span> dominio.</p>
+<p>Las distribuciones previas para <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma^2_u\)</span></p>
 <p><span class="math display">\[
 \begin{eqnarray*}
 \beta_p &amp; \sim   &amp; N(0, 10000)\\
-\sigma^2_v &amp;\sim &amp; IG(0.0001, 0.0001)
+\sigma^2_u &amp;\sim &amp; IG(0.0001, 0.0001)
 \end{eqnarray*}
 \]</span></p>
+</div>
 </div>
             </section>
 

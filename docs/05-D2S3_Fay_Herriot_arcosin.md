@@ -1,4 +1,3 @@
-
 # Día 2 - Sesión 3- Modelos de área - Estimación de la pobreza y la transformación ArcoSeno.
 
 
@@ -18,19 +17,19 @@ El modelo de Fay-Herriot  estaría definido de la siguiente forma:
 
 $$
 \begin{eqnarray*}
-Z \mid \mu,\sigma_e &  \sim  & N(\mu, \sigma_e)\\
-\mu & = & \boldsymbol{X\beta} + V \\
-\theta & = &  \left(sin(\mu)\right)^2
+Z_d \mid \mu_d,\sigma^2_d &  \sim  & N(\mu_d, \sigma^2_d)\\
+\mu_d & = & \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d \\
+\theta_d & = &  \left(sin(\mu_d)\right)^2
 \end{eqnarray*}
-$$ donde $V \sim N(0 , \sigma_v)$.
+$$ donde $u_d \sim N(0 , \sigma^2)$.
 
 
 Suponga de las distribuciones previas para 
-$\boldsymbol{\beta}$ y $\sigma_{v}^{2}$ son dadas por 
+$\boldsymbol{\beta}$ y $\sigma_{u}^{2}$ son dadas por 
 $$
 \begin{eqnarray*}
 \boldsymbol{\beta}	\sim	N\left(0,1000 \right)\\
-\sigma_{v}^{2}	\sim	IG\left(0.0001,0.0001\right)
+\sigma_{u}^{2}	\sim	IG\left(0.0001,0.0001\right)
 \end{eqnarray*}
 $$
 
@@ -422,19 +421,20 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(data_dir$pobreza), y_pred2)
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion3/0Recursos/FH_Asin.png" width="200%" />
 
-Análisis gráfico de la convergencia de las cadenas de $\sigma^2_V$. 
+
+Análisis gráfico de la convergencia de las cadenas de $\sigma^2_u$. 
 
 
 ```r
-posterior_sigma2_v <- as.array(model_FH_arcoseno, pars = "sigma2_v")
-(mcmc_dens_chains(posterior_sigma2_v) +
-    mcmc_areas(posterior_sigma2_v) ) / 
-  mcmc_trace(posterior_sigma2_v)
+posterior_sigma2_u <- as.array(model_FH_arcoseno, pars = "sigma2_u")
+(mcmc_dens_chains(posterior_sigma2_u) +
+    mcmc_areas(posterior_sigma2_u) ) / 
+  mcmc_trace(posterior_sigma2_u)
 ```
 
-<img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion3/0Recursos/FH_Asin2.png" width="200%" />
 
 Estimación del FH de la pobreza en los dominios observados. 
 
@@ -494,7 +494,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno.PNG" width="200%" style="display: block; margin: auto;" />
 
 
 ## Mapa del coeficiente de variación.  

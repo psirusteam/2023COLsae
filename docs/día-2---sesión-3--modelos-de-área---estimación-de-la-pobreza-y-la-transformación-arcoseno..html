@@ -190,6 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
 <ul>
+<li class="chapter" data-level="" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i>Modelo de área para la estimación de la pobreza</a></li>
 <li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
 <ul>
@@ -396,17 +397,17 @@ Var\left( \hat{z}_d \right) = \frac{\widehat{DEFF}_d}{4\times n_d} = \frac{1}{4\
 <p>El modelo de Fay-Herriot estaría definido de la siguiente forma:</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-Z \mid \mu,\sigma_e &amp;  \sim  &amp; N(\mu, \sigma_e)\\
-\mu &amp; = &amp; \boldsymbol{X\beta} + V \\
-\theta &amp; = &amp;  \left(sin(\mu)\right)^2
+Z_d \mid \mu_d,\sigma^2_d &amp;  \sim  &amp; N(\mu_d, \sigma^2_d)\\
+\mu_d &amp; = &amp; \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d \\
+\theta_d &amp; = &amp;  \left(sin(\mu_d)\right)^2
 \end{eqnarray*}
-\]</span> donde <span class="math inline">\(V \sim N(0 , \sigma_v)\)</span>.</p>
+\]</span> donde <span class="math inline">\(u_d \sim N(0 , \sigma^2)\)</span>.</p>
 <p>Suponga de las distribuciones previas para
-<span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma_{v}^{2}\)</span> son dadas por
+<span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma_{u}^{2}\)</span> son dadas por
 <span class="math display">\[
 \begin{eqnarray*}
 \boldsymbol{\beta}  \sim    N\left(0,1000 \right)\\
-\sigma_{v}^{2}  \sim    IG\left(0.0001,0.0001\right)
+\sigma_{u}^{2}  \sim    IG\left(0.0001,0.0001\right)
 \end{eqnarray*}
 \]</span></p>
 </div>

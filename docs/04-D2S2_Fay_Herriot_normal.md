@@ -64,25 +64,28 @@ $$
 
 donde $\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}$.
 
--  
+### Modelo de área para la estimación de la pobreza {-}
+
+
+El modelo bayesiano estaría definido como:  
+
 $$
 \begin{eqnarray*}
-Y_d\mid\theta_d,\sigma^2 & \sim & N\left(\theta,\sigma^2\right)\\
-\theta_d & = & \boldsymbol{x}^{T}\boldsymbol{\beta}+u_d
+Y_d\mid\theta_d,\sigma_d^2 & \sim & N\left(\theta_d,\sigma_d^2\right)\\
+\theta_d & = & \boldsymbol{x}^{T}_{d}\boldsymbol{\beta}+u_d
 \end{eqnarray*}
 $$
 
-donde $u_d \sim N(0 , \sigma^2_u)$.
+donde $u_d \sim N(0 , \sigma^2_u)$ y $Y_d$ es la estimación directa de la pobreza en el $d-ésimo$ dominio. 
 
-Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_v$
+Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_u$
 
 $$
 \begin{eqnarray*}
 \beta_p & \sim   & N(0, 10000)\\
-\sigma^2_v &\sim & IG(0.0001, 0.0001)
+\sigma^2_u &\sim & IG(0.0001, 0.0001)
 \end{eqnarray*}
 $$
-
 
 ## Procedimiento de estimación
 
@@ -1416,7 +1419,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día2/Sesion2/0Recursos/Mapa_COL_pobreza_normal.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion2/0Recursos/Mapa_COL_pobreza_normal.PNG" width="200%" style="display: block; margin: auto;" />
 
 
 

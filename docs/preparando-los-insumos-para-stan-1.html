@@ -190,6 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
 <ul>
+<li class="chapter" data-level="" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i>Modelo de área para la estimación de la pobreza</a></li>
 <li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
 <ul>
@@ -739,13 +740,13 @@ NA
 <span id="cb116-8"><a href="preparando-los-insumos-para-stan-1.html#cb116-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb116-9"><a href="preparando-los-insumos-para-stan-1.html#cb116-9" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
 <span id="cb116-10"><a href="preparando-los-insumos-para-stan-1.html#cb116-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), y_pred2)</span></code></pre></div>
-<p><img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-11-1.svg" width="672" /></p>
-<p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma^2_V\)</span>.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="preparando-los-insumos-para-stan-1.html#cb117-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2_v <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_arcoseno, <span class="at">pars =</span> <span class="st">&quot;sigma2_v&quot;</span>)</span>
-<span id="cb117-2"><a href="preparando-los-insumos-para-stan-1.html#cb117-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2_v) <span class="sc">+</span></span>
-<span id="cb117-3"><a href="preparando-los-insumos-para-stan-1.html#cb117-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2_v) ) <span class="sc">/</span> </span>
-<span id="cb117-4"><a href="preparando-los-insumos-para-stan-1.html#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2_v)</span></code></pre></div>
-<p><img src="05-D2S3_Fay_Herriot_arcosin_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
+<p><img src="Recursos/D%C3%ADa2/Sesion3/0Recursos/FH_Asin.png" width="200%" /></p>
+<p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma^2_u\)</span>.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="preparando-los-insumos-para-stan-1.html#cb117-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2_u <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_arcoseno, <span class="at">pars =</span> <span class="st">&quot;sigma2_u&quot;</span>)</span>
+<span id="cb117-2"><a href="preparando-los-insumos-para-stan-1.html#cb117-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2_u) <span class="sc">+</span></span>
+<span id="cb117-3"><a href="preparando-los-insumos-para-stan-1.html#cb117-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2_u) ) <span class="sc">/</span> </span>
+<span id="cb117-4"><a href="preparando-los-insumos-para-stan-1.html#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2_u)</span></code></pre></div>
+<p><img src="Recursos/D%C3%ADa2/Sesion3/0Recursos/FH_Asin2.png" width="200%" /></p>
 <p>Estimación del FH de la pobreza en los dominios observados.</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="preparando-los-insumos-para-stan-1.html#cb118-1" aria-hidden="true" tabindex="-1"></a>theta_FH <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_arcoseno,<span class="at">pars =</span>  <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
 <span id="cb118-2"><a href="preparando-los-insumos-para-stan-1.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
