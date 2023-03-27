@@ -15,7 +15,7 @@ $$
 La función del enlace es 
 $$
 \begin{eqnarray*}
-logit(P_{d}) \mid \boldsymbol{\beta}, \sigma^2_v  & \sim & N(\boldsymbol{x_d^t\beta},\sigma^2_v)\\
+logit(P_{d}) \mid \boldsymbol{\beta}, \sigma^2_u  & \sim & N(\boldsymbol{x}_d^T\boldsymbol{\beta},\sigma^2_u)\\
 \end{eqnarray*}
 $$
 Los parámetros $a_d$ y $b_d$ son estimados así: 
@@ -28,12 +28,12 @@ $$ donde
 
 $$\phi_d = \frac{n_d}{\widehat{DEFF}_d} -1 = n_{d,efecctivo} -1$$
 
-Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_v$
+Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_u$
 
 $$
 \begin{eqnarray*}
 \beta_k &\sim& N(0, 10000)\\
-\sigma^2_v &\sim& IG(0.0001,0.0001)
+\sigma^2_u &\sim& IG(0.0001,0.0001)
 \end{eqnarray*}
 $$
 
@@ -414,19 +414,19 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(data_dir$pobreza), y_pred2)
 ```
 
-<img src="07-D2S4_Fay_Herriot_beta_files/figure-html/unnamed-chunk-11-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Beta1.PNG" width="960" height="200%" style="display: block; margin: auto;" />
 
-Análisis gráfico de la convergencia de las cadenas de $\sigma^2_V$.
+Análisis gráfico de la convergencia de las cadenas de $\sigma^2_u$.
 
 
 ```r
-posterior_sigma2_v <- as.array(model_FH_beta_logitic, pars = "sigma2_v")
-(mcmc_dens_chains(posterior_sigma2_v) +
-    mcmc_areas(posterior_sigma2_v) ) / 
-  mcmc_trace(posterior_sigma2_v)
+posterior_sigma2_u <- as.array(model_FH_beta_logitic, pars = "sigma2_u")
+(mcmc_dens_chains(posterior_sigma2_u) +
+    mcmc_areas(posterior_sigma2_u) ) / 
+  mcmc_trace(posterior_sigma2_u)
 ```
 
-<img src="07-D2S4_Fay_Herriot_beta_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Beta2.PNG" width="960" height="200%" style="display: block; margin: auto;" />
 
 Estimación del FH de la pobreza en los dominios observados. 
 
@@ -489,7 +489,7 @@ Mapa_lp <-
 Mapa_lp
 ```
 
-<img src="Recursos/Día2/Sesion4/0Recursos/Beta.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Beta.PNG" width="916" height="400%" style="display: block; margin: auto;" />
 
 
 #### Mapa del coeficiente de variación.  
@@ -509,6 +509,6 @@ Mapa_cv <-
 Mapa_cv
 ```
 
-<img src="Recursos/Día2/Sesion4/0Recursos/Beta_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Beta_cv.PNG" width="408" height="400%" style="display: block; margin: auto;" />
 
 

@@ -5,37 +5,36 @@
 
 
 
-El modelo lineal de Fay-Herriot puede ser reemplazado por un modelo mixto lineal generalizado (GLMM). Esto se puede hacer cuando los datos observados $y_d$ son inherentemente discretos, como cuando son recuentos (no ponderados) de personas u hogares muestreados con ciertas características. Uno de estos modelos supone una distribución binomial para $y_d$ con probabilidad de éxito $p_d$, y una logística modelo de regresión para $p_d$ con errores normales en la escala logit. El modelo resultante es
+El modelo lineal de Fay-Herriot puede ser reemplazado por un modelo mixto lineal generalizado (GLMM). Esto se puede hacer cuando los datos observados $Y_d$ son inherentemente discretos, como cuando son recuentos (no ponderados) de personas u hogares muestreados con ciertas características. Uno de estos modelos supone una distribución binomial para $Y_d$ con probabilidad de éxito $\theta_d$, y una logística modelo de regresión para $\theta_d$ con errores normales en la escala logit. El modelo resultante es
 
 
 $$
 \begin{eqnarray*}
-y_{d}\mid p_{d},n_{d} & \sim & Bin\left(n_{d},p_{d}\right)
+Y_{d}\mid \theta_{d},n_{d} & \sim & Bin\left(n_{d},\theta_{d}\right)
 \end{eqnarray*}
 $$
 para $d=1,\dots,D$ y 
 
 $$
 \begin{eqnarray*}
-logit\left(p_{d}\right)=\log\left(\frac{p_{d}}{1-p_{d}}\right) & = & \boldsymbol{x}_{d}^{T}\boldsymbol{\beta}+u_{d}
+logit\left(\theta_{d}\right)=\log\left(\frac{\theta_{d}}{1-\theta_{d}}\right) & = & \boldsymbol{x}_{d}^{T}\boldsymbol{\beta}+u_{d}
 \end{eqnarray*}
 $$
 donde $u_{d}\sim N\left(0,\sigma_{u}^{2}\right)$ y $n_{d}$ es el
 tamaño de la muestra para el área $d$.
 
-El modelo anterior se puede aplicar fácilmente a recuentos de muestras no ponderadas $y_d$, pero esto ignora cualquier aspecto complejo del diseño de la encuesta. En muestras complejas donde las $y_d$ son estimaciones ponderadas, surgen dos problemas. En primer lugar, los posibles valores de
-el $y_d$ no serán los números enteros $0, 1, \dots , n_d$ para cualquier definición directa de tamaño de muestra $n_d$. En su lugar, $y_d$ tomará un valor de un conjunto finito de números desigualmente espaciados determinados por las ponderaciones de la encuesta que se aplican a los casos de muestra en el dominio  $d$. En segundo lugar, la varianza muestral de $y_d$
-implícito en la distribución Binomial, es decir,  $n_d \times p_d (1-p_d)$, será incorrecto. Abordamos estos dos problemas al definir un **tamaño de muestra efectivo** $\tilde{n}_d$, y un **número de muestra efectivo de éxitos** $\tilde{y_d}$ determinó mantener: (i) la estimación directa  $\hat{p}_i$, de la pobreza y (ii) una estimación de la varianza de muestreo correspondiente,$\widehat{Var}(\hat{p}_d)$. 
+El modelo anterior se puede aplicar fácilmente a recuentos de muestras no ponderadas $Y_d$, pero esto ignora cualquier aspecto complejo del diseño de la encuesta. En muestras complejas donde las $Y_d$ son estimaciones ponderadas, surgen dos problemas. En primer lugar, los posibles valores de
+el $Y_d$ no serán los números enteros $0, 1, \dots , n_d$ para cualquier definición directa de tamaño de muestra $n_d$. En su lugar, $Y_d$ tomará un valor de un conjunto finito de números desigualmente espaciados determinados por las ponderaciones de la encuesta que se aplican a los casos de muestra en el dominio  $d$. En segundo lugar, la varianza muestral de $Y_d$
+implícito en la distribución Binomial, es decir,  $n_d \times \theta_d (1-\theta_d)$, será incorrecto. Abordamos estos dos problemas al definir un **tamaño de muestra efectivo** $\tilde{n}_d$, y un **número de muestra efectivo de éxitos** $\tilde{Y_d}$ determinó mantener: (i) la estimación directa  $\hat{\theta}_i$, de la pobreza y (ii) una estimación de la varianza de muestreo correspondiente,$\widehat{Var}(\hat{\theta}_d)$. 
 
 
 Es posible suponer que 
 $$
 \begin{eqnarray*}
-\tilde{n}_{d} & \sim & \frac{\check{p}_{d}\left(1-\check{p}_{d}\right)}{\widehat{Var}\left(\hat{p}_{d}\right)}
+\tilde{n}_{d} & \sim & \frac{\check{\theta}_{d}\left(1-\check{\theta}_{d}\right)}{\widehat{Var}\left(\hat{\theta}_{d}\right)}
 \end{eqnarray*}
 $$
-donde $\check{p}_{d}$ es una preliminar perdicción basada en el modelo
-para la proporción poblacional $p_d$ y y $\widehat{Var}\left(\hat{p}_{d}\right)$ depende de$\check{p}_{d}$ a través de una función de varianza generalizada ajustada (FGV). Note que $\tilde{y}_{d}=\tilde{n}_{d}\times\hat{p}_{d}$. 
+donde $\check{\theta}_{d}$ es una preliminar perdicción basada en el modelo para la proporción poblacional $\theta_d$ y $\widehat{Var}\left(\hat{\theta}_{d}\right)$ depende de$\check{\theta}_{d}$ a través de una función de varianza generalizada ajustada (FGV). Note que $\tilde{Y}_{d}=\tilde{n}_{d}\times\hat{\theta}_{d}$. 
 
 Suponga de las distribuciones previas para 
 $\boldsymbol{\beta}$ y $\sigma_{u}^{2}$ son dadas por 
@@ -365,7 +364,7 @@ Xdat <- data_dir[,names_cov]
 Xs <- data_syn[,names_cov]
 ```
 
-  3.    Obteniendo el tamaño de muestra efectivo  $\tilde{n}_d$, y el número de muestra efectivo de éxitos $\tilde{y_d}$
+  3.    Obteniendo el tamaño de muestra efectivo  $\tilde{n}_d$, y el número de muestra efectivo de éxitos $\tilde{Y_d}$
 
 
 ```r
@@ -432,19 +431,23 @@ y_pred2 <- y_pred_B[rowsrandom, ]
 ppc_dens_overlay(y = as.numeric(data_dir$pobreza), y_pred2)
 ```
 
-<img src="06-D2S4-Fay_Herriot_binomial_files/figure-html/unnamed-chunk-12-1.svg" width="672" />
 
-Análisis gráfico de la convergencia de las cadenas de $\sigma_V$. 
+<img src="Recursos/Día2/Sesion4/0Recursos/Binomial1.PNG" width="200%" />
+
+
+Análisis gráfico de la convergencia de las cadenas de $\sigma_u$. 
 
 
 ```r
-posterior_sigma_v <- as.array(model_FH_Binomial, pars = "sigma_v")
-(mcmc_dens_chains(posterior_sigma_v) +
-    mcmc_areas(posterior_sigma_v) ) / 
-  mcmc_trace(posterior_sigma_v)
+posterior_sigma_u <- as.array(model_FH_Binomial, pars = "sigma_u")
+(mcmc_dens_chains(posterior_sigma_u) +
+    mcmc_areas(posterior_sigma_u) ) / 
+  mcmc_trace(posterior_sigma_u)
 ```
 
-<img src="06-D2S4-Fay_Herriot_binomial_files/figure-html/unnamed-chunk-13-1.svg" width="672" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Binomial2.PNG" width="200%" />
+
+
 
 Estimación del FH de la pobreza en los dominios observados. 
 
@@ -505,7 +508,7 @@ Mapa_lp <-
 Mapa_lp
 ```
 
-<img src="Recursos/Día2/Sesion4/0Recursos/Binomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Binomial.PNG" width="400%" style="display: block; margin: auto;" />
 
 #### Mapa del coeficiente de variación.
 
@@ -524,7 +527,7 @@ Mapa_cv <-
 Mapa_cv
 ```
 
-<img src="Recursos/Día2/Sesion4/0Recursos/Binomial_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion4/0Recursos/Binomial_cv.PNG" width="400%" style="display: block; margin: auto;" />
 
 
 

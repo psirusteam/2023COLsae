@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-03-26" />
+<meta name="date" content="2023-03-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
 <ul>
-<li class="chapter" data-level="" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i>Modelo de área para la estimación de la pobreza</a></li>
+<li class="chapter" data-level="6.0.1" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i><b>6.0.1</b> Modelo de área para la estimación de la pobreza</a></li>
 <li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
 <ul>
@@ -387,31 +387,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="modelo-fay-herriot-de-variable-respuesta-beta." class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Modelo Fay Herriot de variable respuesta beta.<a href="modelo-fay-herriot-de-variable-respuesta-beta..html#modelo-fay-herriot-de-variable-respuesta-beta." class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>El modelo lineal de Fay-Herriot puede ser reemplazado por un modelo mixto lineal generalizado (GLMM). Esto se puede hacer cuando los datos observados <span class="math inline">\(y_d\)</span> son inherentemente discretos, como cuando son recuentos (no ponderados) de personas u hogares muestreados con ciertas características. Uno de estos modelos supone una distribución binomial para <span class="math inline">\(y_d\)</span> con probabilidad de éxito <span class="math inline">\(p_d\)</span>, y una logística modelo de regresión para <span class="math inline">\(p_d\)</span> con errores normales en la escala logit. El modelo resultante es</p>
+<p>El modelo lineal de Fay-Herriot puede ser reemplazado por un modelo mixto lineal generalizado (GLMM). Esto se puede hacer cuando los datos observados <span class="math inline">\(Y_d\)</span> son inherentemente discretos, como cuando son recuentos (no ponderados) de personas u hogares muestreados con ciertas características. Uno de estos modelos supone una distribución binomial para <span class="math inline">\(Y_d\)</span> con probabilidad de éxito <span class="math inline">\(\theta_d\)</span>, y una logística modelo de regresión para <span class="math inline">\(\theta_d\)</span> con errores normales en la escala logit. El modelo resultante es</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-y_{d}\mid p_{d},n_{d} &amp; \sim &amp; Bin\left(n_{d},p_{d}\right)
+Y_{d}\mid \theta_{d},n_{d} &amp; \sim &amp; Bin\left(n_{d},\theta_{d}\right)
 \end{eqnarray*}
 \]</span>
 para <span class="math inline">\(d=1,\dots,D\)</span> y</p>
 <p><span class="math display">\[
 \begin{eqnarray*}
-logit\left(p_{d}\right)=\log\left(\frac{p_{d}}{1-p_{d}}\right) &amp; = &amp; \boldsymbol{x}_{d}^{T}\boldsymbol{\beta}+u_{d}
+logit\left(\theta_{d}\right)=\log\left(\frac{\theta_{d}}{1-\theta_{d}}\right) &amp; = &amp; \boldsymbol{x}_{d}^{T}\boldsymbol{\beta}+u_{d}
 \end{eqnarray*}
 \]</span>
 donde <span class="math inline">\(u_{d}\sim N\left(0,\sigma_{u}^{2}\right)\)</span> y <span class="math inline">\(n_{d}\)</span> es el
 tamaño de la muestra para el área <span class="math inline">\(d\)</span>.</p>
-<p>El modelo anterior se puede aplicar fácilmente a recuentos de muestras no ponderadas <span class="math inline">\(y_d\)</span>, pero esto ignora cualquier aspecto complejo del diseño de la encuesta. En muestras complejas donde las <span class="math inline">\(y_d\)</span> son estimaciones ponderadas, surgen dos problemas. En primer lugar, los posibles valores de
-el <span class="math inline">\(y_d\)</span> no serán los números enteros <span class="math inline">\(0, 1, \dots , n_d\)</span> para cualquier definición directa de tamaño de muestra <span class="math inline">\(n_d\)</span>. En su lugar, <span class="math inline">\(y_d\)</span> tomará un valor de un conjunto finito de números desigualmente espaciados determinados por las ponderaciones de la encuesta que se aplican a los casos de muestra en el dominio <span class="math inline">\(d\)</span>. En segundo lugar, la varianza muestral de <span class="math inline">\(y_d\)</span>
-implícito en la distribución Binomial, es decir, <span class="math inline">\(n_d \times p_d (1-p_d)\)</span>, será incorrecto. Abordamos estos dos problemas al definir un <strong>tamaño de muestra efectivo</strong> <span class="math inline">\(\tilde{n}_d\)</span>, y un <strong>número de muestra efectivo de éxitos</strong> <span class="math inline">\(\tilde{y_d}\)</span> determinó mantener: (i) la estimación directa <span class="math inline">\(\hat{p}_i\)</span>, de la pobreza y (ii) una estimación de la varianza de muestreo correspondiente,<span class="math inline">\(\widehat{Var}(\hat{p}_d)\)</span>.</p>
+<p>El modelo anterior se puede aplicar fácilmente a recuentos de muestras no ponderadas <span class="math inline">\(Y_d\)</span>, pero esto ignora cualquier aspecto complejo del diseño de la encuesta. En muestras complejas donde las <span class="math inline">\(Y_d\)</span> son estimaciones ponderadas, surgen dos problemas. En primer lugar, los posibles valores de
+el <span class="math inline">\(Y_d\)</span> no serán los números enteros <span class="math inline">\(0, 1, \dots , n_d\)</span> para cualquier definición directa de tamaño de muestra <span class="math inline">\(n_d\)</span>. En su lugar, <span class="math inline">\(Y_d\)</span> tomará un valor de un conjunto finito de números desigualmente espaciados determinados por las ponderaciones de la encuesta que se aplican a los casos de muestra en el dominio <span class="math inline">\(d\)</span>. En segundo lugar, la varianza muestral de <span class="math inline">\(Y_d\)</span>
+implícito en la distribución Binomial, es decir, <span class="math inline">\(n_d \times \theta_d (1-\theta_d)\)</span>, será incorrecto. Abordamos estos dos problemas al definir un <strong>tamaño de muestra efectivo</strong> <span class="math inline">\(\tilde{n}_d\)</span>, y un <strong>número de muestra efectivo de éxitos</strong> <span class="math inline">\(\tilde{Y_d}\)</span> determinó mantener: (i) la estimación directa <span class="math inline">\(\hat{\theta}_i\)</span>, de la pobreza y (ii) una estimación de la varianza de muestreo correspondiente,<span class="math inline">\(\widehat{Var}(\hat{\theta}_d)\)</span>.</p>
 <p>Es posible suponer que
 <span class="math display">\[
 \begin{eqnarray*}
-\tilde{n}_{d} &amp; \sim &amp; \frac{\check{p}_{d}\left(1-\check{p}_{d}\right)}{\widehat{Var}\left(\hat{p}_{d}\right)}
+\tilde{n}_{d} &amp; \sim &amp; \frac{\check{\theta}_{d}\left(1-\check{\theta}_{d}\right)}{\widehat{Var}\left(\hat{\theta}_{d}\right)}
 \end{eqnarray*}
 \]</span>
-donde <span class="math inline">\(\check{p}_{d}\)</span> es una preliminar perdicción basada en el modelo
-para la proporción poblacional <span class="math inline">\(p_d\)</span> y y <span class="math inline">\(\widehat{Var}\left(\hat{p}_{d}\right)\)</span> depende de<span class="math inline">\(\check{p}_{d}\)</span> a través de una función de varianza generalizada ajustada (FGV). Note que <span class="math inline">\(\tilde{y}_{d}=\tilde{n}_{d}\times\hat{p}_{d}\)</span>.</p>
+donde <span class="math inline">\(\check{\theta}_{d}\)</span> es una preliminar perdicción basada en el modelo para la proporción poblacional <span class="math inline">\(\theta_d\)</span> y <span class="math inline">\(\widehat{Var}\left(\hat{\theta}_{d}\right)\)</span> depende de<span class="math inline">\(\check{\theta}_{d}\)</span> a través de una función de varianza generalizada ajustada (FGV). Note que <span class="math inline">\(\tilde{Y}_{d}=\tilde{n}_{d}\times\hat{\theta}_{d}\)</span>.</p>
 <p>Suponga de las distribuciones previas para
 <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\sigma_{u}^{2}\)</span> son dadas por
 <span class="math display">\[
@@ -1062,7 +1061,7 @@ NA
 <span id="cb128-4"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Dominios no observados</span></span>
 <span id="cb128-5"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb128-5" aria-hidden="true" tabindex="-1"></a>Xs <span class="ot">&lt;-</span> data_syn[,names_cov]</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li>Obteniendo el tamaño de muestra efectivo <span class="math inline">\(\tilde{n}_d\)</span>, y el número de muestra efectivo de éxitos <span class="math inline">\(\tilde{y_d}\)</span></li>
+<li>Obteniendo el tamaño de muestra efectivo <span class="math inline">\(\tilde{n}_d\)</span>, y el número de muestra efectivo de éxitos <span class="math inline">\(\tilde{Y_d}\)</span></li>
 </ol>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb129-1" aria-hidden="true" tabindex="-1"></a>n_effec <span class="ot">=</span> <span class="fu">round</span>(data_dir<span class="sc">$</span>n_eff_FGV)</span>
 <span id="cb129-2"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb129-2" aria-hidden="true" tabindex="-1"></a>y_effect  <span class="ot">=</span> <span class="fu">round</span>((data_dir<span class="sc">$</span>pobreza)<span class="sc">*</span>n_effec)</span></code></pre></div>
@@ -1109,13 +1108,13 @@ NA
 <span id="cb133-7"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb133-7" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
 <span id="cb133-8"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb133-8" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
 <span id="cb133-9"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb133-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), y_pred2)</span></code></pre></div>
-<p><img src="06-D2S4-Fay_Herriot_binomial_files/figure-html/unnamed-chunk-12-1.svg" width="672" /></p>
-<p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma_V\)</span>.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma_v <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_Binomial, <span class="at">pars =</span> <span class="st">&quot;sigma_v&quot;</span>)</span>
-<span id="cb134-2"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma_v) <span class="sc">+</span></span>
-<span id="cb134-3"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma_v) ) <span class="sc">/</span> </span>
-<span id="cb134-4"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma_v)</span></code></pre></div>
-<p><img src="06-D2S4-Fay_Herriot_binomial_files/figure-html/unnamed-chunk-13-1.svg" width="672" /></p>
+<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial1.PNG" width="200%" /></p>
+<p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma_u\)</span>.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma_u <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_Binomial, <span class="at">pars =</span> <span class="st">&quot;sigma_u&quot;</span>)</span>
+<span id="cb134-2"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma_u) <span class="sc">+</span></span>
+<span id="cb134-3"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma_u) ) <span class="sc">/</span> </span>
+<span id="cb134-4"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb134-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma_u)</span></code></pre></div>
+<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial2.PNG" width="200%" /></p>
 <p>Estimación del FH de la pobreza en los dominios observados.</p>
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb135-1" aria-hidden="true" tabindex="-1"></a>theta_FH <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_FH_Binomial,<span class="at">pars =</span>  <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
 <span id="cb135-2"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
@@ -1160,7 +1159,7 @@ NA
 <span id="cb137-24"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb137-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">1.5</span>)</span>
 <span id="cb137-25"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb137-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-26"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb137-26" aria-hidden="true" tabindex="-1"></a>Mapa_lp</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial.PNG" width="400%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="mapa-del-coeficiente-de-variación.-1" class="section level4 hasAnchor" number="8.1.2.3">
 <h4><span class="header-section-number">8.1.2.3</span> Mapa del coeficiente de variación.<a href="modelo-fay-herriot-de-variable-respuesta-beta..html#mapa-del-coeficiente-de-variación.-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -1174,7 +1173,7 @@ NA
 <span id="cb138-7"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb138-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">tm_layout</span>(<span class="at">asp =</span> <span class="fl">2.5</span>)</span>
 <span id="cb138-8"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb138-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb138-9"><a href="modelo-fay-herriot-de-variable-respuesta-beta..html#cb138-9" aria-hidden="true" tabindex="-1"></a>Mapa_cv</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa2/Sesion4/0Recursos/Binomial_cv.PNG" width="400%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

@@ -494,7 +494,7 @@ Mapa_lp
 ```
 
 
-<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno.PNG" width="200%" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno.PNG" width="400%" style="display: block; margin: auto;" />
 
 
 ## Mapa del coeficiente de variación.  
@@ -515,5 +515,5 @@ Mapa_cv
 ```
 
 
-<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno_cv.PNG" width="500px" height="250px" style="display: block; margin: auto;" />
+<img src="Recursos/Día2/Sesion3/0Recursos/Mapa_arcoseno_cv.PNG" width="400%" style="display: block; margin: auto;" />
 

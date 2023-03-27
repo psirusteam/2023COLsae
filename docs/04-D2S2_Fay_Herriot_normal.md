@@ -64,7 +64,7 @@ $$
 
 donde $\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}$.
 
-### Modelo de área para la estimación de la pobreza {-}
+### Modelo de área para la estimación de la pobreza
 
 
 El modelo bayesiano estaría definido como:  
