@@ -6,79 +6,51 @@
 El modelo de Fay Herriot, propuesto por Fay y Herriot (1979), es un modelo estadístico de área y es el más comúnmente utilizado, cabe tener en cuenta, que dentro de la metodología de estimación en áreas pequeñas, los modelos de área son los de mayor aplicación, ya que lo más factible es no contar con la información a nivel de individuo, pero si encontrar no solo los datos a nivel de área, sino también información auxiliar asociada a estos datos. Este modelo lineal mixto, fue el primero en incluir efectos aleatorios a nivel de área, lo que implica que la mayoría de la información que se introduce al modelo corresponde a agregaciaciones usualmente, departamentos, regiones, provincias, municipios entre otros, donde las estimaciones que se logran con el modelo se obtienen sobre estas agregaciones o subpoblaciones.
 
 
--   El modelo FH enlaza indicadores de las áreas $\theta_d$, $d = 1, \cdots , D$, asumiendo que varían respeto a un vector de $p$ covariables, $\boldsymbol{x}_d$ , de forma constante. El modelo esta dado por la ecuación
+Ahora, el modelo  Fay Herriot es un modelo que relaciona los indicadores de las áreas $\theta_d$, donde $d$ varía de 1 a $D$, asumiendo que varían con respecto a un vector de $p$ covariables $\boldsymbol{x}_d$. El modelo se define mediante la ecuación $\theta_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d$, donde $u_d$ es el término de error o efecto aleatorio, diferente para cada área y se distribuye como $u_{d} \stackrel{ind}{\sim}\left(0,\sigma_{u}^{2}\right)$.
 
+Sin embargo, los verdaderos valores de los indicadores $\theta_d$ no son observables. Entonces, se utiliza el estimador directo $\hat{\theta}^{DIR}_d$ para estimarlos, lo que conduce a un error de muestreo. Este estimador todavía se considera insesgado bajo el diseño muestral, es decir, 
 $$
-\theta_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d ,\ \ \ \ \  d = 1, \cdots , D
-$$ 
-
-- $u_d$ es el término de error, o el efecto aleatorio, diferente para cada área dado por
-
-$$
-\begin{eqnarray*}
-u_{d} & \stackrel{iid}{\sim} & \left(0,\sigma_{u}^{2}\right)
-\end{eqnarray*}
+\hat{\theta}_d^{DIR} = \theta + e_d  
 $$
 
--   Sin embargo, los verdaderos valores de los indicadores $\theta_d$ no son observables. Entonces, usamos el estimador directo $\hat{\theta}^{DIR}_d$ para $\theta_d$ , lo que conlleva un error debido al muestro.
 
--   $\hat{\theta}^{DIR}_d$ todavía se considera insesgado bajo el diseño muestral.
-
--   Podemos definir, entonces, 
+El modelo se ajusta entonces utilizando el término de error debido al muestreo $e_d$, donde $e_{d} \stackrel{ind}{\sim} \left(0,\sigma^2_{e_d}\right)$ y las varianzas $\sigma^2_{e_d}$ se estiman utilizando los microdatos de la encuesta. El modelo FH se reescribe como
 
 $$
-\hat{\theta}^{DIR}_d = \theta_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D 
-$$ 
-    
-donde $e_d$ es el error debido al muestreo, $e_{d} \stackrel{ind}{\sim} \left(0,\sigma^2\right)$
+\hat{\theta}^{DIR}_{d} = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d + e_d
+$$.
 
--   Dichas varianzas $\sigma^2_d = var_{\mathscr{P}}\left(\hat{\theta}^{DIR}_d\mid\theta_d\right)$, $d = 1,\cdots,D$ se estiman con los microdatos de la encuesta.
-
--   Por tanto, el modelo se hace, $$
-    \hat{\theta}^{DIR}_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d + e_d, \ \ \ \ \ \ d = 1, \cdots , D
-    $$
-
--   El BLUP (best linear unbiased predictor) bajo el modelo FH de $\theta_d$ viene dado por
+El mejor predictor lineal insesgado (BLUP) bajo el modelo FH viene dado por 
 
 $$
-    \begin{eqnarray*}
-    \tilde{\theta}_{d}^{FH} & = & \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
-    \end{eqnarray*}
-$$
+\tilde{\theta}_{d}^{FH} = \boldsymbol{x}^{T}{d}\tilde{\boldsymbol{\beta}}+\tilde{u}_{d}
+$$,
 
--   Si sustituimos $\tilde{u}_d = \gamma_d\left(\hat{\theta}^{DIR}_d - \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}} \right)$ en el BLUP bajo el modelo FH, obtenemos $$
-    \begin{eqnarray*}
-    \tilde{\theta}_{d}^{FH} & = & \gamma_d\hat{\theta}^{DIR}_{d}+(1-\gamma_d)\boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}}
-    \end{eqnarray*}
-    $$ siendo $\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \sigma^2_d}$.
+donde $\tilde{u}_d = \gamma_d\left(\hat{\theta}^{DIR}_{d} - \boldsymbol{x}^{T}_{d}\tilde{\boldsymbol{\beta}} \right)$ y $\gamma_d=\frac{\sigma^2_u}{\sigma^2_u + \sigma^2_{e_d}}$.
 
--   Habitualmente, no sabemos el verdadero valor de $\sigma^2_u$ efectos aleatorios $u_d$.
-
--   Sea $\hat{\sigma}^2_u$ un estimador consistente para $\sigma^2_u$. Entonces, obtenemos el BLUP empírico (empirical BLUP, EBLUP) de $\theta_d$ ,
-
-$$
-    \begin{eqnarray*}
-    \tilde{\theta}_{d}^{FH} & = & \hat{\gamma_d}\hat{\theta}^{DIR}_{d}+(1-\hat{\gamma_d})\boldsymbol{x}^{T}_{d}\hat{\boldsymbol{\beta}}
-    \end{eqnarray*}
-$$
-
-donde $\hat{\gamma_d}=\frac{\hat{\sigma}^2_u}{\hat{\sigma}^2_u + \sigma^2_d}$.
 
 ### Modelo de área para la estimación de la pobreza
 
-
-El modelo bayesiano estaría definido como:  
+Sea $P_d$ la probabilidad de encontrar una persona en condición de pobreza en el $d-$ésimo dominio de la población. Entonces, el estimador directo de $P_d$ se puede escribir como:  
 
 $$
-\begin{eqnarray*}
-Y_d\mid\theta_d,\sigma_d^2 & \sim & N\left(\theta_d,\sigma_d^2\right)\\
-\theta_d & = & \boldsymbol{x}^{T}_{d}\boldsymbol{\beta}+u_d
-\end{eqnarray*}
+\hat{P}^{DIR}_{d} = P_d + e_d
 $$
 
-donde $u_d \sim N(0 , \sigma^2_u)$ y $Y_d$ es la estimación directa de la pobreza en el $d-ésimo$ dominio. 
+Ahora bien, $P_d$ se puede modelar de la siguiente manera,  
 
-Las distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_u$
+$$
+P_d = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d
+$$
+Luego, reescribiendo $\hat{P}^{DIR}_{d}$ en términos de las dos ecuaciones anteriores tenemos:  
+
+$$
+\hat{P}^{DIR}_{d} = \boldsymbol{x}^{T}_{d}\boldsymbol{\beta} + u_d + e_d
+$$
+
+Ahora, es posible suponer que $\hat{P}^{DIR}_d \sim N(\boldsymbol{x}^{T}_{d}\boldsymbol \beta, \sigma_u^2 +\sigma_{e_d}^2)$, $\hat{P}^{DIR}_d \mid u_d \sim N(\boldsymbol{x}^{T}_{d}\boldsymbol \beta + u_d,\sigma_{e_d}^2)$ y $u_d \sim N(0, \sigma^2_u)$
+
+Luego, se asumen distribuciones previas para $\boldsymbol{\beta}$ y $\sigma^2_u$
 
 $$
 \begin{eqnarray*}
@@ -86,6 +58,42 @@ $$
 \sigma^2_u &\sim & IG(0.0001, 0.0001)
 \end{eqnarray*}
 $$
+
+por tanto, el estimador bayesiano para $P_d$ esta dado como $\tilde{P}_d = E\left(P_d\mid\hat{P}_d^{DIR}\right)$
+
+
+#### Predictor óptimo de $P_d$ {-}
+
+El predictor óptimo de $P_d$ es 
+
+$$E(P_d | \hat{P}^{DIR}_d) = \gamma_d\hat{P}^{DIR}_d + (1-\gamma_d)\boldsymbol{x}^{T}_{d}\boldsymbol \beta$$
+con $\gamma_d = \frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}$.
+
+sabemos que $\hat{P}^{DIR}_d \sim N(\boldsymbol{x}^{T}_{d}\boldsymbol \beta, \sigma_u^2 +\sigma_{e_d}^2)$, $\hat{P}^{DIR}_d \mid u_d \sim N(\boldsymbol{x}^{T}_{d}\boldsymbol \beta + u_d,\sigma_{e_d}^2)$ y $u_d \sim N(0, \sigma^2_u)$
+
+Por tanto
+
+$$
+\begin{align*}
+f(u_d| \hat{P}^{DIR}_d) \propto f(\hat{P}^{DIR}_d | u_d)f(u_d) & = \frac{1}{\sigma^2_{e_d}\sqrt{2\pi}}\exp\left\{-\frac{1}{2\sigma^2_{e_d}(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta - u_d)^2}\right\} \frac{1}{\sigma^2_u\sqrt{2\pi}}\exp\left\{- \frac{1}{2\sigma^2_u}u_d^2\right\}\\
+& \propto \exp\left\{-\frac{u_d^2 - 2u_d(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta)}{2\sigma^2_{e_d}} - \frac{u_d^2}{2\sigma^2_u}\right\} \\
+& = \exp\left\{-\frac{1}{2}\left[(\frac{1}{\sigma^2_{e_d}} + \frac{1}{\sigma^2_u})u_d^2 - 2\frac{\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta}{\sigma_{e_d}^2}u_d\right] \right\} \\
+& = \exp \left\{ -\frac{1}{2\frac{\sigma_u^2\sigma_{e_d}^2}{\sigma_u^2 +\sigma_{e_d}^2}}\left[u_d^2 - 2\frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta)u_d \right] \right\} \\
+& \propto \exp \left\{ -\frac{1}{2\frac{\sigma_u^2\sigma_{e_d}^2}{\sigma_u^2 +\sigma_{e_d}^2}}\left[u_d -  \frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta)\right]^2 \right\} \\
+& \propto N(E(u_d|\hat{P}^{DIR}_d), \text{Var}(u_d|P^{DIR}))
+\end{align*}
+$$
+
+con $E(u_d|\hat{P}^{DIR}_d) = \frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta)$ y $\text{Var}(u_d|P^{DIR}) = \frac{\sigma_u^2\sigma_{e_d}^2}{\sigma_u^2 +\sigma_{e_d}^2}$. Por lo tanto se tiene,
+
+$$
+\begin{align*}
+E(P_d | \hat{P}^{DIR}_d) = \boldsymbol{x}^{T}_{d}\boldsymbol \beta + E(u_d|\hat{P}^{DIR}_d) & =  \boldsymbol{x}^{T}_{d}\boldsymbol \beta + \frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}(\hat{P}^{DIR}_d-\boldsymbol{x}^{T}_{d}\boldsymbol \beta) \\
+& = \frac{\sigma_{e_d}^2}{\sigma_u^2 +\sigma_{e_d}^2}\hat{P}^{DIR}_d + \frac{\sigma_u^2}{\sigma_u^2 +\sigma_{e_d}^2}\boldsymbol{x}^{T}_{d}\boldsymbol \beta \\
+& = \gamma_d\hat{P}^{DIR}_d + (1-\gamma_d)\boldsymbol{x}^{T}_{d}\boldsymbol \beta
+\end{align*}
+$$
+
 
 ## Procedimiento de estimación
 

@@ -10,9 +10,44 @@ Uno de los primeros problemas a los que debemos enfrentarnos es la estimación d
 <p class="caption">(\#fig:unnamed-chunk-1)Distribución del ingreso medio por dam2</p>
 </div>
 
+
+#### Obejtivo {-}
+
+Estimar el ingreso medio de las personas, es decir, 
+$$
+\bar{Y}_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_{di}$ es el ingreso de cada personas
+
+Note que, 
+
+$$
+\begin{equation*}
+\bar{Y}_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
+$$
+
+Ahora, el estimador de $\bar{Y}$ esta dado por: 
+
+$$
+\hat{\bar{Y}}_d = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
+$$
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{\bar{Y}}_d = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
+$$
+
+
 ## Modelo bayesiano.
 
-Para realizar la predicción del ingreso medio en dam2s no observadas se asume que: 
+Para realizar la predicción del ingreso medio en dam2 no observadas se asume que: 
 
 $$
 \begin{eqnarray*}

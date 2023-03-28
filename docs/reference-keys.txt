@@ -35,7 +35,7 @@ práctica-en-stan-2
 modelos-multiparamétricos
 modelo-de-unidad-normal-con-media-y-varianza-desconocida
 práctica-en-stan-3
-modelo-multinomial
+modelo-de-área-multinomial
 práctica-en-stan-4
 día-2---sesión-1--estimaciones-geih-y-función-generalizada-de-varianza
 datos-de-la-encuesta
@@ -55,14 +55,14 @@ preparando-los-insumos-para-stan-1
 resultados-del-modelo-para-los-dominios-observados.-1
 mapa-de-pobreza-1
 mapa-del-coeficiente-de-variación.
-día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familias-beta-y-binomial
-modelo-fay-herriot-de-variable-respuesta-beta.
+día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familia-beta-y-binomial
+modelos-de-área-con-variable-respuesta-binomial.
 procedimiento-de-estimación-2
 preparando-los-insumos-para-stan-2
 resultados-del-modelo-para-los-dominios-observados.-2
 mapa-de-pobreza-2
 mapa-del-coeficiente-de-variación.-1
-modelo-de-fay-herriot-de-variable-respuesta-beta.
+modelos-de-área-con-variable-respuesta-beta.
 procedimiento-de-estimación-3
 preparando-los-insumos-para-stan-3
 resultados-del-modelo-para-los-dominios-observados.-3

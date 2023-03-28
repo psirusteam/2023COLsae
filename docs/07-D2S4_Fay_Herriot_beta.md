@@ -1,4 +1,4 @@
-## Modelo de Fay Herriot de variable respuesta beta.
+## Modelos de área con variable respuesta Beta. 
 
 
 

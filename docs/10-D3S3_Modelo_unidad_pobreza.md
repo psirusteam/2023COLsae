@@ -14,11 +14,11 @@ donde $\theta$ representa la probabilidad de éxito del evento.
 Sea 
 $$
 y_{ji}=\begin{cases}
-1 & ingreso_{di}\le lp\\
+1 & ingreso_{ji}\le lp\\
 0 & e.o.c.
 \end{cases}
 $$ 
-donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\theta_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el efecto aleatorio $u_d$.     
+donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\theta_{ji}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el efecto aleatorio $u_d$.     
 
 $$
 \begin{eqnarray*}
@@ -36,6 +36,42 @@ $$
 \sigma^2_u &\sim & IG(0.0001,0.0001)
 \end{eqnarray*}
 $$ las cuales se toman no informativas.
+
+
+#### Obejtivo {-}
+
+Estimar la proporción de personas que están por debajo de la linea pobreza, es decir, 
+$$
+P_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_{di}$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
+
+Note que, 
+
+$$
+\begin{equation*}
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
+$$
+
+Ahora, el estimador de $P$ esta dado por: 
+
+$$
+\hat{P} = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
+$$
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{P} = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
+$$
+
+
 
 A continuación se muestra el proceso realizado para la obtención de la predicción de la tasa de pobreza.
 

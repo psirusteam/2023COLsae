@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7.2 Preparando los insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
+  <title>Capítulo 8 Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familia beta y binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7.2 Preparando los insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta property="og:title" content="Capítulo 8 Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familia beta y binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Taller de instalación de capacidades en SAE." />
   <meta name="github-repo" content="psirusteam/HHS-Handbook" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7.2 Preparando los insumos para STAN | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
+  <meta name="twitter:title" content="Capítulo 8 Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familia beta y binomial | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   
   <meta name="twitter:description" content="Taller de instalación de capacidades en SAE." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="procedimiento-de-estimación-1.html"/>
-<link rel="next" href="mapa-de-pobreza-1.html"/>
+<link rel="prev" href="mapa-del-coeficiente-de-variación..html"/>
+<link rel="next" href="modelos-de-área-con-variable-respuesta-binomial..html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -385,390 +385,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="preparando-los-insumos-para-stan-1" class="section level2 hasAnchor" number="7.2">
-<h2><span class="header-section-number">7.2</span> Preparando los insumos para <code>STAN</code><a href="preparando-los-insumos-para-stan-1.html#preparando-los-insumos-para-stan-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<ol style="list-style-type: decimal">
-<li>Dividir la base de datos en dominios observados y no observados</li>
-</ol>
-<p>Dominios observados.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="preparando-los-insumos-para-stan-1.html#cb110-1" aria-hidden="true" tabindex="-1"></a>data_dir <span class="ot">&lt;-</span> base_FH <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(T_pobreza))</span></code></pre></div>
-<p>Dominios NO observados.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="preparando-los-insumos-para-stan-1.html#cb111-1" aria-hidden="true" tabindex="-1"></a>data_syn <span class="ot">&lt;-</span></span>
-<span id="cb111-2"><a href="preparando-los-insumos-para-stan-1.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  base_FH <span class="sc">%&gt;%</span> <span class="fu">anti_join</span>(data_dir <span class="sc">%&gt;%</span> <span class="fu">select</span>(dam2))</span>
-<span id="cb111-3"><a href="preparando-los-insumos-para-stan-1.html#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tba</span>(data_syn[,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>] <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code></pre></div>
-<table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-dam2
-</th>
-<th style="text-align:right;">
-pobreza
-</th>
-<th style="text-align:right;">
-T_pobreza
-</th>
-<th style="text-align:right;">
-n_effec
-</th>
-<th style="text-align:right;">
-varhat
-</th>
-<th style="text-align:left;">
-dam
-</th>
-<th style="text-align:right;">
-area1
-</th>
-<th style="text-align:right;">
-sexo2
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-05004
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.3279
-</td>
-<td style="text-align:right;">
-0.4576
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05021
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.5770
-</td>
-<td style="text-align:right;">
-0.5020
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05030
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.4859
-</td>
-<td style="text-align:right;">
-0.5063
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05036
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.3931
-</td>
-<td style="text-align:right;">
-0.4951
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05038
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.2256
-</td>
-<td style="text-align:right;">
-0.4927
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05040
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.4858
-</td>
-<td style="text-align:right;">
-0.4826
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05042
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.6688
-</td>
-<td style="text-align:right;">
-0.5031
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05044
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.1847
-</td>
-<td style="text-align:right;">
-0.4828
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05051
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.3660
-</td>
-<td style="text-align:right;">
-0.4970
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-05055
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-05
-</td>
-<td style="text-align:right;">
-0.4431
-</td>
-<td style="text-align:right;">
-0.4825
-</td>
-</tr>
-</tbody>
-</table>
-<ol start="2" style="list-style-type: decimal">
-<li>Definir matriz de efectos fijos.</li>
-</ol>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="preparando-los-insumos-para-stan-1.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Dominios observados</span></span>
-<span id="cb112-2"><a href="preparando-los-insumos-para-stan-1.html#cb112-2" aria-hidden="true" tabindex="-1"></a>Xdat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">inter =</span> <span class="dv">1</span>,data_dir[,names_cov])</span>
-<span id="cb112-3"><a href="preparando-los-insumos-para-stan-1.html#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb112-4"><a href="preparando-los-insumos-para-stan-1.html#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Dominios no observados</span></span>
-<span id="cb112-5"><a href="preparando-los-insumos-para-stan-1.html#cb112-5" aria-hidden="true" tabindex="-1"></a>Xs <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="at">inter =</span> <span class="dv">1</span>,data_syn[,names_cov])</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Creando lista de parámetros para <code>STAN</code></li>
-</ol>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="preparando-los-insumos-para-stan-1.html#cb113-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb113-2"><a href="preparando-los-insumos-para-stan-1.html#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N1 =</span> <span class="fu">nrow</span>(Xdat),       <span class="co"># Observados.</span></span>
-<span id="cb113-3"><a href="preparando-los-insumos-para-stan-1.html#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">N2 =</span> <span class="fu">nrow</span>(Xs),         <span class="co"># NO Observados.</span></span>
-<span id="cb113-4"><a href="preparando-los-insumos-para-stan-1.html#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p  =</span> <span class="fu">ncol</span>(Xdat),       <span class="co"># Número de regresores.</span></span>
-<span id="cb113-5"><a href="preparando-los-insumos-para-stan-1.html#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">X  =</span> <span class="fu">as.matrix</span>(Xdat),  <span class="co"># Covariables Observados.</span></span>
-<span id="cb113-6"><a href="preparando-los-insumos-para-stan-1.html#cb113-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Xs =</span> <span class="fu">as.matrix</span>(Xs),    <span class="co"># Covariables NO Observados</span></span>
-<span id="cb113-7"><a href="preparando-los-insumos-para-stan-1.html#cb113-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y  =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>T_pobreza),</span>
-<span id="cb113-8"><a href="preparando-los-insumos-para-stan-1.html#cb113-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma_e =</span> <span class="fu">sqrt</span>(data_dir<span class="sc">$</span>varhat)</span>
-<span id="cb113-9"><a href="preparando-los-insumos-para-stan-1.html#cb113-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<ol start="4" style="list-style-type: decimal">
-<li>Compilando el modelo en <code>STAN</code></li>
-</ol>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="preparando-los-insumos-para-stan-1.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb114-2"><a href="preparando-los-insumos-para-stan-1.html#cb114-2" aria-hidden="true" tabindex="-1"></a>fit_FH_arcoseno <span class="ot">&lt;-</span> <span class="st">&quot;Recursos/Día2/Sesion3/Data/modelosStan/15FH_arcsin_normal.stan&quot;</span></span>
-<span id="cb114-3"><a href="preparando-los-insumos-para-stan-1.html#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
-<span id="cb114-4"><a href="preparando-los-insumos-para-stan-1.html#cb114-4" aria-hidden="true" tabindex="-1"></a>model_FH_arcoseno <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb114-5"><a href="preparando-los-insumos-para-stan-1.html#cb114-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> fit_FH_arcoseno,  </span>
-<span id="cb114-6"><a href="preparando-los-insumos-para-stan-1.html#cb114-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,   </span>
-<span id="cb114-7"><a href="preparando-los-insumos-para-stan-1.html#cb114-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb114-8"><a href="preparando-los-insumos-para-stan-1.html#cb114-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">500</span>,         </span>
-<span id="cb114-9"><a href="preparando-los-insumos-para-stan-1.html#cb114-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">1000</span>,            </span>
-<span id="cb114-10"><a href="preparando-los-insumos-para-stan-1.html#cb114-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>              </span>
-<span id="cb114-11"><a href="preparando-los-insumos-para-stan-1.html#cb114-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb114-12"><a href="preparando-los-insumos-para-stan-1.html#cb114-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(model_FH_arcoseno,</span>
-<span id="cb114-13"><a href="preparando-los-insumos-para-stan-1.html#cb114-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Recursos/Día2/Sesion3/Data/model_FH_arcoseno.rds&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="preparando-los-insumos-para-stan-1.html#cb115-1" aria-hidden="true" tabindex="-1"></a>model_FH_arcoseno <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;Recursos/Día2/Sesion3/Data/model_FH_arcoseno.rds&quot;</span>)</span></code></pre></div>
-<div id="resultados-del-modelo-para-los-dominios-observados.-1" class="section level3 hasAnchor" number="7.2.1">
-<h3><span class="header-section-number">7.2.1</span> Resultados del modelo para los dominios observados.<a href="preparando-los-insumos-para-stan-1.html#resultados-del-modelo-para-los-dominios-observados.-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>En este código, se cargan las librerías <code>bayesplot</code>, <code>posterior</code> y <code>patchwork</code>, que se utilizan para realizar gráficos y visualizaciones de los resultados del modelo.</p>
-<p>A continuación, se utiliza la función <code>as.array()</code> y <code>as_draws_matrix()</code> para extraer las muestras de la distribución posterior del parámetro <code>theta</code> del modelo, y se seleccionan aleatoriamente 100 filas de estas muestras utilizando la función <code>sample()</code>, lo que resulta en la matriz <code>y_pred2.</code></p>
-<p>Finalmente, se utiliza la función <code>ppc_dens_overlay()</code> de <code>bayesplot</code> para graficar una comparación entre la distribución empírica de la variable observada pobreza en los datos (<code>data_dir$pobreza</code>) y las distribuciones predictivas posteriores simuladas para la misma variable (<code>y_pred2</code>). La función <code>ppc_dens_overlay()</code> produce un gráfico de densidad para ambas distribuciones, lo que permite visualizar cómo se comparan.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="preparando-los-insumos-para-stan-1.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb116-2"><a href="preparando-los-insumos-para-stan-1.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb116-3"><a href="preparando-los-insumos-para-stan-1.html#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
-<span id="cb116-4"><a href="preparando-los-insumos-para-stan-1.html#cb116-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-5"><a href="preparando-los-insumos-para-stan-1.html#cb116-5" aria-hidden="true" tabindex="-1"></a>y_pred_B <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_arcoseno, <span class="at">pars =</span> <span class="st">&quot;theta&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb116-6"><a href="preparando-los-insumos-para-stan-1.html#cb116-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_draws_matrix</span>()</span>
-<span id="cb116-7"><a href="preparando-los-insumos-para-stan-1.html#cb116-7" aria-hidden="true" tabindex="-1"></a>rowsrandom <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(y_pred_B), <span class="dv">100</span>)</span>
-<span id="cb116-8"><a href="preparando-los-insumos-para-stan-1.html#cb116-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-9"><a href="preparando-los-insumos-para-stan-1.html#cb116-9" aria-hidden="true" tabindex="-1"></a>y_pred2 <span class="ot">&lt;-</span> y_pred_B[rowsrandom, ]</span>
-<span id="cb116-10"><a href="preparando-los-insumos-para-stan-1.html#cb116-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ppc_dens_overlay</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(data_dir<span class="sc">$</span>pobreza), y_pred2)</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa2/Sesion3/0Recursos/FH_Asin.png" width="200%" /></p>
-<p>Análisis gráfico de la convergencia de las cadenas de <span class="math inline">\(\sigma^2_u\)</span>.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="preparando-los-insumos-para-stan-1.html#cb117-1" aria-hidden="true" tabindex="-1"></a>posterior_sigma2_u <span class="ot">&lt;-</span> <span class="fu">as.array</span>(model_FH_arcoseno, <span class="at">pars =</span> <span class="st">&quot;sigma2_u&quot;</span>)</span>
-<span id="cb117-2"><a href="preparando-los-insumos-para-stan-1.html#cb117-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mcmc_dens_chains</span>(posterior_sigma2_u) <span class="sc">+</span></span>
-<span id="cb117-3"><a href="preparando-los-insumos-para-stan-1.html#cb117-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mcmc_areas</span>(posterior_sigma2_u) ) <span class="sc">/</span> </span>
-<span id="cb117-4"><a href="preparando-los-insumos-para-stan-1.html#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mcmc_trace</span>(posterior_sigma2_u)</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa2/Sesion3/0Recursos/FH_Asin2.png" width="200%" /></p>
-<p>Estimación del FH de la pobreza en los dominios observados.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="preparando-los-insumos-para-stan-1.html#cb118-1" aria-hidden="true" tabindex="-1"></a>theta_FH <span class="ot">&lt;-</span>   <span class="fu">summary</span>(model_FH_arcoseno,<span class="at">pars =</span>  <span class="st">&quot;theta&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb118-2"><a href="preparando-los-insumos-para-stan-1.html#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb118-3"><a href="preparando-los-insumos-para-stan-1.html#cb118-3" aria-hidden="true" tabindex="-1"></a>data_dir <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">pred_arcoseno =</span> theta_FH<span class="sc">$</span>mean, </span>
-<span id="cb118-4"><a href="preparando-los-insumos-para-stan-1.html#cb118-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">pred_arcoseno_EE =</span> theta_FH<span class="sc">$</span>sd,</span>
-<span id="cb118-5"><a href="preparando-los-insumos-para-stan-1.html#cb118-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Cv_pred =</span> pred_arcoseno_EE<span class="sc">/</span>pred_arcoseno)</span></code></pre></div>
-<p>Estimación del FH de la pobreza en los dominios NO observados.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="preparando-los-insumos-para-stan-1.html#cb119-1" aria-hidden="true" tabindex="-1"></a>theta_FH_pred <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_FH_arcoseno,<span class="at">pars =</span>  <span class="st">&quot;theta_pred&quot;</span>)<span class="sc">$</span>summary <span class="sc">%&gt;%</span></span>
-<span id="cb119-2"><a href="preparando-los-insumos-para-stan-1.html#cb119-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb119-3"><a href="preparando-los-insumos-para-stan-1.html#cb119-3" aria-hidden="true" tabindex="-1"></a>data_syn <span class="ot">&lt;-</span> data_syn <span class="sc">%&gt;%</span> </span>
-<span id="cb119-4"><a href="preparando-los-insumos-para-stan-1.html#cb119-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_arcoseno =</span> theta_FH_pred<span class="sc">$</span>mean,</span>
-<span id="cb119-5"><a href="preparando-los-insumos-para-stan-1.html#cb119-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">pred_arcoseno_EE =</span> theta_FH_pred<span class="sc">$</span>sd,</span>
-<span id="cb119-6"><a href="preparando-los-insumos-para-stan-1.html#cb119-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Cv_pred =</span> pred_arcoseno_EE<span class="sc">/</span>pred_arcoseno)</span></code></pre></div>
-</div>
+<div id="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familia-beta-y-binomial" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Capítulo 8</span> Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familia beta y binomial<a href="día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familia-beta-y-binomial.html#día-2---sesión-4--modelos-de-área---estimación-de-la-pobreza-en-familia-beta-y-binomial" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="procedimiento-de-estimación-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="mapa-de-pobreza-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="mapa-del-coeficiente-de-variación..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelos-de-área-con-variable-respuesta-binomial..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -799,7 +425,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/psirusteam/2021ASDA/05-D2S3_Fay_Herriot_arcosin.qmd",
+"link": "https://github.com/psirusteam/2021ASDA/06-D2S4-Fay_Herriot_binomial.qmd",
 "text": "Edit"
 },
 "history": {

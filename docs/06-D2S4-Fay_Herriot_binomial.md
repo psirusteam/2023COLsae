@@ -1,6 +1,6 @@
-# Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familias beta y binomial
+# Día 2 - Sesión 4- Modelos de área - Estimación de la pobreza en familia beta y binomial
 
-## Modelo Fay Herriot de variable respuesta beta. 
+## Modelos de área con variable respuesta Binomial. 
 
 
 

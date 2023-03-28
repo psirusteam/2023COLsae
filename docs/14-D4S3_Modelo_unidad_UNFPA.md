@@ -886,7 +886,7 @@ tba(statelevel_predictors_df %>% head(10))
 De acuerdo con este modelo, como lo expone Gutiérrez y otros (2022), la probabilidad de hacer uso de métodos de planificación para la $i$-ésima persona en el $j$-ésimo post-estrato, puede ser definido para cada unidad de la encuesta. El modelo pretende establecer la relación entre la expectativa $\rho_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de usar algún método anticonceptivo a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y los efectos aleatorios $u_d$
 
 $$
-\ln(\frac{ρ_{ji}}{1-ρ_{ji}} ) = x_{ji}^t \beta + u_d.
+\ln\left(\frac{\theta_{ji}}{1-\theta_{ji}} \right) = \boldsymbol{x}^{T}_{ji}\boldsymbol{\beta} + u_d.
 $$
 
 Los coeficientes $\beta$ hacen referencia a los efectos fijos de las variables $x_{ji}^T$  sobre las probabilidades de que la $i$-ésima persona haga uso de métodos anticonceptivos. Ahora, es posible asumir distribuciones no informativas para $\beta$ y $\sigma_u^2$. 
@@ -896,6 +896,40 @@ $$
 \beta  & \sim & N(0,1000) \\
 \sigma_u^2 & \sim & IG(0.001,0.001) 
 \end{eqnarray*}
+$$
+
+
+#### Obejtivo {-}
+
+Estimar la proporción de personas que usan métodos anticonceptivos, es decir, 
+$$
+P_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_{di}$ toma el valor de 1 cuando la persona usa métodos anticonceptivos 0 en caso contrario. 
+
+Note que, 
+
+$$
+\begin{equation*}
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
+$$
+
+Ahora, el estimador de $P$ esta dado por: 
+
+$$
+\hat{P} = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
+$$
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{P} = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
 $$
 
 

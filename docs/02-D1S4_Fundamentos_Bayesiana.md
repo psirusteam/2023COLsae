@@ -79,19 +79,36 @@ $$
 
 #### Obejtivo {-}
 
-Estimar la proporción de personas que están por debajo de la linea pobreza. Es decir, 
+Estimar la proporción de personas que están por debajo de la linea pobreza, es decir, 
 $$
-P = \frac{\sum_{U}y_i}{N}
+P_d = \frac{\sum_{U_d}y_{di}}{N_d}
 $$
-donde $y_i$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario
+donde $y_{di}$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
 
-El estimador de $P$ esta dado por: 
+Note que, 
 
 $$
-\hat{P} = \frac{\sum_{s}w_{i}y_{i}}{\sum_{s}{w_{i} }}
+\begin{equation*}
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
 $$
 
-con $w_i$ el factor de expansión para la $i-ésima$ observación. Además, y obtener $\widehat{Var}\left(\hat{P}\right)$.
+Ahora, el estimador de $P$ esta dado por: 
+
+$$
+\hat{P} = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
+$$
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{P} = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
+$$
 
 #### Práctica en **R**
 
@@ -381,7 +398,7 @@ Estimar la proporción de personas que están por debajo de la linea pobreza en 
 $$
 P_d = \frac{\sum_{U_d}y_{di}}{N_d}
 $$
-donde $y_i$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
+donde $y_{di}$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
 
 El estimador de $P$ esta dado por: 
 
@@ -1019,16 +1036,36 @@ $$
 
 #### Obejtivo {-}
 
-Estimar el ingreso medio de la población, es decir, 
+Estimar el ingreso medio de las personas, es decir, 
+$$
+\bar{Y}_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_{di}$ es el ingreso de cada personas
+
+Note que, 
 
 $$
-\bar{Y} = \frac{\sum_Uy_i}{N}
+\begin{equation*}
+\bar{Y}_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
 $$
-donde, $y_i$ es el ingreso de las personas. El estimador de $\bar{Y}$ esta dado por 
+
+Ahora, el estimador de $\bar{Y}$ esta dado por: 
+
 $$
-\hat{\bar{Y}} = \frac{\sum_{s}w_{i}y_{i}}{\sum_s{w_i}}
+\hat{\bar{Y}}_d = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
 $$
-y obtener $\widehat{Var}\left(\hat{\bar{Y}}\right)$.
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{\bar{Y}}_d = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
+$$
 
 #### Práctica en **STAN**
 
@@ -1232,15 +1269,36 @@ En el siguiente enlace enconará el libro:  [Modelos Bayesianos con R y STAN](ht
 #### Obejtivo {-}
 
 Estimar el ingreso medio de las personas, es decir, 
+$$
+\bar{Y}_d = \frac{\sum_{U_d}y_{di}}{N_d}
+$$
+donde $y_{di}$ es el ingreso de cada personas
+
+Note que, 
 
 $$
-\bar{Y} = \frac{\sum_Uy_i}{N}
+\begin{equation*}
+\bar{Y}_d =  \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}y_{di}}{N_d} 
+\end{equation*}
 $$
-donde, $y_i$ es el ingreso de las personas. El estimador de $\bar{Y}$ esta dado por 
+
+Ahora, el estimador de $\bar{Y}$ esta dado por: 
+
 $$
-\hat{\bar{Y}} = \frac{\sum_{s}w_{i}y_{i}}{\sum_s{w_i}}
+\hat{\bar{Y}}_d = \frac{\sum_{s_d}y_{di} + \sum_{s^c_d}\hat{y}_{di}}{N_d}
 $$
-y obtener $\widehat{Var}\left(\hat{\bar{Y}}\right)$.
+
+donde
+
+$$\hat{y}_{di}=E_{\mathscr{M}}\left(y_{di}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{\bar{Y}}_d = \frac{\sum_{U_{d}}\hat{y}_{di}}{N_d}
+$$
+
 
 #### Práctica en **STAN**
 
@@ -1433,7 +1491,7 @@ ppc_dens_overlay(y = as.numeric(exp(dataNormal$logIngreso)-1), y_pred2) +   xlim
 <img src="Recursos/Día1/Sesion4/0Recursos/Normal/Normal7.png" width="200%" />
 
 
-### Modelo Multinomial
+### Modelo de área:  Multinomial
 
 En esta sección discutimos el modelamiento bayesiano de datos provenientes de una distribución multinomial que corresponde a una extensión multivariada de la distribución binomial. Suponga que $\textbf{Y}=(Y_1,\ldots,Y_K)^{T}$ es un vector aleatorio con distribución multinomial, así, su distribución está parametrizada por el vector $\boldsymbol{\theta}=(\theta_1,\ldots,\theta_K)^{T}$ y está dada por la siguiente expresión
 
@@ -1459,22 +1517,6 @@ p(\boldsymbol{\theta} \mid \boldsymbol{\alpha})=\frac{\Gamma(\alpha_1+\cdots+\al
 $$
 
 La distribución posterior del parámetro $\boldsymbol{\theta}$ sigue una distribución $Dirichlet(y_1+\alpha_1,\ldots,y_K+\alpha_K)$
-
-#### Obejtivo {-}
-
-Sea $N_1$ el número de personas ocupadas, $N_2$ Número de personas desocupadas,  $N_3$ es el número de personas inactivas en la población y $N = N_1 +N_2 + N_3$ el número de personas en la población. Entonces el objetivo es estimar el vector de parámetros $\boldsymbol{P}=\left(P_{1},P_{2},P_{3}\right)$, con $P_{k}=\frac{N_{k}}{N}$, para $k=1,2,3$,  
-
-El estimador de $\boldsymbol{P}$ esta dado por 
-$$
-\hat{\boldsymbol{P}} =\left(\hat{P}_{1},\hat{P}_{2},\hat{P}_{3}\right)
-$$
-donde,
-$$
-\hat{P}_{k} = \frac{\sum_{s}w_{i}y_{ik}}{\sum_s{w_i}} = \frac{\hat{N}_k}{\hat{N}}
-$$
-y $y_{ik}$ toma el valor 1 cuando la $i-ésima$ persona responde la $k-ésima$ categoría (**Ocupado** o **Desocupado** o **Inactivo**). Además, obtener $\widehat{Var}\left(\hat{P}_{k}\right)$.
-
-
 
 
 #### Práctica en **STAN**

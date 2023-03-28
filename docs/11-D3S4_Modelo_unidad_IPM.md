@@ -77,6 +77,40 @@ $$
 $$
 El modelo se debe estimar para cada una de las dimensiones. 
   
+#### Obejtivo {-}
+
+Estimar la proporción de personas que presentan la $k-$ésima carencia, es decir, 
+$$
+P_d = \frac{\sum_{U_d}y_{di}^{k}}{N_d}
+$$
+donde $y_{di}^{k}$ toma el valor de 1 cuando la $i-$ésima persona presenta la $k-$ésima carencia y el valor de 0 en caso contrario. 
+
+Note que, 
+
+$$
+\begin{equation*}
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}y_{di}^{k}}{N_d} 
+\end{equation*}
+$$
+
+Ahora, el estimador de $P$ esta dado por: 
+
+$$
+\hat{P} = \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}\hat{y}_{di}^{k}}{N_d}
+$$
+
+donde
+
+$$\hat{y}_{di}^{k}=E_{\mathscr{M}}\left(y_{di}^{k}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
+
+donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+De esta forma se tiene que, 
+
+$$
+\hat{P} = \frac{\sum_{U_{d}}\hat{y}^{k}_{di}}{N_d}
+$$
+
+
   
 ### Procesamiento del modelo en `R`. 
 El proceso inicia con el cargue de las librerías. 
