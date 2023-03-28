@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><i class="fa fa-check"></i><b>6</b> Día 2 - Sesión 2- Modelo de Fay Herriot - Estimación de la pobreza</a>
 <ul>
-<li class="chapter" data-level="6.0.1" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i><b>6.0.1</b> Modelo de área para la estimación de la pobreza</a></li>
+<li class="chapter" data-level="" data-path="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html"><a href="día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza.html#modelo-de-área-para-la-estimación-de-la-pobreza"><i class="fa fa-check"></i>Modelo de área para la estimación de la pobreza</a></li>
 <li class="chapter" data-level="6.1" data-path="procedimiento-de-estimación.html"><a href="procedimiento-de-estimación.html"><i class="fa fa-check"></i><b>6.1</b> Procedimiento de estimación</a></li>
 <li class="chapter" data-level="6.2" data-path="preparando-los-insumos-para-stan.html"><a href="preparando-los-insumos-para-stan.html"><i class="fa fa-check"></i><b>6.2</b> Preparando los insumos para <code>STAN</code></a>
 <ul>
@@ -674,7 +674,7 @@ S=\sum_{i=1}^nY_i
 p(S \mid \theta)=\binom{n}{s}\theta^s(1-\theta)^{n-s}I_{\{0,1,\ldots,n\}}(s),
 \end{equation}
 \]</span></p>
-<p>Nótese que la distribución Binomial es un caso general para la distribución Bernoulli, cuando <span class="math inline">\(n=1\)</span>. Por lo tanto es natural suponer que distribución previa del parámetro <span class="math inline">\(\theta\)</span> estará dada por</p>
+<p>Nótese que, cuando <span class="math inline">\(n=1\)</span> la distribución Binomial se convierte en una distribución Bernoulli. Puesto que, el parámetro <span class="math inline">\(\theta\)</span> es una proporción la distribución natural que modela este tipo de parámetros es la distribución beta la cual se define como:</p>
 <p><span class="math display">\[
 \begin{equation}
 p(\theta \mid \alpha,\beta)=
@@ -687,7 +687,7 @@ p(\theta \mid \alpha,\beta)=
 \theta \mid S \sim Beta(s+\alpha,\beta-s+n)
 \end{equation*}
 \]</span></p>
-<p>Ahora, cuando se tiene una sucesión de variables aleatorias <span class="math inline">\(S_1,\ldots,S_d, \ldots,S_D\)</span> independientes y con distribución <span class="math inline">\(Binomial(n_d,\theta_d)\)</span> para <span class="math inline">\(d=1,\ldots,K\)</span>, entonces la distribución posterior del parámetro de interés <span class="math inline">\(\theta_d\)</span> es</p>
+<p>Ahora, cuando se tiene una sucesión de variables aleatorias <span class="math inline">\(S_1,\ldots,S_d, \ldots,S_D\)</span> independientes y con distribución <span class="math inline">\(Binomial(n_d,\theta_d)\)</span> para <span class="math inline">\(d=1,\ldots,D\)</span>. La distribución posterior del parámetro de interés <span class="math inline">\(\theta_d\)</span> es</p>
 <p><span class="math display">\[
 \begin{equation*}
 \theta_d \mid s_d \sim Beta\left(s_d+\alpha,\ \beta+ n_d- s_d\right)
@@ -695,16 +695,19 @@ p(\theta \mid \alpha,\beta)=
 \]</span></p>
 <div id="obejtivo-1" class="section level4 unnumbered hasAnchor">
 <h4>Obejtivo<a href="modelos-uniparamétricos.html#obejtivo-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Estimar la proporción de personas que están por debajo de la linea pobreza en el <span class="math inline">\(d-ésimo\)</span> dominio. Es decir,</p>
-<p><span class="math display">\[
-P_d = \frac{\sum_{U_d}y_{di}}{N_d}
-\]</span>
-donde <span class="math inline">\(y_{di}\)</span> toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario.</p>
-<p>El estimador de <span class="math inline">\(P\)</span> esta dado por:</p>
-<p><span class="math display">\[
-\hat{P_d} = \frac{\sum_{s_d}w_{di}y_{di}}{\sum_{s_d}{w_{di} }}
+<p>Estimar la proporción de personas que están por debajo de la linea pobreza, es decir,</p>
+<p><span class="math display">\[P_{d}=\frac{\sum_{U}y_{di}}{N_{d}}\]</span>.</p>
+<p>Un estimador aproximadamente insesgado para <span class="math inline">\(P_{d}\)</span> basado en el diseño muestral es
+<span class="math display">\[
+\hat{P}^{DIR}_{d} = \frac{\sum_{s_{d}}w_{di}y_{di}}{\sum_{s_{d}}w_{di}}
 \]</span></p>
-<p>con <span class="math inline">\(w_{di}\)</span> el factor de expansión para la <span class="math inline">\(i-ésima\)</span> observación en el <span class="math inline">\(d-ésimo\)</span> dominio.</p>
+<p>donde <span class="math inline">\(w_{di}\)</span> es el factor de expansión de <span class="math inline">\(i-\)</span>ésimo individuo
+en el <span class="math inline">\(d-\)</span>ésimo dominio y <span class="math inline">\(y_{di}\)</span> toma los valores de uno o cero.</p>
+<p>Ahora, dada la naturaleza de <span class="math inline">\(P_d\)</span>, es posible asumir que <span class="math inline">\(P_{d}\mid\hat{P}^{DIR}_{d} \sim Beta(\alpha,\beta)\)</span>. Luego, el estimador bayesiano para <span class="math inline">\(P_{d}\)</span> esta dado por <span class="math inline">\(\tilde{P}_{d}=E\left(P_{d}\mid\hat{P}^{DIR}_{d}\right)\)</span>
+y la varianza del estimador se obtiene como:</p>
+<p><span class="math display">\[
+Var\left(\tilde{P}_{d}\right) =  Var\left(P_{d}\mid\hat{P}_{d}\right)=E_{\mathscr{M}}\left(Var_{\mathscr{P}}\left(P_{d}\mid\hat{P}_{d}\right)\right)+Var_{\mathscr{M}}\left(E_{\mathscr{P}}\left(P_{d}\mid\hat{P}_{d}\right)\right)
+\]</span></p>
 </div>
 <div id="práctica-en-stan-1" class="section level4 hasAnchor" number="4.3.2.1">
 <h4><span class="header-section-number">4.3.2.1</span> Práctica en <strong>STAN</strong><a href="modelos-uniparamétricos.html#práctica-en-stan-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>

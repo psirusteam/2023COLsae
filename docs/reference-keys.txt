@@ -42,7 +42,6 @@ datos-de-la-encuesta
 análisis-gráfico
 modelo-para-la-varianza
 día-2---sesión-2--modelo-de-fay-herriot---estimación-de-la-pobreza
-modelo-de-área-para-la-estimación-de-la-pobreza
 procedimiento-de-estimación
 preparando-los-insumos-para-stan
 resultados-del-modelo-para-los-dominios-observados.

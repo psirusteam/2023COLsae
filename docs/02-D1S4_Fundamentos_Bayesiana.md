@@ -366,7 +366,7 @@ p(S \mid \theta)=\binom{n}{s}\theta^s(1-\theta)^{n-s}I_{\{0,1,\ldots,n\}}(s),
 \end{equation}
 $$
 
-Nótese que la distribución Binomial es un caso general para la distribución Bernoulli, cuando $n=1$. Por lo tanto es natural suponer que distribución previa del parámetro $\theta$ estará dada por
+Nótese que, cuando $n=1$ la distribución Binomial se convierte en una  distribución Bernoulli. Puesto que, el parámetro $\theta$ es una proporción la distribución natural que modela este tipo de parámetros es la distribución beta la cual se define como: 
 
 $$
 \begin{equation}
@@ -383,7 +383,7 @@ $$
 \end{equation*}
 $$
 
-Ahora, cuando se tiene una sucesión de variables aleatorias $S_1,\ldots,S_d, \ldots,S_D$ independientes y con distribución $Binomial(n_d,\theta_d)$ para $d=1,\ldots,K$, entonces la distribución posterior del parámetro de interés $\theta_d$ es
+Ahora, cuando se tiene una sucesión de variables aleatorias $S_1,\ldots,S_d, \ldots,S_D$ independientes y con distribución $Binomial(n_d,\theta_d)$ para $d=1,\ldots,D$. La distribución posterior del parámetro de interés $\theta_d$ es
 
 $$
 \begin{equation*}
@@ -393,20 +393,25 @@ $$
 
 #### Obejtivo {-}
 
-Estimar la proporción de personas que están por debajo de la linea pobreza en el $d-ésimo$ dominio. Es decir, 
 
-$$
-P_d = \frac{\sum_{U_d}y_{di}}{N_d}
-$$
-donde $y_{di}$ toma el valor de 1 cuando el ingreso de la persona es menor a la linea de pobreza 0 en caso contrario. 
+Estimar la proporción de personas que están por debajo de la linea pobreza, es decir, 
 
-El estimador de $P$ esta dado por: 
+$$P_{d}=\frac{\sum_{U}y_{di}}{N_{d}}$$.
 
+Un estimador aproximadamente insesgado para $P_{d}$ basado en el diseño muestral es 
 $$
-\hat{P_d} = \frac{\sum_{s_d}w_{di}y_{di}}{\sum_{s_d}{w_{di} }}
+\hat{P}^{DIR}_{d} = \frac{\sum_{s_{d}}w_{di}y_{di}}{\sum_{s_{d}}w_{di}}
 $$
 
-con $w_{di}$ el factor de expansión para la $i-ésima$ observación en el $d-ésimo$ dominio. 
+donde $w_{di}$ es el factor de expansión de $i-$ésimo individuo
+en el $d-$ésimo dominio y $y_{di}$ toma los valores de uno o cero. 
+
+Ahora, dada la naturaleza de $P_d$, es posible asumir que $P_{d}\mid\hat{P}^{DIR}_{d} \sim Beta(\alpha,\beta)$. Luego, el estimador bayesiano para $P_{d}$ esta dado por $\tilde{P}_{d}=E\left(P_{d}\mid\hat{P}^{DIR}_{d}\right)$
+ y la varianza del estimador se obtiene como: 
+
+$$
+Var\left(\tilde{P}_{d}\right) =  Var\left(P_{d}\mid\hat{P}_{d}\right)=E_{\mathscr{M}}\left(Var_{\mathscr{P}}\left(P_{d}\mid\hat{P}_{d}\right)\right)+Var_{\mathscr{M}}\left(E_{\mathscr{P}}\left(P_{d}\mid\hat{P}_{d}\right)\right)
+$$
 
 
 
