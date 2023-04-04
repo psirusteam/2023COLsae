@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-03-28" />
+<meta name="date" content="2023-04-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1290,27 +1290,32 @@ accesibilidad_hosp_caminado
 <ol start="4" style="list-style-type: decimal">
 <li>Compilando el modelo</li>
 </ol>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="preparando-insumos-para-stan.html#cb257-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">D =</span> D,</span>
-<span id="cb257-2"><a href="preparando-insumos-para-stan.html#cb257-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">P =</span> P,</span>
-<span id="cb257-3"><a href="preparando-insumos-para-stan.html#cb257-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">K =</span> K,</span>
-<span id="cb257-4"><a href="preparando-insumos-para-stan.html#cb257-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y_tilde =</span> Y_hat,</span>
-<span id="cb257-5"><a href="preparando-insumos-para-stan.html#cb257-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_obs =</span> X1_obs,</span>
-<span id="cb257-6"><a href="preparando-insumos-para-stan.html#cb257-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_pred =</span> X1_pred,</span>
-<span id="cb257-7"><a href="preparando-insumos-para-stan.html#cb257-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">D1 =</span> D1)</span>
-<span id="cb257-8"><a href="preparando-insumos-para-stan.html#cb257-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-9"><a href="preparando-insumos-para-stan.html#cb257-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-10"><a href="preparando-insumos-para-stan.html#cb257-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb257-11"><a href="preparando-insumos-para-stan.html#cb257-11" aria-hidden="true" tabindex="-1"></a>fit_mcmc2 <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb257-12"><a href="preparando-insumos-para-stan.html#cb257-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">&quot;Recursos/Día4/Sesion1/Data/modelosStan/00 Multinomial_simple_no_cor.stan&quot;</span>,  <span class="co"># Stan program</span></span>
-<span id="cb257-13"><a href="preparando-insumos-para-stan.html#cb257-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
-<span id="cb257-14"><a href="preparando-insumos-para-stan.html#cb257-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb257-15"><a href="preparando-insumos-para-stan.html#cb257-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warmup iterations per chain</span></span>
-<span id="cb257-16"><a href="preparando-insumos-para-stan.html#cb257-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb257-17"><a href="preparando-insumos-para-stan.html#cb257-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb257-18"><a href="preparando-insumos-para-stan.html#cb257-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb257-19"><a href="preparando-insumos-para-stan.html#cb257-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-20"><a href="preparando-insumos-para-stan.html#cb257-20" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit_mcmc2,</span>
-<span id="cb257-21"><a href="preparando-insumos-para-stan.html#cb257-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Recursos/Día4/Sesion1/Data/fit_multinomial_no_cor.Rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="preparando-insumos-para-stan.html#cb257-1" aria-hidden="true" tabindex="-1"></a>X1_obs <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">matrix</span>(<span class="dv">1</span>,<span class="at">nrow =</span> D,<span class="at">ncol =</span> <span class="dv">1</span>),X_obs)</span>
+<span id="cb257-2"><a href="preparando-insumos-para-stan.html#cb257-2" aria-hidden="true" tabindex="-1"></a>K <span class="ot">=</span> <span class="fu">ncol</span>(X1_obs)</span>
+<span id="cb257-3"><a href="preparando-insumos-para-stan.html#cb257-3" aria-hidden="true" tabindex="-1"></a>D1 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X_pred)</span>
+<span id="cb257-4"><a href="preparando-insumos-para-stan.html#cb257-4" aria-hidden="true" tabindex="-1"></a>X1_pred <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">matrix</span>(<span class="dv">1</span>,<span class="at">nrow =</span> D1,<span class="at">ncol =</span> <span class="dv">1</span>),X_pred)</span>
+<span id="cb257-5"><a href="preparando-insumos-para-stan.html#cb257-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-6"><a href="preparando-insumos-para-stan.html#cb257-6" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">D =</span> D,</span>
+<span id="cb257-7"><a href="preparando-insumos-para-stan.html#cb257-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">P =</span> P,</span>
+<span id="cb257-8"><a href="preparando-insumos-para-stan.html#cb257-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">K =</span> K,</span>
+<span id="cb257-9"><a href="preparando-insumos-para-stan.html#cb257-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y_tilde =</span> Y_hat,</span>
+<span id="cb257-10"><a href="preparando-insumos-para-stan.html#cb257-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_obs =</span> X1_obs,</span>
+<span id="cb257-11"><a href="preparando-insumos-para-stan.html#cb257-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_pred =</span> X1_pred,</span>
+<span id="cb257-12"><a href="preparando-insumos-para-stan.html#cb257-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">D1 =</span> D1)</span>
+<span id="cb257-13"><a href="preparando-insumos-para-stan.html#cb257-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-14"><a href="preparando-insumos-para-stan.html#cb257-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-15"><a href="preparando-insumos-para-stan.html#cb257-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb257-16"><a href="preparando-insumos-para-stan.html#cb257-16" aria-hidden="true" tabindex="-1"></a>fit_mcmc2 <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb257-17"><a href="preparando-insumos-para-stan.html#cb257-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">&quot;Recursos/Día4/Sesion1/Data/modelosStan/00 Multinomial_simple_no_cor.stan&quot;</span>,  <span class="co"># Stan program</span></span>
+<span id="cb257-18"><a href="preparando-insumos-para-stan.html#cb257-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data,    <span class="co"># named list of data</span></span>
+<span id="cb257-19"><a href="preparando-insumos-para-stan.html#cb257-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb257-20"><a href="preparando-insumos-para-stan.html#cb257-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warmup iterations per chain</span></span>
+<span id="cb257-21"><a href="preparando-insumos-para-stan.html#cb257-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb257-22"><a href="preparando-insumos-para-stan.html#cb257-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb257-23"><a href="preparando-insumos-para-stan.html#cb257-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb257-24"><a href="preparando-insumos-para-stan.html#cb257-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-25"><a href="preparando-insumos-para-stan.html#cb257-25" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit_mcmc2,</span>
+<span id="cb257-26"><a href="preparando-insumos-para-stan.html#cb257-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Recursos/Día4/Sesion1/Data/fit_multinomial_no_cor.Rds&quot;</span>)</span></code></pre></div>
 </div>
             </section>
 

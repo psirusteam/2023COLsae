@@ -2,6 +2,17 @@
 
 
 
+Sea 
+$$
+y_{ji}=\begin{cases}
+1 & ingreso_{ji}\le lp\\
+0 & e.o.c.
+\end{cases}
+$$ 
+donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. 
+
+Ahora, Suponga que el ingreso de las personas se obtiene mediante el modelo de unidad estimado previamente.  
+
 #### Obejtivo {-}
 
 Estimar la proporción de personas que están por debajo de la linea pobreza, es decir, 

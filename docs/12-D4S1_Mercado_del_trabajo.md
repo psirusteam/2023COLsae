@@ -176,6 +176,12 @@ Después de realizar las validaciones anteriores se establece como regla incluir
 
 
 ```r
+indicador_dam <- encuesta %>% select(id_dominio, upm) %>%
+  distinct() %>% 
+  group_by_at(id_dominio) %>% 
+  tally(name = "n_upm") %>% 
+  inner_join(indicador_dam, by = id_dominio)
+
 indicador_dam1 <- indicador_dam %>% 
   filter(n_upm >= 2, !is.na(Desocupado_deff)) 
 saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
@@ -915,6 +921,11 @@ plot(hat_p[,3],indicador_dam1$Inactivo)
 
 
 ```r
+X1_obs <- cbind(matrix(1,nrow = D,ncol = 1),X_obs)
+K = ncol(X1_obs)
+D1 <- nrow(X_pred)
+X1_pred <- cbind(matrix(1,nrow = D1,ncol = 1),X_pred)
+
 sample_data <- list(D = D,
                     P = P,
                     K = K,

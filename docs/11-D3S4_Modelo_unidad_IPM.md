@@ -138,7 +138,7 @@ byAgrega <- c("depto", "mpio", "area", "sexo", "etnia",
               "anoest", "edad", "condact3" )
 ```
 
-Agregando la información para los municipios de la  Guajira-Colomabia para los indicadores que conformarán el IPM
+Agregando la información para los municipios de Colombia para los indicadores que conformarán el IPM
 
 
 ```r
@@ -833,7 +833,7 @@ dim(poststrat_df)
 ```
 
 
-Para cada uno de los modelos anteriores debe tener las predicciones, para ejemplificar el proceso tomaremos el departamento de la Guajira de Colombia 
+Para cada uno de los modelos anteriores debe tener las predicciones.
 
 -   Privación de acceso al agua potable. 
 
