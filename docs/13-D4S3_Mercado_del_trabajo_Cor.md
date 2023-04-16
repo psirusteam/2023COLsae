@@ -454,7 +454,7 @@ D <- nrow(indicador_dam1)
 P <- 3 # Ocupado, desocupado, inactivo.
 Y_tilde <- matrix(NA, D, P)
 n_tilde <- matrix(NA, D, P)
-Y_hat <- matrix(NA, D, P)
+
 
 # n efectivos ocupado
 n_tilde[,1] <- (indicador_dam1$Ocupado*(1 - indicador_dam1$Ocupado))/indicador_dam1$Ocupado_var
@@ -475,10 +475,15 @@ Y_tilde[,3] <- n_tilde[,3]* indicador_dam1$Inactivo
 
 
 ```r
+X1_obs <- cbind(matrix(1,nrow = D,ncol = 1),X_obs)
+K = ncol(X1_obs)
+D1 <- nrow(X_pred)
+X1_pred <- cbind(matrix(1,nrow = D1,ncol = 1),X_pred)
+
 sample_data <- list(D = D,
                     P = P,
                     K = K,
-                    y_tilde = Y_hat,
+                    hat_y = Y_tilde,
                     X_obs = X1_obs,
                     X_pred = X1_pred,
                     D1 = D1)

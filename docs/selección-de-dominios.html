@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>13.4 Selección de dominios | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="13.4 Selección de dominios | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-04" />
+<meta name="date" content="2023-04-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -94,7 +94,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +107,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -400,8 +400,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb249-5"><a href="selección-de-dominios.html#cb249-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(indicador_dam, <span class="at">by =</span> id_dominio)</span>
 <span id="cb249-6"><a href="selección-de-dominios.html#cb249-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb249-7"><a href="selección-de-dominios.html#cb249-7" aria-hidden="true" tabindex="-1"></a>indicador_dam1 <span class="ot">&lt;-</span> indicador_dam <span class="sc">%&gt;%</span> </span>
-<span id="cb249-8"><a href="selección-de-dominios.html#cb249-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_upm <span class="sc">&gt;=</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(Desocupado_deff)) </span>
-<span id="cb249-9"><a href="selección-de-dominios.html#cb249-9" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> indicador_dam1, <span class="st">&quot;Recursos/Día4/Sesion1/Data/base_modelo.Rds&quot;</span>)</span></code></pre></div>
+<span id="cb249-8"><a href="selección-de-dominios.html#cb249-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_upm <span class="sc">&gt;=</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(Desocupado_deff)) <span class="sc">%&gt;%</span> </span>
+<span id="cb249-9"><a href="selección-de-dominios.html#cb249-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id_orden =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb249-10"><a href="selección-de-dominios.html#cb249-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb249-11"><a href="selección-de-dominios.html#cb249-11" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> indicador_dam1, <span class="st">&quot;Recursos/Día4/Sesion1/Data/base_modelo.Rds&quot;</span>)</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -455,6 +457,9 @@ Inactivo_var
 </th>
 <th style="text-align:right;">
 Inactivo_deff
+</th>
+<th style="text-align:right;">
+id_orden
 </th>
 </tr>
 </thead>
@@ -511,6 +516,9 @@ Inactivo_deff
 <td style="text-align:right;">
 1.5436
 </td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -563,6 +571,9 @@ Inactivo_deff
 </td>
 <td style="text-align:right;">
 0.3127
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -617,6 +628,9 @@ Inactivo_deff
 <td style="text-align:right;">
 0.9557
 </td>
+<td style="text-align:right;">
+3
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -669,6 +683,9 @@ Inactivo_deff
 </td>
 <td style="text-align:right;">
 0.8153
+</td>
+<td style="text-align:right;">
+4
 </td>
 </tr>
 <tr>
@@ -723,6 +740,9 @@ Inactivo_deff
 <td style="text-align:right;">
 1.7154
 </td>
+<td style="text-align:right;">
+5
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -775,6 +795,9 @@ Inactivo_deff
 </td>
 <td style="text-align:right;">
 1.7387
+</td>
+<td style="text-align:right;">
+6
 </td>
 </tr>
 <tr>
@@ -829,6 +852,9 @@ Inactivo_deff
 <td style="text-align:right;">
 1.0680
 </td>
+<td style="text-align:right;">
+7
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -881,6 +907,9 @@ Inactivo_deff
 </td>
 <td style="text-align:right;">
 1.1878
+</td>
+<td style="text-align:right;">
+8
 </td>
 </tr>
 <tr>
@@ -935,6 +964,9 @@ Inactivo_deff
 <td style="text-align:right;">
 0.4811
 </td>
+<td style="text-align:right;">
+9
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -987,6 +1019,9 @@ Inactivo_deff
 </td>
 <td style="text-align:right;">
 0.7575
+</td>
+<td style="text-align:right;">
+10
 </td>
 </tr>
 </tbody>

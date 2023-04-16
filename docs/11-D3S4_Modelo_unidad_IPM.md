@@ -80,34 +80,40 @@ El modelo se debe estimar para cada una de las dimensiones.
 #### Obejtivo {-}
 
 Estimar la proporción de personas que presentan la $k-$ésima carencia, es decir, 
+
+$$ 
+P_d = \frac{\sum_{U_d}q_{di}}{N_d}
 $$
-P_d = \frac{\sum_{U_d}y_{di}^{k}}{N_d}
-$$
-donde $y_{di}^{k}$ toma el valor de 1 cuando la $i-$ésima persona presenta la $k-$ésima carencia y el valor de 0 en caso contrario. 
+
+donde $q_{di}$ toma el valor de 1 cuando la $i-$ésima persona presenta Privación Multidimensional y el valor de 0 en caso contrario. 
 
 Note que, 
 
 $$
 \begin{equation*}
-\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}y_{di}^{k}}{N_d} 
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}q_{di} + \sum_{s^c_d}q_{di}}{N_d} 
 \end{equation*}
 $$
 
 Ahora, el estimador de $P$ esta dado por: 
 
 $$
-\hat{P} = \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}\hat{y}_{di}^{k}}{N_d}
+\hat{P}_d = \frac{\sum_{s_d}q_{di} + \sum_{s^c_d}\hat{q}_{di}}{N_d}
 $$
 
 donde
 
+$$
+\hat{q}_{di} = \frac{1}{8}\sum_{k=1}^{8}\hat{y}_{di}^{k}
+$$
+
 $$\hat{y}_{di}^{k}=E_{\mathscr{M}}\left(y_{di}^{k}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)$$,
 
-donde $\mathscr{M}$ hace referencia a la medida de probabilidad inducida por el modelamiento. 
+con $\mathscr{M}$  la medida de probabilidad inducida por el modelamiento. 
 De esta forma se tiene que, 
 
 $$
-\hat{P} = \frac{\sum_{U_{d}}\hat{y}^{k}_{di}}{N_d}
+\hat{P}_d = \frac{\sum_{U_{d}}\hat{q}_{di}}{N_d}
 $$
 
 
@@ -1260,7 +1266,7 @@ Mapa_ing3
 ```
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_IPM.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_IPM.jpeg" height="400%" style="display: block; margin: auto;" />
 
 
 
@@ -1293,7 +1299,7 @@ Mapa_ing
 ```
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_IPM_44.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_IPM_44.jpeg" height="400%" style="display: block; margin: auto;" />
 
 Los resultado para cada componente puede ser mapeado de forma similar. 
 
@@ -1366,4 +1372,4 @@ Para obtener el resultado por municipio procedemos así:
 
 
 
-<img src="Recursos/Día3/Sesion4/Data/COL_todos_ipm.jpeg" width="3460" height="400%" style="display: block; margin: auto;" />
+<img src="Recursos/Día3/Sesion4/Data/COL_todos_ipm.jpeg" height="400%" style="display: block; margin: auto;" />

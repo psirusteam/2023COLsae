@@ -183,7 +183,9 @@ indicador_dam <- encuesta %>% select(id_dominio, upm) %>%
   inner_join(indicador_dam, by = id_dominio)
 
 indicador_dam1 <- indicador_dam %>% 
-  filter(n_upm >= 2, !is.na(Desocupado_deff)) 
+  filter(n_upm >= 2, !is.na(Desocupado_deff)) %>% 
+  mutate(id_orden = 1:n())
+
 saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
 ```
 
@@ -207,6 +209,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <th style="text-align:right;"> Inactivo_se </th>
    <th style="text-align:right;"> Inactivo_var </th>
    <th style="text-align:right;"> Inactivo_deff </th>
+   <th style="text-align:right;"> id_orden </th>
   </tr>
  </thead>
 <tbody>
@@ -228,6 +231,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0038 </td>
    <td style="text-align:right;"> 0.0000 </td>
    <td style="text-align:right;"> 1.5436 </td>
+   <td style="text-align:right;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05002 </td>
@@ -247,6 +251,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0186 </td>
    <td style="text-align:right;"> 0.0003 </td>
    <td style="text-align:right;"> 0.3127 </td>
+   <td style="text-align:right;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05031 </td>
@@ -266,6 +271,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0373 </td>
    <td style="text-align:right;"> 0.0014 </td>
    <td style="text-align:right;"> 0.9557 </td>
+   <td style="text-align:right;"> 3 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05034 </td>
@@ -285,6 +291,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0327 </td>
    <td style="text-align:right;"> 0.0011 </td>
    <td style="text-align:right;"> 0.8153 </td>
+   <td style="text-align:right;"> 4 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05045 </td>
@@ -304,6 +311,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0322 </td>
    <td style="text-align:right;"> 0.0010 </td>
    <td style="text-align:right;"> 1.7154 </td>
+   <td style="text-align:right;"> 5 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05079 </td>
@@ -323,6 +331,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0521 </td>
    <td style="text-align:right;"> 0.0027 </td>
    <td style="text-align:right;"> 1.7387 </td>
+   <td style="text-align:right;"> 6 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05088 </td>
@@ -342,6 +351,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0079 </td>
    <td style="text-align:right;"> 0.0001 </td>
    <td style="text-align:right;"> 1.0680 </td>
+   <td style="text-align:right;"> 7 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05093 </td>
@@ -361,6 +371,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0455 </td>
    <td style="text-align:right;"> 0.0021 </td>
    <td style="text-align:right;"> 1.1878 </td>
+   <td style="text-align:right;"> 8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05120 </td>
@@ -380,6 +391,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0285 </td>
    <td style="text-align:right;"> 0.0008 </td>
    <td style="text-align:right;"> 0.4811 </td>
+   <td style="text-align:right;"> 9 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> 05129 </td>
@@ -399,6 +411,7 @@ saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
    <td style="text-align:right;"> 0.0191 </td>
    <td style="text-align:right;"> 0.0004 </td>
    <td style="text-align:right;"> 0.7575 </td>
+   <td style="text-align:right;"> 10 </td>
   </tr>
 </tbody>
 </table>
@@ -909,8 +922,11 @@ Y_hat <- round(Y_hat)
 
 hat_p <- Y_hat/rowSums(Y_hat)
 plot(hat_p[,1],indicador_dam1$Ocupado)
+abline(a = 0, b= 1, col = "red")
 plot(hat_p[,2],indicador_dam1$Desocupado)
+abline(a = 0, b= 1, col = "red")
 plot(hat_p[,3],indicador_dam1$Inactivo)
+abline(a = 0, b= 1, col = "red")
 ```
   
 

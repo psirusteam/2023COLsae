@@ -65,7 +65,7 @@ install.packages("rstan")
 
 ## Paso 3: Validar instalación, si `rstan` quedo instalado de forma correcta.
 
-```{r,eval=TRUE}
+```{r,eval=FALSE}
 library(rstan)
 library(posterior)
 library(bayesplot)

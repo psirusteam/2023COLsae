@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12.2 Definición del modelo | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas</title>
   <meta name="description" content="Taller de instalación de capacidades en SAE." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12.2 Definición del modelo | Desagregación de datos en encuestas de hogares: metodologías bayesianas para modelos de estimación en áreas pequeñas" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-04" />
+<meta name="date" content="2023-04-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -94,7 +94,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -107,7 +107,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -405,27 +405,30 @@ De está forma podemos definir distribuciones previas</p>
 El modelo se debe estimar para cada una de las dimensiones.</p>
 <div id="obejtivo-7" class="section level4 unnumbered hasAnchor">
 <h4>Obejtivo<a href="definición-del-modelo.html#obejtivo-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Estimar la proporción de personas que presentan la <span class="math inline">\(k-\)</span>ésima carencia, es decir,
-<span class="math display">\[
-P_d = \frac{\sum_{U_d}y_{di}^{k}}{N_d}
-\]</span>
-donde <span class="math inline">\(y_{di}^{k}\)</span> toma el valor de 1 cuando la <span class="math inline">\(i-\)</span>ésima persona presenta la <span class="math inline">\(k-\)</span>ésima carencia y el valor de 0 en caso contrario.</p>
+<p>Estimar la proporción de personas que presentan la <span class="math inline">\(k-\)</span>ésima carencia, es decir,</p>
+<p><span class="math display">\[
+P_d = \frac{\sum_{U_d}q_{di}}{N_d}
+\]</span></p>
+<p>donde <span class="math inline">\(q_{di}\)</span> toma el valor de 1 cuando la <span class="math inline">\(i-\)</span>ésima persona presenta Privación Multidimensional y el valor de 0 en caso contrario.</p>
 <p>Note que,</p>
 <p><span class="math display">\[
 \begin{equation*}
-\bar{Y}_d = P_d =  \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}y_{di}^{k}}{N_d}
+\bar{Y}_d = P_d =  \frac{\sum_{s_d}q_{di} + \sum_{s^c_d}q_{di}}{N_d}
 \end{equation*}
 \]</span></p>
 <p>Ahora, el estimador de <span class="math inline">\(P\)</span> esta dado por:</p>
 <p><span class="math display">\[
-\hat{P} = \frac{\sum_{s_d}y_{di}^{k} + \sum_{s^c_d}\hat{y}_{di}^{k}}{N_d}
+\hat{P}_d = \frac{\sum_{s_d}q_{di} + \sum_{s^c_d}\hat{q}_{di}}{N_d}
 \]</span></p>
 <p>donde</p>
+<p><span class="math display">\[
+\hat{q}_{di} = \frac{1}{8}\sum_{k=1}^{8}\hat{y}_{di}^{k}
+\]</span></p>
 <p><span class="math display">\[\hat{y}_{di}^{k}=E_{\mathscr{M}}\left(y_{di}^{k}\mid\boldsymbol{x}_{d},\boldsymbol{\beta}\right)\]</span>,</p>
-<p>donde <span class="math inline">\(\mathscr{M}\)</span> hace referencia a la medida de probabilidad inducida por el modelamiento.
+<p>con <span class="math inline">\(\mathscr{M}\)</span> la medida de probabilidad inducida por el modelamiento.
 De esta forma se tiene que,</p>
 <p><span class="math display">\[
-\hat{P} = \frac{\sum_{U_{d}}\hat{y}^{k}_{di}}{N_d}
+\hat{P}_d = \frac{\sum_{U_{d}}\hat{q}_{di}}{N_d}
 \]</span></p>
 </div>
 <div id="procesamiento-del-modelo-en-r." class="section level3 hasAnchor" number="12.2.1">
@@ -2564,7 +2567,7 @@ mrp_estimate_se
 <span id="cb243-20"><a href="definición-del-modelo.html#cb243-20" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb243-21"><a href="definición-del-modelo.html#cb243-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb243-22"><a href="definición-del-modelo.html#cb243-22" aria-hidden="true" tabindex="-1"></a>Mapa_ing3</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM.jpeg" height="400%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="definición-del-modelo.html#cb244-1" aria-hidden="true" tabindex="-1"></a>temp_shape <span class="ot">&lt;-</span> ShapeSAE <span class="sc">%&gt;%</span> <span class="fu">filter</span>(depto <span class="sc">==</span> <span class="st">&quot;44&quot;</span>)</span>
 <span id="cb244-2"><a href="definición-del-modelo.html#cb244-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-3"><a href="definición-del-modelo.html#cb244-3" aria-hidden="true" tabindex="-1"></a>maps <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(temp_shape <span class="sc">%&gt;%</span></span>
@@ -2590,7 +2593,7 @@ mrp_estimate_se
 <span id="cb244-23"><a href="definición-del-modelo.html#cb244-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-24"><a href="definición-del-modelo.html#cb244-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-25"><a href="definición-del-modelo.html#cb244-25" aria-hidden="true" tabindex="-1"></a>Mapa_ing</span></code></pre></div>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM_44.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_IPM_44.jpeg" height="400%" style="display: block; margin: auto;" /></p>
 <p>Los resultado para cada componente puede ser mapeado de forma similar.</p>
 <p>Para obtener el resultado por municipio procedemos así:</p>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
@@ -2720,7 +2723,7 @@ Material
 </tr>
 </tbody>
 </table>
-<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_todos_ipm.jpeg" width="3460" height="400%" style="display: block; margin: auto;" /></p>
+<p><img src="Recursos/D%C3%ADa3/Sesion4/Data/COL_todos_ipm.jpeg" height="400%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

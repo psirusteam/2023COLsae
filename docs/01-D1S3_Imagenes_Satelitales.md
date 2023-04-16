@@ -336,14 +336,16 @@ CONTEOS <- redatam.query(colombia, "freq DEPTO.REDCODEN
                       by PERSONA.EDUCA
                       by PERSONA.PBLOPER
                       ", tot.omit = FALSE)
-# Eliminando totales de la tabla
-CONTEOS2 <- CONTEOS %>% filter_at(vars(matches("_label")),all_vars(. !=  "__tot__"))
 ```
 
 Después de realizar algunas validaciones se estandarizan las variables como muestra el siguiente código.
 
 
 ```r
+CONTEOS <- readRDS(file = "Data/CONTEOS.RDS")
+# Eliminando totales de la tabla
+CONTEOS2 <- CONTEOS %>% filter_at(vars(matches("_label")),all_vars(. !=  "__tot__"))
+
 censo_mrp <- CONTEOS2 %>%
   transmute(dam =str_pad(string = REDCODEN1_value, width = 2, pad = "0"),
             area = case_when(AREA2_value == 1 ~ "1", # 1 = Urbana
