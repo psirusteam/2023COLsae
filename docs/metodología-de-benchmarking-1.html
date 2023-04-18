@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-16" />
+<meta name="date" content="2023-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -456,16 +456,17 @@ Inactivo
 </ol>
 <div id="ocupado-2" class="section level4 unnumbered hasAnchor">
 <h4>Ocupado<a href="metodología-de-benchmarking-1.html#ocupado-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="metodología-de-benchmarking-1.html#cb294-1" aria-hidden="true" tabindex="-1"></a>names_ocupado <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">&quot;^O&quot;</span>, <span class="at">x =</span> <span class="fu">colnames</span>(Xdummy),<span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb294-2"><a href="metodología-de-benchmarking-1.html#cb294-2" aria-hidden="true" tabindex="-1"></a>gk_ocupado <span class="ot">&lt;-</span> <span class="fu">calib</span>(<span class="at">Xs =</span> Xdummy[,names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), </span>
-<span id="cb294-3"><a href="metodología-de-benchmarking-1.html#cb294-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">d =</span>  estimaciones_mod<span class="sc">$</span>wi,</span>
-<span id="cb294-4"><a href="metodología-de-benchmarking-1.html#cb294-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> Razon_empleo[names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(),</span>
-<span id="cb294-5"><a href="metodología-de-benchmarking-1.html#cb294-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">method=</span><span class="st">&quot;linear&quot;</span>,<span class="at">max_iter =</span> <span class="dv">5000</span>,) </span>
-<span id="cb294-6"><a href="metodología-de-benchmarking-1.html#cb294-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb294-7"><a href="metodología-de-benchmarking-1.html#cb294-7" aria-hidden="true" tabindex="-1"></a><span class="fu">checkcalibration</span>(<span class="at">Xs =</span> Xdummy[,names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), </span>
-<span id="cb294-8"><a href="metodología-de-benchmarking-1.html#cb294-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span>estimaciones_mod<span class="sc">$</span>wi,</span>
-<span id="cb294-9"><a href="metodología-de-benchmarking-1.html#cb294-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">total =</span> Razon_empleo[names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(),</span>
-<span id="cb294-10"><a href="metodología-de-benchmarking-1.html#cb294-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">g =</span> gk_ocupado,)</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="metodología-de-benchmarking-1.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sampling)</span>
+<span id="cb294-2"><a href="metodología-de-benchmarking-1.html#cb294-2" aria-hidden="true" tabindex="-1"></a>names_ocupado <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">&quot;^O&quot;</span>, <span class="at">x =</span> <span class="fu">colnames</span>(Xdummy),<span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb294-3"><a href="metodología-de-benchmarking-1.html#cb294-3" aria-hidden="true" tabindex="-1"></a>gk_ocupado <span class="ot">&lt;-</span> <span class="fu">calib</span>(<span class="at">Xs =</span> Xdummy[,names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), </span>
+<span id="cb294-4"><a href="metodología-de-benchmarking-1.html#cb294-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">d =</span>  estimaciones_mod<span class="sc">$</span>wi,</span>
+<span id="cb294-5"><a href="metodología-de-benchmarking-1.html#cb294-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">total =</span> Razon_empleo[names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(),</span>
+<span id="cb294-6"><a href="metodología-de-benchmarking-1.html#cb294-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">method=</span><span class="st">&quot;linear&quot;</span>,<span class="at">max_iter =</span> <span class="dv">5000</span>,) </span>
+<span id="cb294-7"><a href="metodología-de-benchmarking-1.html#cb294-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb294-8"><a href="metodología-de-benchmarking-1.html#cb294-8" aria-hidden="true" tabindex="-1"></a><span class="fu">checkcalibration</span>(<span class="at">Xs =</span> Xdummy[,names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(), </span>
+<span id="cb294-9"><a href="metodología-de-benchmarking-1.html#cb294-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span>estimaciones_mod<span class="sc">$</span>wi,</span>
+<span id="cb294-10"><a href="metodología-de-benchmarking-1.html#cb294-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">total =</span> Razon_empleo[names_ocupado] <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(),</span>
+<span id="cb294-11"><a href="metodología-de-benchmarking-1.html#cb294-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">g =</span> gk_ocupado,)</span></code></pre></div>
 </div>
 <div id="desocupado-2" class="section level4 unnumbered hasAnchor">
 <h4>Desocupado<a href="metodología-de-benchmarking-1.html#desocupado-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>

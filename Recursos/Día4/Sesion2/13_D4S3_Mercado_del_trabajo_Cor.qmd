@@ -280,10 +280,15 @@ Y_tilde[,3] <- n_tilde[,3]* indicador_dam1$Inactivo
 
 
 ```{r, eval=FALSE}
+X1_obs <- cbind(matrix(1,nrow = D,ncol = 1),X_obs)
+K = ncol(X1_obs)
+D1 <- nrow(X_pred)
+X1_pred <- cbind(matrix(1,nrow = D1,ncol = 1),X_pred)
+
 sample_data <- list(D = D,
                     P = P,
                     K = K,
-                    y_tilde = Y_hat,
+                    hat_y = Y_hat,
                     X_obs = X1_obs,
                     X_pred = X1_pred,
                     D1 = D1)
@@ -500,6 +505,7 @@ Xdummy <- estimaciones_mod %>% select(matches("Nacional_")) %>%
 #### Ocupado {-}
     
 ```{r, eval=FALSE}
+library(sampling)
 names_ocupado <- grep(pattern = "^O", x = colnames(Xdummy),value = TRUE)
 gk_ocupado <- calib(Xs = Xdummy[,names_ocupado] %>% as.matrix(), 
             d =  estimaciones_mod$wi,

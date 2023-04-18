@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-16" />
+<meta name="date" content="2023-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -390,7 +390,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
 <span id="cb301-2"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb301-3"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
-<span id="cb301-4"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-4" aria-hidden="true" tabindex="-1"></a>ShapeSAE <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">&quot;Recursos/Día4/Sesion2/Shape/COL_dam2.shp&quot;</span>)</span>
+<span id="cb301-4"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-4" aria-hidden="true" tabindex="-1"></a>ShapeSAE <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">&quot;Shape/COL_dam2.shp&quot;</span>)</span>
 <span id="cb301-5"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb301-6"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-6" aria-hidden="true" tabindex="-1"></a>P1_empleo <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(ShapeSAE <span class="sc">%&gt;%</span></span>
 <span id="cb301-7"><a href="mapas-del-mercado-de-trabajo.-1.html#cb301-7" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">inner_join</span>(estimaciones))</span>

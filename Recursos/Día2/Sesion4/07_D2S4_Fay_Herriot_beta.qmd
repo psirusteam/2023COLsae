@@ -250,7 +250,7 @@ ShapeSAE <- read_sf("Shape/COL_dam2.shp")
 mapa <- tm_shape(ShapeSAE %>%
                    left_join(data_map,  by = "dam2"))
 
-brks_lp <- c(0,0.025,0.05, 0.1, 0.15, 0.2,0.4, 1)
+brks_lp <- c(0,0.15, 0.3, 0.45, 0.6, 1)
 tmap_options(check.and.fix = TRUE)
 Mapa_lp <-
   mapa + tm_polygons(

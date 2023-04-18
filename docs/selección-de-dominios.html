@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-16" />
+<meta name="date" content="2023-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -393,17 +393,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Dos o más upm por dominio.</p></li>
 <li><p>Contar con un resultado en el Deff</p></li>
 </ul>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="selección-de-dominios.html#cb249-1" aria-hidden="true" tabindex="-1"></a>indicador_dam <span class="ot">&lt;-</span> encuesta <span class="sc">%&gt;%</span> <span class="fu">select</span>(id_dominio, upm) <span class="sc">%&gt;%</span></span>
-<span id="cb249-2"><a href="selección-de-dominios.html#cb249-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb249-3"><a href="selección-de-dominios.html#cb249-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by_at</span>(id_dominio) <span class="sc">%&gt;%</span> </span>
-<span id="cb249-4"><a href="selección-de-dominios.html#cb249-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>(<span class="at">name =</span> <span class="st">&quot;n_upm&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb249-5"><a href="selección-de-dominios.html#cb249-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(indicador_dam, <span class="at">by =</span> id_dominio)</span>
-<span id="cb249-6"><a href="selección-de-dominios.html#cb249-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb249-7"><a href="selección-de-dominios.html#cb249-7" aria-hidden="true" tabindex="-1"></a>indicador_dam1 <span class="ot">&lt;-</span> indicador_dam <span class="sc">%&gt;%</span> </span>
-<span id="cb249-8"><a href="selección-de-dominios.html#cb249-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_upm <span class="sc">&gt;=</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(Desocupado_deff)) <span class="sc">%&gt;%</span> </span>
-<span id="cb249-9"><a href="selección-de-dominios.html#cb249-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id_orden =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
-<span id="cb249-10"><a href="selección-de-dominios.html#cb249-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb249-11"><a href="selección-de-dominios.html#cb249-11" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> indicador_dam1, <span class="st">&quot;Recursos/Día4/Sesion1/Data/base_modelo.Rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="selección-de-dominios.html#cb249-1" aria-hidden="true" tabindex="-1"></a>indicador_dam1 <span class="ot">&lt;-</span> indicador_dam <span class="sc">%&gt;%</span> </span>
+<span id="cb249-2"><a href="selección-de-dominios.html#cb249-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_upm <span class="sc">&gt;=</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(Desocupado_deff)) </span>
+<span id="cb249-3"><a href="selección-de-dominios.html#cb249-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object =</span> indicador_dam1, <span class="st">&quot;Recursos/Día4/Sesion1/Data/base_modelo.Rds&quot;</span>)</span></code></pre></div>
 <table class="table table-striped lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Arial Narrow; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>

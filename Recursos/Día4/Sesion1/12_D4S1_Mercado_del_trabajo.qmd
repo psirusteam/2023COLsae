@@ -422,6 +422,11 @@ knitr::include_graphics("0Recursos/theta_ajustado.png")
 
 
 ```{r, eval=FALSE}
+X1_obs <- cbind(matrix(1,nrow = D,ncol = 1),X_obs)
+K = ncol(X1_obs)
+D1 <- nrow(X_pred)
+X1_pred <- cbind(matrix(1,nrow = D1,ncol = 1),X_pred)
+
 sample_data <- list(D = D,
                     P = P,
                     K = K,
@@ -643,6 +648,7 @@ head(Xdummy) %>% tba()
 #### Ocupado {-}
     
 ```{r, eval=FALSE}
+library(sampling)
 names_ocupado <- grep(pattern = "^O", x = colnames(Xdummy),value = TRUE)
 gk_ocupado <- calib(Xs = Xdummy[,names_ocupado] %>% as.matrix(), 
             d =  estimaciones_mod$wi,

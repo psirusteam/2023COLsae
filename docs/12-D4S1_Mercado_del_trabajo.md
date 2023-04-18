@@ -176,16 +176,8 @@ Después de realizar las validaciones anteriores se establece como regla incluir
 
 
 ```r
-indicador_dam <- encuesta %>% select(id_dominio, upm) %>%
-  distinct() %>% 
-  group_by_at(id_dominio) %>% 
-  tally(name = "n_upm") %>% 
-  inner_join(indicador_dam, by = id_dominio)
-
 indicador_dam1 <- indicador_dam %>% 
-  filter(n_upm >= 2, !is.na(Desocupado_deff)) %>% 
-  mutate(id_orden = 1:n())
-
+  filter(n_upm >= 2, !is.na(Desocupado_deff)) 
 saveRDS(object = indicador_dam1, "Recursos/Día4/Sesion1/Data/base_modelo.Rds")
 ```
 
@@ -922,11 +914,8 @@ Y_hat <- round(Y_hat)
 
 hat_p <- Y_hat/rowSums(Y_hat)
 plot(hat_p[,1],indicador_dam1$Ocupado)
-abline(a = 0, b= 1, col = "red")
 plot(hat_p[,2],indicador_dam1$Desocupado)
-abline(a = 0, b= 1, col = "red")
 plot(hat_p[,3],indicador_dam1$Inactivo)
-abline(a = 0, b= 1, col = "red")
 ```
   
 
@@ -1586,6 +1575,7 @@ head(Xdummy) %>% tba()
     
 
 ```r
+library(sampling)
 names_ocupado <- grep(pattern = "^O", x = colnames(Xdummy),value = TRUE)
 gk_ocupado <- calib(Xs = Xdummy[,names_ocupado] %>% as.matrix(), 
             d =  estimaciones_mod$wi,
@@ -1728,7 +1718,7 @@ El código carga las librerías `sp`, `sf` y `tmap`. Luego, se lee un archivo sh
 library(sp)
 library(sf)
 library(tmap)
-ShapeSAE <- read_sf("Recursos/Día4/Sesion1/Shape/COL_dam2.shp")
+ShapeSAE <- read_sf("Shape/COL_dam2.shp")
 
 P1_empleo <- tm_shape(ShapeSAE %>%
                            inner_join(estimaciones))

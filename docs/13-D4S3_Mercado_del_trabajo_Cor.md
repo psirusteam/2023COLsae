@@ -454,7 +454,7 @@ D <- nrow(indicador_dam1)
 P <- 3 # Ocupado, desocupado, inactivo.
 Y_tilde <- matrix(NA, D, P)
 n_tilde <- matrix(NA, D, P)
-
+Y_hat <- matrix(NA, D, P)
 
 # n efectivos ocupado
 n_tilde[,1] <- (indicador_dam1$Ocupado*(1 - indicador_dam1$Ocupado))/indicador_dam1$Ocupado_var
@@ -483,7 +483,7 @@ X1_pred <- cbind(matrix(1,nrow = D1,ncol = 1),X_pred)
 sample_data <- list(D = D,
                     P = P,
                     K = K,
-                    hat_y = Y_tilde,
+                    hat_y = Y_hat,
                     X_obs = X1_obs,
                     X_pred = X1_pred,
                     D1 = D1)
@@ -1100,6 +1100,7 @@ Xdummy <- estimaciones_mod %>% select(matches("Nacional_")) %>%
     
 
 ```r
+library(sampling)
 names_ocupado <- grep(pattern = "^O", x = colnames(Xdummy),value = TRUE)
 gk_ocupado <- calib(Xs = Xdummy[,names_ocupado] %>% as.matrix(), 
             d =  estimaciones_mod$wi,
@@ -1240,7 +1241,7 @@ saveRDS(object = estimaciones, file = "Recursos/Día4/Sesion2/Data/estimaciones_
 library(sp)
 library(sf)
 library(tmap)
-ShapeSAE <- read_sf("Recursos/Día4/Sesion2/Shape/COL_dam2.shp")
+ShapeSAE <- read_sf("Shape/COL_dam2.shp")
 
 P1_empleo <- tm_shape(ShapeSAE %>%
                            inner_join(estimaciones))

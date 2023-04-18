@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-16" />
+<meta name="date" content="2023-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -440,7 +440,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb283-2"><a href="preparando-insumos-para-stan-1.html#cb283-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Ocupado, desocupado, inactivo.</span></span>
 <span id="cb283-3"><a href="preparando-insumos-para-stan-1.html#cb283-3" aria-hidden="true" tabindex="-1"></a>Y_tilde <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
 <span id="cb283-4"><a href="preparando-insumos-para-stan-1.html#cb283-4" aria-hidden="true" tabindex="-1"></a>n_tilde <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
-<span id="cb283-5"><a href="preparando-insumos-para-stan-1.html#cb283-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb283-5"><a href="preparando-insumos-para-stan-1.html#cb283-5" aria-hidden="true" tabindex="-1"></a>Y_hat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, D, P)</span>
 <span id="cb283-6"><a href="preparando-insumos-para-stan-1.html#cb283-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb283-7"><a href="preparando-insumos-para-stan-1.html#cb283-7" aria-hidden="true" tabindex="-1"></a><span class="co"># n efectivos ocupado</span></span>
 <span id="cb283-8"><a href="preparando-insumos-para-stan-1.html#cb283-8" aria-hidden="true" tabindex="-1"></a>n_tilde[,<span class="dv">1</span>] <span class="ot">&lt;-</span> (indicador_dam1<span class="sc">$</span>Ocupado<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> indicador_dam1<span class="sc">$</span>Ocupado))<span class="sc">/</span>indicador_dam1<span class="sc">$</span>Ocupado_var</span>
@@ -465,7 +465,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb284-6"><a href="preparando-insumos-para-stan-1.html#cb284-6" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">D =</span> D,</span>
 <span id="cb284-7"><a href="preparando-insumos-para-stan-1.html#cb284-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">P =</span> P,</span>
 <span id="cb284-8"><a href="preparando-insumos-para-stan-1.html#cb284-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">K =</span> K,</span>
-<span id="cb284-9"><a href="preparando-insumos-para-stan-1.html#cb284-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hat_y =</span> Y_tilde,</span>
+<span id="cb284-9"><a href="preparando-insumos-para-stan-1.html#cb284-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hat_y =</span> Y_hat,</span>
 <span id="cb284-10"><a href="preparando-insumos-para-stan-1.html#cb284-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_obs =</span> X1_obs,</span>
 <span id="cb284-11"><a href="preparando-insumos-para-stan-1.html#cb284-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X_pred =</span> X1_pred,</span>
 <span id="cb284-12"><a href="preparando-insumos-para-stan-1.html#cb284-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">D1 =</span> D1)</span>

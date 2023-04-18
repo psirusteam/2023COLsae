@@ -31,11 +31,11 @@ donde $\theta$ representa la probabilidad de éxito del evento.
 Sea 
 $$
 y_{ji}=\begin{cases}
-1 & ingreso_{di}\le lp\\
+1 & ingreso_{ji}\le lp\\
 0 & e.o.c.
 \end{cases}
 $$ 
-donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\theta_{di}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el efecto aleatorio $u_d$.     
+donde $ingreso_{ji}$ representa el ingreso de la $i$-ésima persona en el $j$-ésimo post-estrato y $lp$ es un valor limite, en particular la linea de pobreza. Empleando un modelo de regresión logística de efecto aleatorios pretende establecer la relación entre la expectativa $\theta_{ji}$  de la variable dicotómica con las covariables de información auxiliar disponibles para ser incluidas. El procedimiento correspondiente a este proceso, modela el logaritmo del cociente entre la probabilidad de estar por debajo de la linea de pobreza  a su complemento en relación al conjunto de covariables a nivel de unidad, $x_{ji}$, y el efecto aleatorio $u_d$.     
 
 $$
 \begin{eqnarray*}
@@ -247,7 +247,7 @@ fit <- stan_glmer(
          cores = 4,
       family = binomial(link = "logit")
                 )
-saveRDS(fit, file = "Data/fit_pobreza.rds")
+saveRDS(fit, file = "Data/fit_pobreza2.rds")
 
 ```
 
@@ -274,7 +274,7 @@ mcmc_trace(fit,pars = var_names)
 ```
 
 ```{r,eval=FALSE}
-encuesta_mrp2 <- inner_join(encuesta_mrp %>% filter(), statelevel_predictors_df)
+encuesta_mrp2 <- inner_join(encuesta_mrp, statelevel_predictors_df)
 y_pred_B <- posterior_epred(fit, newdata = encuesta_mrp2)
 rowsrandom <- sample(nrow(y_pred_B), 100)
 y_pred2 <- y_pred_B[rowsrandom, ]

@@ -23,7 +23,7 @@
 <meta name="author" content="Andrés Gutiérrez, Stalyn Guerrero" />
 
 
-<meta name="date" content="2023-04-16" />
+<meta name="date" content="2023-04-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1284,11 +1284,8 @@ accesibilidad_hosp_caminado
 <span id="cb256-6"><a href="preparando-insumos-para-stan.html#cb256-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb256-7"><a href="preparando-insumos-para-stan.html#cb256-7" aria-hidden="true" tabindex="-1"></a>hat_p <span class="ot">&lt;-</span> Y_hat<span class="sc">/</span><span class="fu">rowSums</span>(Y_hat)</span>
 <span id="cb256-8"><a href="preparando-insumos-para-stan.html#cb256-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hat_p[,<span class="dv">1</span>],indicador_dam1<span class="sc">$</span>Ocupado)</span>
-<span id="cb256-9"><a href="preparando-insumos-para-stan.html#cb256-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b=</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb256-10"><a href="preparando-insumos-para-stan.html#cb256-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hat_p[,<span class="dv">2</span>],indicador_dam1<span class="sc">$</span>Desocupado)</span>
-<span id="cb256-11"><a href="preparando-insumos-para-stan.html#cb256-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b=</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb256-12"><a href="preparando-insumos-para-stan.html#cb256-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hat_p[,<span class="dv">3</span>],indicador_dam1<span class="sc">$</span>Inactivo)</span>
-<span id="cb256-13"><a href="preparando-insumos-para-stan.html#cb256-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b=</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<span id="cb256-9"><a href="preparando-insumos-para-stan.html#cb256-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hat_p[,<span class="dv">2</span>],indicador_dam1<span class="sc">$</span>Desocupado)</span>
+<span id="cb256-10"><a href="preparando-insumos-para-stan.html#cb256-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hat_p[,<span class="dv">3</span>],indicador_dam1<span class="sc">$</span>Inactivo)</span></code></pre></div>
 <p><img src="Recursos/D%C3%ADa4/Sesion1/0Recursos/theta_ajustado.png" width="800px" height="200px" style="display: block; margin: auto;" /></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Compilando el modelo</li>
